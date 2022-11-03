@@ -1,5 +1,6 @@
 export const gray = {
-  10: "#dde2e7"
+  10: "#d3d3d3",
+  20: "#686868"
 };
 
 export const dark = {

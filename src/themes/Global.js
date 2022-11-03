@@ -9,7 +9,7 @@ export const GlobalStyle = createGlobalStyle`
 
   body {
     margin: 0;
-    font-family: "Helvetica Neue, sans-serif";
+    font-family: "Open Sans", sans-serif;
     font-size: 16px;
   }
 

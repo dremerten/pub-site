@@ -7,6 +7,7 @@ import Bookstack from "./pages/Bookstack";
 import Resume from "./pages/Resume";
 import {ThemeProvider} from "styled-components";
 import {darkTheme, lightTheme} from "./themes/themes";
+import {GlobalStyle} from "./themes/Global";
 
 const App = () => {
   const appRoutes = [
@@ -20,6 +21,7 @@ const App = () => {
   console.log("Host URL"+process.env.PUBLIC_URL);
   return (
     <ThemeProvider theme={theme === "dark" ? darkTheme : lightTheme}>
+      <GlobalStyle />
       <Router basename={process.env.PUBLIC_URL}>
         <div>
           <NavigationBar />

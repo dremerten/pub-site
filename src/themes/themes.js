@@ -4,7 +4,8 @@ export const lightTheme = {
   //
   // Navigation Bar
   //
-  navigationBorder: gray[10],
+  navigationLinkHover: gray[20],
+  navigationLinkColor: gray[20],
   //
   // Text
   //

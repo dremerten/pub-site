@@ -9,7 +9,9 @@ export const lightTheme = {
   //
   // Text
   //
-  textPrimaryColor: dark[10]
+  textPrimaryColor: dark[10],
+  // Job Section
+  jobSectionBorder: gray[10]
 };
 
 export const darkTheme = {};

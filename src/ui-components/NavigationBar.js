@@ -1,6 +1,7 @@
 import React from "react";
 import {NavLink} from "react-router-dom";
 import styled from "styled-components";
+import PageContainer from "./PageContainer";
 
 const NavigationBar = () => {
   const Header = styled("header")`
@@ -13,34 +14,13 @@ const NavigationBar = () => {
     padding: 0.5rem 1rem;
   `;
 
-  const Container = styled("div")`
-    display: flex;
-    flex-flow: row;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 0 15px;
-    width: 100%;
-    
-    @media (min-width: 640px) {
-      max-width: 600px;
-    }
-
-    @media (min-width: 1000px) {
-      flex-direction: row;
-      flex-basis: auto;
-      max-width: 970px;
-    }
-
-    @media (min-width: 1200px) {
-      max-width: 1140px;
-    }
-  `;
-
-  const LogoText = styled("span")`
+  const LogoText = styled(NavLink)`
     font-family: Blorado, sans-serif;
     font-weight: 600;
-    font-size: 2rem;
+    font-size: 1.25rem;
     padding-right: 2.5rem;
+    align-items: center;
+    display: flex;
   `;
 
   const HeaderLinks = styled("div")`
@@ -84,14 +64,14 @@ const NavigationBar = () => {
   return (
     <Header>
       <NavBox>
-        <Container>
-          <LogoText>Andre Merten</LogoText>
+        <PageContainer>
+          <LogoText to="/">Andre Merten</LogoText>
           <HeaderLinks>
             <Link to="/about">About</Link>
             <Link to="/resume">Resume</Link>
             <Link to="/bookstack">BookStack</Link>
           </HeaderLinks>
-        </Container>
+        </PageContainer>
       </NavBox>
     </Header>
   );

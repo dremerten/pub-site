@@ -6,6 +6,11 @@ export const GlobalStyle = createGlobalStyle`
   *::after {
     box-sizing: border-box;
   }
+  
+  body,
+  main {
+    height: 100vh;
+  }
 
   body {
     margin: 0;

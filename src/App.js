@@ -25,7 +25,7 @@ const App = () => {
       <Router basename={process.env.PUBLIC_URL}>
         <div>
           <NavigationBar />
-          <main className="App">
+          <main>
             <Switch>
               <Route exact path= "/" render={() => (
                 <Redirect to="/about"/>
@@ -36,9 +36,9 @@ const App = () => {
                 ))
               }
             </Switch>
-        </main>
+          </main>
         </div>
-    </Router>
+      </Router>
     </ThemeProvider>
   );
 }

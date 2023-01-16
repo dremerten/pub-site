@@ -3,3 +3,12 @@
 node_modules/
 
 dist/*
+**.DS_STORE
+
+node_modules/
+
+dist/*
+!*/.keep
+
+scratch/
+!.keep

@@ -1,5 +1,5 @@
 import React  from 'react';
-import { BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
 
 import NavigationBar from "./ui-components/NavigationBar";
 import About from "./pages/About";
@@ -26,16 +26,14 @@ const App = () => {
         <div>
           <NavigationBar />
           <main>
-            <Switch>
-              <Route exact path= "/" render={() => (
-                <Redirect to="/about"/>
-              )}/>
+            <Routes>
+              <Route path="/" element={<Navigate to="/about" replace />} />
               {
-                appRoutes.map(({path, component}) => (
-                  <Route key={path} path={path} component={component} />
+                appRoutes.map(({path, component: Component}) => (
+                  <Route key={path} path={path} element={<Component />} />
                 ))
               }
-            </Switch>
+            </Routes>
           </main>
         </div>
       </Router>

@@ -65,7 +65,7 @@ const NavigationBar = () => {
     <Header>
       <NavBox>
         <PageContainer>
-          <LogoText to="/">Andre Merten</LogoText>
+          <LogoText to="/">Andreas Merten</LogoText>
           <HeaderLinks>
             <Link to="/about">About</Link>
             <Link to="/resume">Resume</Link>

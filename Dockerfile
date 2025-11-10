@@ -1,21 +1,23 @@
-# pull official base image
-FROM node:16.1.0
+FROM node:25.1.0-alpine AS build
 
-# set working directory
 WORKDIR /app
 
-# add `/app/node_modules/.bin` to $PATH
-ENV PATH /app/node_modules/.bin:$PATH
-
-# install app dependencies
 COPY package.json ./
-COPY package-lock.json ./
 
-RUN npm install 
+RUN npm install && \
+    npm cache clean --force
 
-# add app
 COPY . ./
 
-# start app
-CMD ["npm", "start"]
+RUN npm run build
+
+FROM nginx:1.27-alpine
+
+COPY --from=build /app/build /usr/share/nginx/html
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
 

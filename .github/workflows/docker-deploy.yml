@@ -2,9 +2,9 @@ name: Build and Deploy
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "main" ]
 
 env:
   IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/pub-site
@@ -32,20 +32,20 @@ jobs:
           ${{ env.IMAGE_NAME }}:v1
           ${{ env.IMAGE_NAME }}:latest
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+  # deploy:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
 
-    steps:
-    - name: Deploy to server
-      uses: appleboy/ssh-action@v1.0.0
-      with:
-        host: ${{ secrets.DEPLOY_HOST }}
-        username: ${{ secrets.DEPLOY_USER }}
-        key: ${{ secrets.DEPLOY_SSH_KEY }}
-        script: |
-          cd /path/to/pub-site
-          docker compose pull
-          docker compose up -d
-          docker image prune -f
+  #   steps:
+  #   - name: Deploy to server
+  #     uses: appleboy/ssh-action@v1.0.0
+  #     with:
+  #       host: ${{ secrets.DEPLOY_HOST }}
+  #       username: ${{ secrets.DEPLOY_USER }}
+  #       key: ${{ secrets.DEPLOY_SSH_KEY }}
+  #       script: |
+  #         cd /path/to/pub-site
+  #         docker compose pull
+  #         docker compose up -d
+  #         docker image prune -f

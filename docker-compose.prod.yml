@@ -1,0 +1,10 @@
+version: '3.7'
+
+services:
+
+  sample:
+    container_name: Andre-Webapp
+    image: YOUR_DOCKERHUB_USERNAME/pub-site:latest
+    ports:
+      - 127.0.0.1:3333:80
+    restart: unless-stopped

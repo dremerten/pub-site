@@ -1,6 +1,5 @@
-import React from "react";
 import styled from "styled-components";
-import PageContainer from "./PageContainer";
+import PageContainer from "./PageContainer.jsx";
 
 const PageWrapper = ({children}) => {
   const Page = styled("div")`

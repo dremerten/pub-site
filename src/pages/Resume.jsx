@@ -1,7 +1,6 @@
-import React from "react";
-import PageWrapper from "../ui-components/PageWrapper";
-import Title from "../ui-components/Title";
-import JobSection from "../ui-components/JobSection";
+import PageWrapper from "../ui-components/PageWrapper.jsx";
+import Title from "../ui-components/Title.jsx";
+import JobSection from "../ui-components/JobSection.jsx";
 
 const Resume = () => {
 

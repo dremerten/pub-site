@@ -1,10 +1,9 @@
-import React  from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate} from "react-router-dom";
 
-import NavigationBar from "./ui-components/NavigationBar";
-import About from "./pages/About";
-import Bookstack from "./pages/Bookstack";
-import Resume from "./pages/Resume";
+import NavigationBar from "./ui-components/NavigationBar.jsx";
+import About from "./pages/About.jsx";
+import Bookstack from "./pages/Bookstack.jsx";
+import Resume from "./pages/Resume.jsx";
 import {ThemeProvider} from "styled-components";
 import {darkTheme, lightTheme} from "./themes/themes";
 import {GlobalStyle} from "./themes/Global";

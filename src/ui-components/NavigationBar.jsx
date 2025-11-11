@@ -1,7 +1,6 @@
-import React from "react";
 import {NavLink} from "react-router-dom";
 import styled from "styled-components";
-import PageContainer from "./PageContainer";
+import PageContainer from "./PageContainer.jsx";
 
 const NavigationBar = () => {
   const Header = styled("header")`

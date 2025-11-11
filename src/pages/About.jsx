@@ -1,6 +1,5 @@
-import React from "react";
-import Title from "../ui-components/Title";
-import PageWrapper from "../ui-components/PageWrapper";
+import Title from "../ui-components/Title.jsx";
+import PageWrapper from "../ui-components/PageWrapper.jsx";
 
 const About = () => {
   return (

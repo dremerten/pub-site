@@ -18,7 +18,6 @@ const App = () => {
 
   const theme = "light";
 
-  console.log("Host URL"+process.env.PUBLIC_URL);
   return (
     <ThemeProvider theme={theme === "dark" ? darkTheme : lightTheme}>
       <GlobalStyle />

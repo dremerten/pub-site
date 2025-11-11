@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import PageWrapper from "../ui-components/PageWrapper";
 import Title from "../ui-components/Title";
 import JobSection from "../ui-components/JobSection";

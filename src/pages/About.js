@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import Title from "../ui-components/Title";
 import PageWrapper from "../ui-components/PageWrapper";
 
@@ -11,7 +11,7 @@ const About = () => {
       </section>
       <section>
         <h3>Key Achievements:</h3>
-        <ul style={{ listStyle: 'disc', paddingLeft: '20px' }}>
+        <ul style={{ listStyle: "disc", paddingLeft: "20px" }}>
           <li>Optimized application performance and accelerated release cycles.</li>
           <li>Improved operational efficiency.</li>
           <li>Designed and maintained internal infrastructure for the Aspera WebApps team, ensuring reliable, reproducible, and secure environments.</li>

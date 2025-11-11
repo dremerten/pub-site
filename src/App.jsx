@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Routes, Route, Navigate} from "react-router-do
 
 import NavigationBar from "./ui-components/NavigationBar.jsx";
 import About from "./pages/About.jsx";
-import Bookstack from "./pages/Bookstack.jsx";
 import Resume from "./pages/Resume.jsx";
 import {ThemeProvider} from "styled-components";
 import {darkTheme, lightTheme} from "./themes/themes";
@@ -11,7 +10,6 @@ import {GlobalStyle} from "./themes/Global";
 const App = () => {
   const appRoutes = [
     {path: "/about", title: "About", component: About},
-    {path: "/bookstack", title: "BookStack", component: Bookstack},
     {path: "/resume", title: "Resume", component: Resume}
   ];
 

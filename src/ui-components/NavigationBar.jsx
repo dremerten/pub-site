@@ -68,7 +68,6 @@ const NavigationBar = () => {
           <HeaderLinks>
             <Link to="/about">About</Link>
             <Link to="/resume">Resume</Link>
-            <Link to="/bookstack">BookStack</Link>
           </HeaderLinks>
         </PageContainer>
       </NavBox>

@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate} from "react-router-dom";
 
 import NavigationBar from "./ui-components/NavigationBar.jsx";
-import About from "./pages/About.jsx";
+import Overview from "./pages/Overview.jsx";
 import Resume from "./pages/Resume.jsx";
 import {ThemeProvider} from "styled-components";
 import {darkTheme, lightTheme} from "./themes/themes";
@@ -9,7 +9,7 @@ import {GlobalStyle} from "./themes/Global";
 
 const App = () => {
   const appRoutes = [
-    {path: "/about", title: "About", component: About},
+    {path: "/overview", title: "Overview", component: Overview},
     {path: "/resume", title: "Resume", component: Resume}
   ];
 
@@ -18,12 +18,12 @@ const App = () => {
   return (
     <ThemeProvider theme={theme === "dark" ? darkTheme : lightTheme}>
       <GlobalStyle />
-      <Router basename={process.env.PUBLIC_URL}>
+      <Router basename={import.meta.env.BASE_URL}>
         <div>
           <NavigationBar />
           <main>
             <Routes>
-              <Route path="/" element={<Navigate to="/about" replace />} />
+              <Route path="/" element={<Navigate to="/overview" replace />} />
               {
                 appRoutes.map(({path, component: Component}) => (
                   <Route key={path} path={path} element={<Component />} />

@@ -1,7 +1,7 @@
 import Title from "../ui-components/Title.jsx";
 import PageWrapper from "../ui-components/PageWrapper.jsx";
 
-const About = () => {
+const Overview = () => {
   return (
     <PageWrapper>
       <Title title="About Me" />
@@ -21,4 +21,4 @@ const About = () => {
   );
 };
 
-export default About;
+export default Overview;

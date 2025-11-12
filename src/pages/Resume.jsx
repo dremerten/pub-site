@@ -1,4 +1,4 @@
-import PageWrapper from "../components/ui/PageWrapper.jsx";
+import PageWrapper from "../components/PageWrapper.jsx";
 
 const Resume = () => {
   return (

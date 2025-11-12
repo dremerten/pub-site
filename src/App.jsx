@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate} from "react-router-dom";
 
-import NavigationMenu from "./components/ui/NavigationMenu.jsx";
+import Navbar from "./components/Navbar.jsx";
 import Overview from "./pages/Overview.jsx";
 import Resume from "./pages/Resume.jsx";
 import {ThemeProvider} from "styled-components";
@@ -20,7 +20,7 @@ const App = () => {
       <GlobalStyle />
       <Router basename={import.meta.env.BASE_URL}>
         <div>
-          <NavigationMenu />
+          <Navbar />
           <main>
             <Routes>
               <Route path="/" element={<Navigate to="/overview" replace />} />

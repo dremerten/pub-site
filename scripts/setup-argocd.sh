@@ -5,32 +5,25 @@ echo "========================================="
 echo "ArgoCD Installation Script"
 echo "========================================="
 
-# Create argocd namespace
 echo "Creating argocd namespace..."
 kubectl create namespace argocd || echo "Namespace argocd already exists"
 
-# Install ArgoCD
 echo "Installing ArgoCD..."
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
-# Wait for ArgoCD to be ready
 echo "Waiting for ArgoCD to be ready (this may take a few minutes)..."
 kubectl wait --for=condition=Ready pods --all -n argocd --timeout=300s
 
-# Patch ArgoCD server to use NodePort for easier access on EC2
 echo "Configuring ArgoCD server service as NodePort..."
 kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "NodePort"}}'
 
-# Get NodePort
 NODEPORT=$(kubectl get svc argocd-server -n argocd -o jsonpath='{.spec.ports[?(@.name=="http")].nodePort}')
 HTTPS_NODEPORT=$(kubectl get svc argocd-server -n argocd -o jsonpath='{.spec.ports[?(@.name=="https")].nodePort}')
 
-# Get initial admin password
 echo ""
 echo "Getting ArgoCD initial admin password..."
 ARGOCD_PASSWORD=$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)
 
-# Get server info
 echo ""
 echo "========================================="
 echo "ArgoCD Installation Complete!"
@@ -62,7 +55,6 @@ echo "2. Configure your pub-site application in ArgoCD"
 echo "3. Update EC2 Security Group to allow NodePort access"
 echo "========================================="
 
-# Optional: Install ArgoCD CLI
 echo ""
 read -p "Do you want to install ArgoCD CLI? (y/n) " -n 1 -r
 echo

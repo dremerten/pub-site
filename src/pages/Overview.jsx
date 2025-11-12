@@ -1,10 +1,9 @@
-import Title from "../components/Title.jsx";
-import PageWrapper from "../components/PageWrapper.jsx";
+import PageWrapper from "../components/ui/PageWrapper.jsx";
 
 const Overview = () => {
   return (
     <PageWrapper>
-      <Title title="About Me" />
+      <h2 className="text-3xl font-bold tracking-tight">About Me</h2>
       <section>
         I am an experienced DevOps and Platform Test Engineer with over 7 years of expertise in designing, deploying, and maintaining both on-premises and cloud applications. I am proficient in Kubernetes, OpenShift, Docker, Podman, CI/CD pipelines, and cloud infrastructure (AWS, Azure, GCP). My skills also extend to automation frameworks and implementing Blue-Green deployments, ensuring seamless releases and minimizing downtime.
       </section>

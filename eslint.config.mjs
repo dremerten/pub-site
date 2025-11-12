@@ -40,6 +40,7 @@ export default [
       ...reactHooks.configs.recommended.rules,
       'react/react-in-jsx-scope': 'off', // Not needed in React 18+
       'react/prop-types': 'off',
+      'react/no-unescaped-entities': 'off',
       'no-unused-vars': 'warn',
       'no-console': 'off',
       'quotes': ['warn', 'double', { avoidEscape: true }],

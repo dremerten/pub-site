@@ -1,9 +1,79 @@
 import PageWrapper from "../components/PageWrapper.jsx";
 
+const ExperienceItem = ({
+  company,
+  position,
+  years
+}) => {
+  return (
+    <div>
+      <span className="text-purple-400">- company:</span> <span className="text-orange-300">{ company }</span>
+      <div className="ml-4">
+        <span className="text-blue-400">position:</span> <span className="text-orange-300">{ position }</span><br/>
+        <span className="text-blue-400">years:</span> <span className="text-green-300">{ years }</span>
+      </div>
+    </div>
+  );
+}
+
+const experienceItems = [
+  {company: "Aspera, an IBM company", position: "DevOps & Platform Engineer", years: "2019 - Present"}
+];
+
 const Resume = () => {
   return (
     <PageWrapper>
-      <h2 className="text-3xl font-bold tracking-tight">Resume</h2>
+      <div className="border-2 rounded-md font-mono">
+        <div className="border-b-2 pt-2 pb-2 pl-3 pr-3 flex flex-row items-center gap-3">
+          <div className="flex gap-1.5">
+            <div className="w-3 h-3 rounded-full bg-red-500"></div>
+            <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+            <div className="w-3 h-3 rounded-full bg-green-500"></div>
+          </div>
+          <span className="text-slate-400 text-sm">resume.yaml</span>
+        </div>
+
+        <div className="p-6">
+          <div className="space-y-4 text-sm">
+            <div>
+              <span className="text-blue-400">name:</span> <span className="text-orange-300">"Andreas Merten"</span>
+            </div>
+            <div>
+              <span className="text-blue-400">role:</span> <span className="text-orange-300">"DevOps and Platform Test Engineer"</span>
+            </div>
+
+            <div className="mt-6">
+              <span className="text-blue-400">experience:</span>
+              <div className="ml-4 mt-2 space-y-3">
+                {
+                  experienceItems.map((item, index) => (
+                    <ExperienceItem
+                      key={index}
+                      position={item.position}
+                      company={item.company}
+                      years={item.years}
+                    />
+                  ))
+                }
+              </div>
+            </div>
+
+            <div className="mt-6">
+              <span className="text-blue-400">skills:</span>
+              <div className="ml-4 mt-2">
+                <span className="text-purple-400">cloud:</span> <span className="text-slate-400">[</span><span className="text-orange-300">"AWS", "GCP", "Azure"</span><span className="text-slate-400">]</span><br/>
+                <span className="text-purple-400">container:</span> <span className="text-slate-400">[</span><span className="text-orange-300">"Kubernetes", "Docker"</span><span className="text-slate-400">]</span><br/>
+                <span className="text-purple-400">iac:</span> <span className="text-slate-400">[</span><span className="text-orange-300">"Terraform", "Ansible"</span><span className="text-slate-400">]</span>
+              </div>
+            </div>
+
+            <div className="mt-6">
+              <span className="text-slate-600"># Proven track record of reducing incident response</span><br/>
+              <span className="text-slate-600"># time by 60% and improving system reliability</span>
+            </div>
+          </div>
+        </div>
+      </div>
       {/*<JobSection*/}
       {/*  company="IBM Aspera"*/}
       {/*  role="DevOps & Platform Test Engineer"*/}

@@ -1,38 +1,19 @@
-import styled from "styled-components";
+import { cn } from "@/lib/utils";
 
-const PageContainer = ({fullHeight=false, children}) => {
-  const Container = styled("div")`
-    display: flex;
-    flex-flow: row;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 0 15px;
-    width: 100%;
-    
-    ${() =>
-      fullHeight &&
-      `
-        height: 100%;
-      `
-    };
-    
-    @media (min-width: 640px) {
-      max-width: 600px;
-    }
-
-    @media (min-width: 1000px) {
-      flex-direction: row;
-      flex-basis: auto;
-      max-width: 970px;
-    }
-
-    @media (min-width: 1200px) {
-      max-width: 1140px;
-    }
-  `;
-
+const PageContainer = ({ fullHeight = false, children }) => {
   return (
-    <Container>{ children }</Container>
+    <div
+      className={cn(
+        "flex flex-row mx-auto px-[15px] w-full",
+        // "sm:max-w-[600px]",
+        // "min-[1000px]:flex-row min-[1000px]:flex-auto min-[1000px]:max-w-[970px]",
+        // "min-[1200px]:max-w-[1140px]",
+        fullHeight && "h-full",
+        "p-1"
+      )}
+    >
+      {children}
+    </div>
   );
 };
 

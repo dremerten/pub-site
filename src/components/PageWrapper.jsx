@@ -1,18 +1,11 @@
-import styled from "styled-components";
 import PageContainer from "./PageContainer.jsx";
 
-const PageWrapper = ({children}) => {
-  const Page = styled("div")`
-    width: 90%;
-    margin-left: auto;
-    margin-right: auto;
-  `;
-
+const PageWrapper = ({ children }) => {
   return (
     <PageContainer fullHeight={true}>
-      <Page>
-        { children }
-      </Page>
+      <div className="w-[90%] mx-auto">
+        {children}
+      </div>
     </PageContainer>
   );
 };

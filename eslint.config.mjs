@@ -27,6 +27,7 @@ export default [
         navigator: 'readonly',
         console: 'readonly',
         process: 'readonly',
+        localStorage: 'readonly',
       },
     },
     settings: {
@@ -42,6 +43,18 @@ export default [
       'no-unused-vars': 'warn',
       'no-console': 'off',
       'quotes': ['warn', 'double', { avoidEscape: true }],
+    },
+  },
+  {
+    files: ['**/*.mjs'],
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      globals: {
+        process: 'readonly',
+        __dirname: 'readonly',
+        __filename: 'readonly',
+      },
     },
   },
 ];

@@ -3,9 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate} from "react-router-do
 import Navbar from "./components/Navbar.jsx";
 import Overview from "./pages/Overview.jsx";
 import Resume from "./pages/Resume.jsx";
-import {ThemeProvider} from "styled-components";
-import {darkTheme, lightTheme} from "./themes/themes";
-import {GlobalStyle} from "./themes/Global";
+import { ThemeProvider } from "./components/ThemeProvider.jsx";
 
 const App = () => {
   const appRoutes = [
@@ -13,13 +11,10 @@ const App = () => {
     {path: "/resume", title: "Resume", component: Resume}
   ];
 
-  const theme = "light";
-
   return (
-    <ThemeProvider theme={theme === "dark" ? darkTheme : lightTheme}>
-      <GlobalStyle />
+    <ThemeProvider defaultTheme="light" storageKey="app-theme">
       <Router basename={import.meta.env.BASE_URL}>
-        <div>
+        <div className="min-h-screen bg-background text-foreground">
           <Navbar />
           <main>
             <Routes>

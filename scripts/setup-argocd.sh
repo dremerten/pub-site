@@ -119,9 +119,8 @@ kubectl wait --for=condition=Ready pods -l app.kubernetes.io/name=argocd-server 
 
 kill $WATCH_PID 2>/dev/null || true
 
-echo "Configuring ArgoCD server service as NodePort..."
-kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "NodePort"}}'
-
+echo ""
+echo "Getting NodePort assignments..."
 NODEPORT=$(kubectl get svc argocd-server -n argocd -o jsonpath='{.spec.ports[?(@.name=="http")].nodePort}')
 HTTPS_NODEPORT=$(kubectl get svc argocd-server -n argocd -o jsonpath='{.spec.ports[?(@.name=="https")].nodePort}')
 

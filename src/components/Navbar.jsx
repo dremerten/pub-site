@@ -27,7 +27,7 @@ export function Navbar() {
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
-          <ThemeToggle />
+          {/*<ThemeToggle />*/}
         </div>
       </div>
     </nav>

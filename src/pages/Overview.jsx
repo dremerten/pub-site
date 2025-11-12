@@ -1,4 +1,4 @@
-import {experienceData, personalInfo, coreSkills} from "@/data/resume";
+import {experienceData, personalInfo, coreSkills, metadataInfo} from "@/data/resume";
 import PageWrapper from "@/components/PageWrapper";
 
 const Overview = () => {
@@ -24,7 +24,7 @@ const Overview = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-3 gap-4 mb-6">
+            <div className="grid grid-cols-4 gap-4 mb-6">
               <div className="bg-slate-800 p-4 rounded-lg border border-slate-700">
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-slate-300 font-medium">Experience</span>
@@ -67,6 +67,28 @@ const Overview = () => {
                   <div className="text-2xl font-bold text-slate-600 font-mono">0</div>
                   <div className="text-xs text-slate-500">No issues detected</div>
                 </div>
+              </div>
+
+              <div className="bg-slate-800 p-4 rounded-lg border border-slate-700">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-slate-300 font-medium">Metadata</span>
+                </div>
+                <div className="flex flex-col gap-1">
+                  {
+                    metadataInfo.map((metadata, index) => {
+                      const Icon = metadata.icon;
+                      return (
+                        <div key={`metadata-info-${index}`} className="flex flex-row gap-2 items-center">
+                          <Icon className="w-3 h-3 text-slate-400" />
+                          <span className="text-slate-400 text-xs">
+                            {metadata.text}
+                          </span>
+                        </div>
+                      );
+                    })
+                  }
+                </div>
+                <div className="text-2"></div>
               </div>
             </div>
 

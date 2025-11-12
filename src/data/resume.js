@@ -1,3 +1,5 @@
+import {Activity, CalendarIcon, CircleUser, MapPin} from "lucide-react";
+
 export const personalInfo = {
   name: "Andreas Merten",
   role: "DevOps and Platform Test Engineer",
@@ -7,6 +9,13 @@ export const personalInfo = {
   ],
   projectCount: 47
 };
+
+export const metadataInfo = [
+  {text: "7 years in production", icon: CalendarIcon},
+  {text: "Currently active", icon: Activity},
+  {text: "Richmond, CA", icon: MapPin},
+  {text: "Andreas Merten", icon: CircleUser}
+];
 
 export const coreSkills = [
   "Kubernetes",

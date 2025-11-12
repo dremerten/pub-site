@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate} from "react-router-dom";
 
-import NavigationBar from "./ui-components/NavigationBar.jsx";
+import NavigationBar from "./components/NavigationBar.jsx";
 import Overview from "./pages/Overview.jsx";
 import Resume from "./pages/Resume.jsx";
 import {ThemeProvider} from "styled-components";

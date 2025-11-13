@@ -1,29 +1,28 @@
-import {Activity, CalendarIcon, CircleUser, MapPin} from "lucide-react";
+import {Activity, BookOpenText, CircleUser, MapPin} from "lucide-react";
 
 export const personalInfo = {
   name: "Andreas Merten",
-  role: "DevOps and Platform Test Engineer",
+  role: "DevOps and Test Engineer",
   summary: [
-    "I am an accomplished DevOps and Platform Test Engineer with over seven years of experience deploying, testing, and maintaining robust on-premises and cloud-based applications. I have contributed to seamless migrations of legacy systems, automated infrastructure tasks, and improved operational efficiency through Kubernetes, Docker, and Python scripting. My experience includes developing CI/CD pipelines and managing cloud infrastructure across AWS, Azure, and GCP.",
+    "I am an accomplished DevOps and Test Engineer with over seven years of experience deploying, testing, and maintaining robust on-premises and cloud-based applications. I have contributed to seamless migrations of legacy systems, automated infrastructure tasks, and improved operational efficiency through Kubernetes, Docker, and Python scripting. My experience includes developing CI/CD pipelines and managing cloud infrastructure across AWS, Azure, and GCP.",
     "I have practical experience implementing Blue-Green deployment strategies to support seamless releases and minimize downtime. Additionally, I have extensive experience in TLS certificate management, as well as secret management and rotation. I focus on building and designing systems with security integrated from the start, ensuring reliability, scalability, and compliance throughout the development lifecycle."
-  ],
-  projectCount: 47
+  ]
 };
 
 export const metadataInfo = [
-  {text: "7 years in production", icon: CalendarIcon},
+  {text: "Certified Kubernetes Admin (in progress)", icon: BookOpenText},
   {text: "Currently active", icon: Activity},
   {text: "Richmond, CA", icon: MapPin},
   {text: "Andreas Merten", icon: CircleUser}
 ];
 
 export const coreSkills = [
-  "Kubernetes",
   "Docker",
-  "AWS",
-  "Azure",
-  "Jenkins",
-  "Terraform",
+  "Cloud",
+  "Shell",
+  "Security",
+  "Containerization",
+  "Infra as Code",
   "Python",
   "GitLab CI"
 ];
@@ -31,7 +30,7 @@ export const coreSkills = [
 export const experienceData = [
   {
     company: "Aspera, an IBM company",
-    position: "DevOps and Platform Engineer (Band 8)",
+    position: "DevOps and Test Engineer (Band 8)",
     years: "2019 - Present",
     highlights: [
       "Implemented automation and parallel testing, reducing QA cycle times and accelerating release schedules.",
@@ -73,7 +72,7 @@ export const comments = [
 export const additionalExperience = [
   {
     company: "IBM Aspera",
-    role: "DevOps & Platform Test Engineer",
+    role: "DevOps & Test Engineer",
     dateRange: "Feb 2019 - Present",
     experienceList: [
       "Implemented automation and parallel testing, reducing QA cycle times and accelerating release schedules.",

@@ -12,7 +12,7 @@ const App = () => {
   ];
 
   return (
-    <ThemeProvider defaultTheme="light" storageKey="app-theme">
+    <ThemeProvider defaultTheme="dark" storageKey="app-theme">
       <Router basename={import.meta.env.BASE_URL}>
         <div className="min-h-screen bg-background text-foreground">
           <Navbar />

@@ -12,3 +12,6 @@ dist/*
 
 scratch/
 !.keep
+
+# Deployment documentation (keep local only)
+.DEPLOYMENT.md

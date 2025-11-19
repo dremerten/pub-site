@@ -4,16 +4,17 @@ export const personalInfo = {
   name: "Andreas Merten",
   role: "DevOps/Infra QA Engineer",
   summary: [
-    "I am an accomplished DevOps/Infra QA with over seven years of experience deploying, testing, and maintaining robust on-premises and cloud-based applications. I have contributed to seamless migrations of legacy systems, automated infrastructure tasks, and improved operational efficiency through Kubernetes, Docker, and Python scripting. My experience includes developing CI/CD pipelines and managing cloud infrastructure across AWS, Azure, and GCP.",
-    "I have practical experience implementing Blue-Green deployment strategies to support seamless releases and minimize downtime. Additionally, I have extensive experience in TLS certificate management, as well as secret management and rotation. I focus on building and designing systems with security integrated from the start, ensuring reliability, scalability, and compliance throughout the development lifecycle."
+    "I'm a DevOps-focused Infrastructure QA Engineer with 6+ years of experience building secure, reproducible QA/Dev environments and automating legacy and cloud systems using Kubernetes, Docker, Terraform, and Ansible. I have hands-on experience testing and managing Kubernetes clusters, as well as cloud infrastructure across AWS, Azure, and GCP. As the point engineer for DISA and FISC compliance environments, I've developed strong sysadmin expertise across DNS, networking, SMTP, LDAP, Active Directory, Linux, and Windows Server. I'm currently studying for the Certified Kubernetes Administrator (CKA) exam.",
+    "I have a strong QA testing mindset and consistently look for inefficiencies and areas for improvement to make both myself and the broader team more productive. While working in QA, I designed and built a continuous deployment infrastructure that allows QA and development engineers to quickly spin up and install new builds for testing and development purposes. Over the years, this system has saved the team hundreds of hours and significantly improved our ability to deliver high-quality software, often leading to QA sign-off multiple days ahead of schedule on several product releases.",
+    "I take initiative, continuously refine processes, and look for ways to help the team work smarter and deliver better results. I'm always eager to learn and grow, and helping my team succeed is at the core of how I work."
   ]
 };
 
 export const metadataInfo = [
   {text: "Certified Kubernetes Admin (in progress)", icon: BookOpenText},
-  {text: "Currently active", icon: Activity},
-  {text: "Richmond, CA", icon: MapPin},
-  {text: "Andreas Merten", icon: CircleUser}
+  {text: "Looking for DevOps and QA Related Opportunites", icon: Activity},
+  {text: "Open to Work Bay Area", icon: MapPin},
+  {text: "Looking for Full-Time Employment", icon: CircleUser}
 ];
 
 export const coreSkills = [

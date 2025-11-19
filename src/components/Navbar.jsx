@@ -21,12 +21,12 @@ export function Navbar() {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target) &&
-        mobileDropdownRef.current &&
-        !mobileDropdownRef.current.contains(event.target)
-      ) {
+      // Check if click is inside either dropdown
+      const isInsideDesktop = dropdownRef.current && dropdownRef.current.contains(event.target);
+      const isInsideMobile = mobileDropdownRef.current && mobileDropdownRef.current.contains(event.target);
+
+      // Close if clicked outside both dropdowns
+      if (!isInsideDesktop && !isInsideMobile) {
         setCredentialsDropdownOpen(false);
       }
     };

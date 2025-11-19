@@ -170,16 +170,16 @@ Events:                 <none>`;
   return (
     <PageWrapper>
       <div className="bg-black rounded border border-green-500/30 shadow-lg shadow-green-500/10 hover:border-green-500/50 transition-all">
-        <div className="flex items-center gap-2 px-4 py-3 border-b border-gray-800">
-          <div className="flex gap-2">
-            <div className="w-3 h-3 rounded-full bg-red-500"></div>
-            <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-            <div className="w-3 h-3 rounded-full bg-green-500"></div>
+        <div className="flex items-center gap-2 px-3 md:px-4 py-2 md:py-3 border-b border-gray-800">
+          <div className="flex gap-1.5 md:gap-2">
+            <div className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-red-500"></div>
+            <div className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-yellow-500"></div>
+            <div className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-green-500"></div>
           </div>
-          <span className="text-gray-400 text-sm font-mono ml-2">kubectl - terminal</span>
+          <span className="text-gray-400 text-xs md:text-sm font-mono ml-2">kubectl - terminal</span>
         </div>
 
-        <div className="p-6 font-mono text-sm min-h-[500px]">
+        <div className="p-3 md:p-6 font-mono text-xs md:text-sm min-h-[300px] md:min-h-[500px] overflow-x-auto">
           <div className="mb-4">
             <span className="text-green-400">user@k8s</span>
             <span className="text-white">:</span>
@@ -192,7 +192,7 @@ Events:                 <none>`;
           </div>
 
           {showNodesOutput && (
-            <div className="mb-6 text-gray-300 whitespace-pre font-mono text-xs">
+            <div className="mb-4 md:mb-6 text-gray-300 whitespace-pre font-mono text-[10px] md:text-xs overflow-x-auto">
               {nodesOutput}
             </div>
           )}
@@ -230,7 +230,7 @@ Events:                 <none>`;
           )}
 
           {showPodsOutput && (
-            <div className="mb-6 text-gray-300 whitespace-pre font-mono text-xs">
+            <div className="mb-4 md:mb-6 text-gray-300 whitespace-pre font-mono text-[10px] md:text-xs overflow-x-auto">
               {getPodOutput()}
             </div>
           )}
@@ -249,7 +249,7 @@ Events:                 <none>`;
           )}
 
           {describeOutput && (
-            <div className="text-gray-300 whitespace-pre-wrap leading-relaxed">
+            <div className="text-gray-300 whitespace-pre-wrap leading-relaxed overflow-x-auto text-[10px] md:text-xs">
               {describeOutput}
               {describeOutput.length < buildDescribeOutput().length && (
                 <span className="animate-pulse bg-green-400 text-green-400">_</span>

@@ -136,15 +136,7 @@ Events:                 <none>`;
 
                                     setTimeout(() => {
                                       const output = buildDescribeOutput();
-                                      let outIndex = 0;
-                                      const outputTimer = setInterval(() => {
-                                        if (outIndex < output.length) {
-                                          setDescribeOutput(output.slice(0, outIndex + 1));
-                                          outIndex++;
-                                        } else {
-                                          clearInterval(outputTimer);
-                                        }
-                                      }, 5);
+                                      setDescribeOutput(output);
                                     }, 500);
                                   }
                                 }, 50);
@@ -251,9 +243,6 @@ Events:                 <none>`;
           {describeOutput && (
             <div className="text-gray-300 whitespace-pre-wrap leading-relaxed overflow-x-auto text-[10px] md:text-xs">
               {describeOutput}
-              {describeOutput.length < buildDescribeOutput().length && (
-                <span className="animate-pulse bg-green-400 text-green-400">_</span>
-              )}
             </div>
           )}
         </div>

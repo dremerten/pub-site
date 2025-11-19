@@ -4,12 +4,15 @@ import { useState, useEffect } from "react";
 
 const Overview = () => {
   const [displayedText, setDisplayedText] = useState("");
-  const fullText = "● System Online - All Services Running";
+  const fullText = "● System Online - All Services Up, Running and Healthy";
   const typingSpeed = 50;
 
+  const [catCommand, setCatCommand] = useState("");
+  const catCommandFull = "cat about-me.txt";
   const [aboutText, setAboutText] = useState("");
   const aboutFullText = personalInfo.summary.join("\n\n");
-  const aboutTypingSpeed = 15;
+
+  const [healthCheckActive, setHealthCheckActive] = useState(false);
 
   useEffect(() => {
     let index = 0;
@@ -29,18 +32,38 @@ const Overview = () => {
     const startDelay = setTimeout(() => {
       let index = 0;
       const timer = setInterval(() => {
-        if (index < aboutFullText.length) {
-          setAboutText(aboutFullText.slice(0, index + 1));
+        if (index < catCommandFull.length) {
+          setCatCommand(catCommandFull.slice(0, index + 1));
           index++;
         } else {
           clearInterval(timer);
+          // Once command is fully typed, show all content instantly
+          setTimeout(() => {
+            setAboutText(aboutFullText);
+          }, 300);
         }
-      }, aboutTypingSpeed);
+      }, 50);
 
       return () => clearInterval(timer);
     }, 1000);
 
     return () => clearTimeout(startDelay);
+  }, []);
+
+  useEffect(() => {
+    const runHealthCheck = () => {
+      setHealthCheckActive(true);
+
+      setTimeout(() => {
+        setHealthCheckActive(false);
+      }, 2000);
+    };
+
+    runHealthCheck();
+
+    const interval = setInterval(runHealthCheck, 10000);
+
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -70,20 +93,46 @@ const Overview = () => {
                 </div>
               </div>
 
-              <div className="bg-orange-500/10 border border-orange-500/30 rounded p-3 md:p-4 animate-pulse hover:border-orange-500/50 hover:bg-orange-500/15 hover:scale-105 transition-all cursor-pointer">
-                <div className="flex items-start gap-3">
-                  <div className="flex-shrink-0">
-                    <svg className="w-5 h-5 md:w-6 md:h-6 text-orange-500 animate-pulse" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                    </svg>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+                <div className="bg-orange-500/10 border border-orange-500/30 rounded p-3 md:p-4 animate-pulse hover:border-orange-500/50 hover:bg-orange-500/15 hover:scale-105 transition-all cursor-pointer">
+                  <div className="flex items-start gap-3">
+                    <div className="flex-shrink-0">
+                      <svg className="w-5 h-5 md:w-6 md:h-6 text-orange-500 animate-pulse" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm md:text-base font-medium text-orange-300 mb-1">Status: Available</div>
+                      <p className="text-xs md:text-sm text-gray-300">Actively looking for new opportunities</p>
+                      <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-gray-500">
+                        <span>Severity: INFO</span>
+                        <span>•</span>
+                        <span>State: RUNNING</span>
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="text-sm md:text-base font-medium text-orange-300 mb-1">Status: Available</div>
-                    <p className="text-xs md:text-sm text-gray-300">Actively looking for new opportunities</p>
-                    <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-gray-500">
-                      <span>Severity: INFO</span>
-                      <span>•</span>
-                      <span>State: RUNNING</span>
+                </div>
+
+                <div className="bg-[#181b1f] rounded border border-gray-800 hover:border-purple-500/30 transition-all">
+                  <div className="px-3 md:px-4 py-2 border-b border-gray-800 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <svg className="w-4 h-4 md:w-5 md:h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                      </svg>
+                      <span className="text-xs md:text-sm font-medium text-gray-300">Metadata JSON</span>
+                    </div>
+                    <span className="text-xs text-gray-500 font-mono hidden sm:inline">application/json</span>
+                  </div>
+                  <div className="p-3 md:p-4">
+                    <div className="bg-[#0b0c0e] border border-gray-800 rounded p-2 md:p-3 font-mono text-xs overflow-x-auto">
+                      <pre className="text-gray-400">
+{`{
+  `}<span className="text-blue-400">"certification"</span>{`: `}<span className="text-emerald-400">"CKA (in progress)"</span>{`,
+  `}<span className="text-blue-400">"status"</span>{`: `}<span className="text-emerald-400">"Currently active"</span>{`,
+  `}<span className="text-blue-400">"location"</span>{`: `}<span className="text-emerald-400">"Richmond, CA"</span>{`,
+  `}<span className="text-blue-400">"name"</span>{`: `}<span className="text-emerald-400">"Andreas Merten"</span>{`
+}`}
+                      </pre>
                     </div>
                   </div>
                 </div>
@@ -99,10 +148,21 @@ const Overview = () => {
                   </svg>
                 </div>
                 <div className="text-2xl md:text-3xl font-bold text-emerald-400 mb-1">99.99%</div>
-                <div className="flex items-center gap-1 text-xs">
+                <div className="flex items-center gap-1 text-xs mb-2">
                   <span className="text-emerald-500">▲</span>
                   <span className="text-emerald-500">0.01%</span>
                   <span className="text-gray-500 hidden sm:inline">vs last period</span>
+                </div>
+                <div className="mt-2 pt-2 border-t border-gray-800">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-gray-500 font-mono">GET /health</span>
+                    {healthCheckActive && (
+                      <span className="flex items-center gap-1 text-emerald-400">
+                        <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
+                        200 OK
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
 
@@ -160,14 +220,16 @@ const Overview = () => {
                     <span className="text-green-400">user@devops</span>
                     <span className="text-white">:</span>
                     <span className="text-blue-400">~</span>
-                    <span className="text-white">$ cat about.txt</span>
-                  </div>
-                  <div className="text-green-300 leading-relaxed whitespace-pre-wrap break-words">
-                    {aboutText}
-                    {aboutText.length < aboutFullText.length && (
+                    <span className="text-white">$ {catCommand}</span>
+                    {catCommand.length > 0 && catCommand.length < catCommandFull.length && (
                       <span className="animate-pulse bg-green-400 text-green-400">_</span>
                     )}
                   </div>
+                  {aboutText && (
+                    <div className="text-green-300 leading-relaxed whitespace-pre-wrap break-words">
+                      {aboutText}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -230,32 +292,6 @@ const Overview = () => {
                         </div>
                       );
                     })}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="mb-3">
-              <div className="bg-[#181b1f] rounded border border-gray-800 hover:border-purple-500/30 transition-all">
-                <div className="px-3 md:px-4 py-2 border-b border-gray-800 flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <svg className="w-4 h-4 md:w-5 md:h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-                    </svg>
-                    <span className="text-xs md:text-sm font-medium text-gray-300">Metadata JSON</span>
-                  </div>
-                  <span className="text-xs text-gray-500 font-mono hidden sm:inline">application/json</span>
-                </div>
-                <div className="p-3 md:p-4">
-                  <div className="bg-[#0b0c0e] border border-gray-800 rounded p-2 md:p-3 font-mono text-xs overflow-x-auto">
-                    <pre className="text-gray-400">
-{`{
-  `}<span className="text-blue-400">"certification"</span>{`: `}<span className="text-emerald-400">"CKA (in progress)"</span>{`,
-  `}<span className="text-blue-400">"status"</span>{`: `}<span className="text-emerald-400">"Currently active"</span>{`,
-  `}<span className="text-blue-400">"location"</span>{`: `}<span className="text-emerald-400">"Richmond, CA"</span>{`,
-  `}<span className="text-blue-400">"name"</span>{`: `}<span className="text-emerald-400">"Andreas Merten"</span>{`
-}`}
-                    </pre>
                   </div>
                 </div>
               </div>

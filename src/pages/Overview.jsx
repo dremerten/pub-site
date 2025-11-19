@@ -127,11 +127,18 @@ const Overview = () => {
                     <div className="bg-[#0b0c0e] border border-gray-800 rounded p-2 md:p-3 font-mono text-xs overflow-x-auto">
                       <pre className="text-gray-400">
 {`{
-  `}<span className="text-blue-400">"certification"</span>{`: `}<span className="text-emerald-400">"CKA (in progress)"</span>{`,
-  `}<span className="text-blue-400">"status"</span>{`: `}<span className="text-emerald-400">"Currently active"</span>{`,
-  `}<span className="text-blue-400">"location"</span>{`: `}<span className="text-emerald-400">"Richmond, CA"</span>{`,
-  `}<span className="text-blue-400">"name"</span>{`: `}<span className="text-emerald-400">"Andreas Merten"</span>{`
-}`}
+`}{metadataInfo.map((item, index) => {
+  const key = item.text.toLowerCase().includes('certified') ? 'certification'
+            : item.text.toLowerCase().includes('looking for devops') ? 'status'
+            : item.text.toLowerCase().includes('open to work') ? 'location'
+            : item.text.toLowerCase().includes('looking for full') ? 'employment'
+            : `item_${index}`;
+  return (
+    <span key={index}>
+      {`  `}<span className="text-blue-400">"{key}"</span>{`: `}<span className="text-emerald-400">"{item.text}"</span>{index < metadataInfo.length - 1 ? ',\n' : '\n'}
+    </span>
+  );
+})}{`}`}
                       </pre>
                     </div>
                   </div>
@@ -187,7 +194,7 @@ const Overview = () => {
                   </svg>
                 </div>
                 <div className="text-2xl md:text-3xl font-bold text-orange-400 mb-1">5+ yrs</div>
-                <div className="text-xs text-gray-500 line-clamp-2">Led, organized, setup and configured IBM Aspera WebApps Products for DISA and STIG Testing for Government Entities</div>
+                <div className="text-xs text-gray-500">Led, organized, setup and configured IBM Aspera WebApps Products for DISA and STIG Testing for Government Entities</div>
               </div>
 
               <div className="bg-[#181b1f] rounded border border-gray-800 p-3 md:p-4 hover:border-purple-500/50 hover:scale-105 transition-all cursor-default">

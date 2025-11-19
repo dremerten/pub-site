@@ -6,10 +6,10 @@ import {
   NavigationMenuList,
 } from "@/components/ui/NavigationMenu";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import {Activity, Code, Download} from "lucide-react";
+import {Activity, Code, Download, Award} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {LinkedInIcon} from "@/components/icons";
-import Resume from "../../public/files/andre-merten-resume.pdf";
+import Resume from "../../public/files/Andre-Resume2025-v3.pdf";
 
 export function Navbar() {
   const location = useLocation();
@@ -22,7 +22,7 @@ export function Navbar() {
             <NavigationMenuList className="gap-3">
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
-                  <Link to="/overview" className={`flex flex-row gap-2 items-center px-4 py-3 rounded-lg whitespace-nowrap transition-all ${
+                  <Link to="/overview" className={`flex flex-row gap-2 items-center px-4 py-3 rounded-lg whitespace-nowrap transition-all hover:scale-105 ${
                     location.pathname === "/overview"
                       ? "bg-blue-600 text-white shadow-lg focus:bg-blue-600"
                       : "bg-slate-800 text-slate-300 hover:bg-slate-700"
@@ -35,7 +35,7 @@ export function Navbar() {
 
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
-                  <Link to="/resume" className={`flex flex-row gap-2 items-center px-4 py-3 rounded-lg whitespace-nowrap transition-all ${
+                  <Link to="/resume" className={`flex flex-row gap-2 items-center px-4 py-3 rounded-lg whitespace-nowrap transition-all hover:scale-105 ${
                     location.pathname === "/resume"
                       ? "bg-blue-600 text-white shadow-lg focus:bg-blue-600"
                       : "bg-slate-800 text-slate-300 hover:bg-slate-700"
@@ -54,13 +54,18 @@ export function Navbar() {
                 LinkedIn
               </a>
             </Button>
+            <Button asChild variant="ghost" href="/" title="Professional Credentials">
+              <a href="https://www.credly.com/badges/009b8d08-22da-4cc8-a720-934ea26add1e/linked_in_profile" target="_blank" rel="noreferrer">
+                <Award />
+                Professional Credentials
+              </a>
+            </Button>
             <Button asChild variant="ghost" href="/">
               <a href={Resume} download>
                 <Download />
                 Download Resume
               </a>
             </Button>
-            {/*<ThemeToggle />*/}
           </div>
         </div>
       </div>

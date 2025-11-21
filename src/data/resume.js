@@ -2,7 +2,7 @@ import {Activity, BookOpenText, CircleUser, MapPin} from "lucide-react";
 
 export const personalInfo = {
   name: "Andreas Merten",
-  role: "DevOps/Infra QA Engineer",
+  role: "Senior QA / DevOps Engineer Engineer",
   summary: [
     "I'm a DevOps-focused Infrastructure QA Engineer with 6+ years of experience building secure, reproducible QA/Dev environments and automating legacy and cloud systems using Kubernetes, Docker, Terraform, and Ansible. I have hands-on experience testing and managing Kubernetes clusters, as well as cloud infrastructure across AWS, Azure, and GCP. As the point engineer for DISA and FISC compliance environments, I've developed strong sysadmin expertise across DNS, networking, SMTP, LDAP, Active Directory, Linux, and Windows Server. I'm currently studying for the Certified Kubernetes Administrator (CKA) exam.",
     "I have a strong QA testing mindset and consistently look for inefficiencies and areas for improvement to make both myself and the broader team more productive. While working in QA, I designed and built a continuous deployment infrastructure that allows QA and development engineers to quickly spin up and install new builds for testing and development purposes. Over the years, this system has saved the team hundreds of hours and significantly improved our ability to deliver high-quality software, often leading to QA sign-off multiple days ahead of schedule on several product releases.",
@@ -33,7 +33,7 @@ export const coreSkills = [
 export const experienceData = [
   {
     company: "Aspera, an IBM company",
-    position: "DevOps/Infra QA",
+    position: "Senior QA / DevOps Engineer",
     years: "2020 - Present",
     status: "Active",
     highlights: [

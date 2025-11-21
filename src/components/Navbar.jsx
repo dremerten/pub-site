@@ -9,36 +9,67 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import {Activity, Code, Download, Award, Menu, X} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {LinkedInIcon} from "@/components/icons";
-import Resume from "../../public/files/Andre-Resume2025-v3.pdf";
+import ResumePDF from "../../public/files/andre_resume_v4_ac.pdf";
+import ResumeDOCX from "../../public/files/andre_resume_v4_ac.docx";
 import { useState, useEffect, useRef } from "react";
 
 export function Navbar() {
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [credentialsDropdownOpen, setCredentialsDropdownOpen] = useState(false);
+  const [downloadDropdownOpen, setDownloadDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const mobileDropdownRef = useRef(null);
+  const downloadDropdownRef = useRef(null);
+  const mobileDownloadDropdownRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
       // Check if click is inside either dropdown
       const isInsideDesktop = dropdownRef.current && dropdownRef.current.contains(event.target);
       const isInsideMobile = mobileDropdownRef.current && mobileDropdownRef.current.contains(event.target);
+      const isInsideDownloadDesktop = downloadDropdownRef.current && downloadDropdownRef.current.contains(event.target);
+      const isInsideDownloadMobile = mobileDownloadDropdownRef.current && mobileDownloadDropdownRef.current.contains(event.target);
 
       // Close if clicked outside both dropdowns
       if (!isInsideDesktop && !isInsideMobile) {
         setCredentialsDropdownOpen(false);
       }
+      if (!isInsideDownloadDesktop && !isInsideDownloadMobile) {
+        setDownloadDropdownOpen(false);
+      }
     };
 
-    if (credentialsDropdownOpen) {
+    if (credentialsDropdownOpen || downloadDropdownOpen) {
       document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [credentialsDropdownOpen]);
+  }, [credentialsDropdownOpen, downloadDropdownOpen]);
+
+  const handleDownloadBoth = () => {
+    // Download PDF
+    const linkPDF = document.createElement('a');
+    linkPDF.href = ResumePDF;
+    linkPDF.download = 'Andre_Remer_Resume.pdf';
+    document.body.appendChild(linkPDF);
+    linkPDF.click();
+    document.body.removeChild(linkPDF);
+
+    // Download DOCX after a small delay
+    setTimeout(() => {
+      const linkDOCX = document.createElement('a');
+      linkDOCX.href = ResumeDOCX;
+      linkDOCX.download = 'Andre_Remer_Resume.docx';
+      document.body.appendChild(linkDOCX);
+      linkDOCX.click();
+      document.body.removeChild(linkDOCX);
+    }, 100);
+
+    setDownloadDropdownOpen(false);
+  };
 
   return (
     <nav className="border-b">
@@ -142,12 +173,48 @@ export function Navbar() {
                 </div>
               )}
             </div>
-            <Button asChild variant="ghost" href="/" className="text-xs lg:text-sm">
-              <a href={Resume} download>
+            <div className="relative" ref={downloadDropdownRef}>
+              <Button
+                variant="ghost"
+                title="Download Resume"
+                className="text-xs lg:text-sm"
+                onClick={() => setDownloadDropdownOpen(!downloadDropdownOpen)}
+              >
                 <Download />
                 <span className="hidden lg:inline">Download Resume</span>
-              </a>
-            </Button>
+              </Button>
+              {downloadDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-slate-800 border border-slate-700 rounded-lg shadow-lg z-50">
+                  <div className="py-1">
+                    <a
+                      href={ResumePDF}
+                      download="Andre_Remer_Resume.pdf"
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-slate-300 hover:bg-slate-700 transition-colors"
+                      onClick={() => setDownloadDropdownOpen(false)}
+                    >
+                      <Download className="w-4 h-4" />
+                      <span>PDF Format</span>
+                    </a>
+                    <a
+                      href={ResumeDOCX}
+                      download="Andre_Remer_Resume.docx"
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-slate-300 hover:bg-slate-700 transition-colors"
+                      onClick={() => setDownloadDropdownOpen(false)}
+                    >
+                      <Download className="w-4 h-4" />
+                      <span>DOCX Format</span>
+                    </a>
+                    <button
+                      onClick={handleDownloadBoth}
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-slate-300 hover:bg-slate-700 transition-colors w-full text-left"
+                    >
+                      <Download className="w-4 h-4" />
+                      <span>Both Formats</span>
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
@@ -192,12 +259,46 @@ export function Navbar() {
                 </div>
               )}
             </div>
-            <Button asChild variant="ghost" href="/">
-              <a href={Resume} download className="justify-start">
+            <div className="relative" ref={mobileDownloadDropdownRef}>
+              <Button
+                variant="ghost"
+                title="Download Resume"
+                className="w-full justify-start"
+                onClick={() => setDownloadDropdownOpen(!downloadDropdownOpen)}
+              >
                 <Download />
                 Download Resume
-              </a>
-            </Button>
+              </Button>
+              {downloadDropdownOpen && (
+                <div className="mt-1 ml-4 flex flex-col gap-1 bg-slate-800/50 rounded-lg p-2">
+                  <a
+                    href={ResumePDF}
+                    download="Andre_Remer_Resume.pdf"
+                    className="flex items-center gap-2 px-3 py-2 text-sm text-slate-300 hover:bg-slate-700 rounded transition-colors"
+                    onClick={() => setDownloadDropdownOpen(false)}
+                  >
+                    <Download className="w-4 h-4" />
+                    <span>PDF Format</span>
+                  </a>
+                  <a
+                    href={ResumeDOCX}
+                    download="Andre_Remer_Resume.docx"
+                    className="flex items-center gap-2 px-3 py-2 text-sm text-slate-300 hover:bg-slate-700 rounded transition-colors"
+                    onClick={() => setDownloadDropdownOpen(false)}
+                  >
+                    <Download className="w-4 h-4" />
+                    <span>DOCX Format</span>
+                  </a>
+                  <button
+                    onClick={handleDownloadBoth}
+                    className="flex items-center gap-2 px-3 py-2 text-sm text-slate-300 hover:bg-slate-700 rounded transition-colors text-left"
+                  >
+                    <Download className="w-4 h-4" />
+                    <span>Both Formats</span>
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         )}
       </div>

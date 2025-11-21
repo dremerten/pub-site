@@ -6,6 +6,7 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   base: process.env.PUBLIC_URL || "/",
+  assetsInclude: ["**/*.docx"],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

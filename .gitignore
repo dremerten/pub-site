@@ -19,3 +19,6 @@ k8s/*.sh
 k8s/*.md
 argocd
 scripts/*argocd*.sh
+
+# Old resume versions
+public/files/*-template.pdf

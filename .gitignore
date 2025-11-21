@@ -17,3 +17,5 @@ scratch/
 .DEPLOYMENT.md
 k8s/*.sh
 k8s/*.md
+argocd
+scripts/*argocd*.sh

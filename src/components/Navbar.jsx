@@ -6,7 +6,7 @@ import {
   NavigationMenuList,
 } from "@/components/ui/NavigationMenu";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import {Activity, Code, Download, Award, Menu, X} from "lucide-react";
+import {Activity, Code, Download, Award, Menu, X, Star} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {LinkedInIcon} from "@/components/icons";
 import ResumePDF from "../../public/files/andre_resume_v4_ac.pdf";
@@ -138,6 +138,12 @@ export function Navbar() {
                 <span className="hidden lg:inline">LinkedIn</span>
               </a>
             </Button>
+            <Button asChild variant="ghost" title="Recommendations" className="text-xs lg:text-sm">
+              <a href="https://www.linkedin.com/in/dremer10/details/recommendations/?detailScreenTabIndex=0" target="_blank" rel="noreferrer">
+                <Star />
+                <span className="hidden lg:inline">Recommendations</span>
+              </a>
+            </Button>
             <div className="relative" ref={dropdownRef}>
               <Button
                 variant="ghost"
@@ -224,6 +230,12 @@ export function Navbar() {
               <a href="https://www.linkedin.com/in/dremer10" target="_blank" rel="noreferrer" className="justify-start">
                 <LinkedInIcon />
                 LinkedIn
+              </a>
+            </Button>
+            <Button asChild variant="ghost" title="Recommendations">
+              <a href="https://www.linkedin.com/in/dremer10/details/recommendations/?detailScreenTabIndex=0" target="_blank" rel="noreferrer" className="justify-start">
+                <Star />
+                Recommendations
               </a>
             </Button>
             <div className="relative" ref={mobileDropdownRef}>

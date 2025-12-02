@@ -27,10 +27,13 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         context: .
+        file: ./Dockerfile
         push: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         tags: |
           ${{ env.IMAGE_NAME }}:v1
           ${{ env.IMAGE_NAME }}:latest
+        cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:latest
+        cache-to: type=inline
 
   deploy:
     needs: build

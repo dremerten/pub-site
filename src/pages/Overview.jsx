@@ -2,15 +2,75 @@ import {experienceData, personalInfo, coreSkills, metadataInfo} from "@/data/res
 import PageWrapper from "@/components/PageWrapper";
 import { useState, useEffect } from "react";
 
+// Cockpit Panel Component
+const CockpitPanel = ({ children, title, panelNumber, status = "nominal", className = "", headerRight = null }) => {
+  const statusColors = {
+    nominal: "border-emerald-500/40 shadow-emerald-500/10",
+    warning: "border-orange-500/40 shadow-orange-500/10",
+    info: "border-blue-500/40 shadow-blue-500/10",
+    critical: "border-red-500/40 shadow-red-500/10",
+  };
+
+  const statusDotColors = {
+    nominal: "bg-emerald-500",
+    warning: "bg-orange-500",
+    info: "bg-blue-500",
+    critical: "bg-red-500 animate-pulse",
+  };
+
+  return (
+    <div className={`relative bg-gradient-to-br from-[#1a1d23] to-[#0f1117] rounded-lg border-2 ${statusColors[status]} shadow-lg ${className}`}>
+      {/* Corner Accents */}
+      <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-gray-600"></div>
+      <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-gray-600"></div>
+      <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-gray-600"></div>
+      <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-gray-600"></div>
+
+      {/* Panel Header */}
+      <div className="px-4 py-2 border-b border-gray-700/50 bg-black/30 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          {panelNumber && (
+            <span className="font-mono text-xs text-gray-500 bg-black/50 px-2 py-0.5 rounded border border-gray-700">
+              P-{panelNumber}
+            </span>
+          )}
+          <span className="text-sm font-medium text-gray-300 uppercase tracking-wider">{title}</span>
+          <div className={`w-2 h-2 rounded-full ${statusDotColors[status]}`}></div>
+        </div>
+        {headerRight}
+      </div>
+
+      {/* Panel Content */}
+      <div className="p-4">
+        {children}
+      </div>
+    </div>
+  );
+};
+
 const Overview = () => {
   const [displayedText, setDisplayedText] = useState("");
   const fullText = "● System Online - All Services Up, Running and Healthy";
   const typingSpeed = 50;
 
   const [catCommand, setCatCommand] = useState("");
-  const catCommandFull = "cat about-me.txt";
+  const catCommandFull = "cat Key-Achievements.txt";
   const [aboutText, setAboutText] = useState("");
-  const aboutFullText = personalInfo.summary.join("\n\n");
+  const aboutFullText = `Key Achievements & Responsibilities
+
+• Optimized application performance and accelerated release cycles by identifying bottlenecks, streamlining deployment workflows, and improving overall system reliability.
+
+• Improved operational efficiency through automation, proactive issue detection, and continuous refinement of infrastructure and testing processes.
+
+• Designed and maintained internal infrastructure for the Aspera WebApps team, ensuring environments were secure, reproducible, and consistently aligned with engineering requirements.
+
+• Prioritized security by reviewing software versions and dependencies, enforcing long-term support (LTS) standards, and maintaining compliance with high-security environments.
+
+• Served as a key contributor to the release cycles of HSTS, Aspera Proxy, HTTP-Gateway, and OTFV (Out-of-File-Validation), ensuring stability, quality, and on-time delivery.
+
+• Enhanced overall product performance and customer satisfaction by contributing to Faspex 5 releases (5.0.0–5.0.14), improving reliability and readiness for production workloads.
+
+• Validated Faspex 5's high-availability architecture using Keepalived multi-proxy failover, MaxScale, and MariaDB Galera Cluster, successfully demonstrating the removal of single points of failure present in Faspex 4.`;
 
   const [healthCheckActive, setHealthCheckActive] = useState(false);
 
@@ -68,64 +128,72 @@ const Overview = () => {
 
   return (
     <div>
-      <div className="bg-[#0b0c0e] min-h-screen">
+      <div className="bg-gradient-to-br from-[#0a0b0f] via-[#0f1117] to-[#0a0b0f] min-h-screen">
         <PageWrapper>
           <div>
-            <div className="mb-6 pb-4 border-b border-gray-800">
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
-                <div>
-                  <h1 className="text-2xl md:text-3xl font-semibold text-gray-200 mb-1">{personalInfo.name}</h1>
-                  <p className="text-emerald-400 font-mono text-xs md:text-sm flex items-center gap-2">
-                    <span>
-                      {displayedText.charAt(0)}
-                    </span>
-                    {displayedText.slice(1)}
-                    {displayedText.length < fullText.length && (
-                      <span className="animate-pulse">▋</span>
-                    )}
-                  </p>
+            {/* Main Header Console */}
+            <div className="mb-6 bg-gradient-to-r from-black/40 via-black/60 to-black/40 rounded-lg border-2 border-emerald-500/30 shadow-xl shadow-emerald-500/10 p-6">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div className="flex items-center gap-4">
+                  <div className="w-16 h-16 bg-gradient-to-br from-emerald-500/20 to-blue-500/20 rounded-lg border-2 border-emerald-500/40 flex items-center justify-center">
+                    <div className="font-mono text-2xl font-bold text-emerald-400">AM</div>
+                  </div>
+                  <div>
+                    <h1 className="text-2xl md:text-3xl font-bold text-gray-100 mb-1 tracking-wide">{personalInfo.name}</h1>
+                    <p className="text-emerald-400 font-mono text-xs md:text-sm flex items-center gap-2">
+                      <span>
+                        {displayedText.charAt(0)}
+                      </span>
+                      {displayedText.slice(1)}
+                      {displayedText.length < fullText.length && (
+                        <span className="animate-pulse">▋</span>
+                      )}
+                    </p>
+                  </div>
                 </div>
-                <div className="flex gap-3 items-center text-xs text-gray-400">
-                  <span className="hidden sm:inline">Last 7 days</span>
-                  <button className="bg-[#1f1f23] hover:bg-[#2a2a2f] hover:scale-105 px-3 py-1.5 rounded border border-gray-700 transition-all">
-                    Refresh
+                <div className="flex gap-3 items-center">
+                  <div className="text-right">
+                    <div className="text-xs text-gray-500 font-mono">SYSTEM TIME</div>
+                    <div className="text-sm text-gray-300 font-mono">{new Date().toLocaleTimeString()}</div>
+                  </div>
+                  <button className="bg-emerald-500/10 hover:bg-emerald-500/20 border-2 border-emerald-500/40 px-4 py-2 rounded font-mono text-emerald-400 text-sm transition-all hover:scale-105">
+                    ⟳ REFRESH
                   </button>
                 </div>
               </div>
+            </div>
 
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
-                <div className="bg-orange-500/10 border border-orange-500/30 rounded p-3 md:p-4 animate-pulse hover:border-orange-500/50 hover:bg-orange-500/15 hover:scale-105 transition-all cursor-pointer">
-                  <div className="flex items-start gap-3">
-                    <div className="flex-shrink-0">
-                      <svg className="w-5 h-5 md:w-6 md:h-6 text-orange-500 animate-pulse" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                      </svg>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+              {/* Status Panel */}
+              <CockpitPanel title="System Status" panelNumber="01" status="warning" className="animate-pulse">
+                <div className="flex items-start gap-4">
+                  <div className="flex-shrink-0 bg-orange-500/20 p-3 rounded-lg border border-orange-500/40 animate-pulse">
+                    <svg className="w-8 h-8 text-orange-400 animate-pulse" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <div className="text-lg font-bold text-orange-300 mb-2 animate-pulse">
+                      <span className="inline-block">AVAILABLE FOR HIRE</span>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="text-sm md:text-base font-medium text-orange-300 mb-1">Status: Available</div>
-                      <p className="text-xs md:text-sm text-gray-300">Actively looking for new opportunities</p>
-                      <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-gray-500">
-                        <span>Severity: INFO</span>
-                        <span>•</span>
-                        <span>State: RUNNING</span>
-                      </div>
+                    <p className="text-sm text-gray-300 mb-3">Actively seeking new opportunities in DevOps/Test Engineering</p>
+                    <div className="flex flex-wrap gap-2 text-xs font-mono">
+                      <span className="bg-orange-500/20 text-orange-300 px-2 py-1 rounded border border-orange-500/40 animate-pulse">SEVERITY: INFO</span>
+                      <span className="bg-emerald-500/20 text-emerald-300 px-2 py-1 rounded border border-emerald-500/40">STATE: ACTIVE</span>
                     </div>
                   </div>
                 </div>
+              </CockpitPanel>
 
-                <div className="bg-[#181b1f] rounded border border-gray-800 hover:border-purple-500/30 transition-all">
-                  <div className="px-3 md:px-4 py-2 border-b border-gray-800 flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <svg className="w-4 h-4 md:w-5 md:h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-                      </svg>
-                      <span className="text-xs md:text-sm font-medium text-gray-300">Metadata JSON</span>
-                    </div>
-                    <span className="text-xs text-gray-500 font-mono hidden sm:inline">application/json</span>
-                  </div>
-                  <div className="p-3 md:p-4">
-                    <div className="bg-[#0b0c0e] border border-gray-800 rounded p-2 md:p-3 font-mono text-xs overflow-x-auto">
-                      <pre className="text-gray-400">
+              {/* Metadata Panel */}
+              <CockpitPanel
+                title="Configuration Data"
+                panelNumber="02"
+                status="info"
+                headerRight={<span className="text-xs text-gray-500 font-mono">application/json</span>}
+              >
+                <div className="bg-black/60 border border-gray-700 rounded p-3 font-mono text-xs overflow-x-auto">
+                  <pre className="text-gray-400">
 {`{
 `}{metadataInfo.map((item, index) => {
   const key = item.text.toLowerCase().includes('certified') ? 'certification'
@@ -139,89 +207,76 @@ const Overview = () => {
     </span>
   );
 })}{`}`}
-                      </pre>
+                  </pre>
+                </div>
+              </CockpitPanel>
+            </div>
+
+            {/* Metrics Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+              <CockpitPanel title="Uptime" panelNumber="03" status="nominal" className="hover:scale-105 transition-transform">
+                <div className="text-center">
+                  <div className="text-4xl font-bold text-emerald-400 mb-2">99.99%</div>
+                  <div className="flex items-center justify-center gap-1 text-xs mb-3">
+                    <span className="text-emerald-500">▲ 0.01%</span>
+                  </div>
+                  <div className="bg-black/40 border border-gray-700 rounded p-2">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-gray-500 font-mono">GET /health</span>
+                      {healthCheckActive && (
+                        <span className="flex items-center gap-1 text-emerald-400">
+                          <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
+                          OK
+                        </span>
+                      )}
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
+              </CockpitPanel>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-3">
-              <div className="bg-[#181b1f] rounded border border-gray-800 p-3 md:p-4 hover:border-emerald-500/50 hover:scale-105 transition-all cursor-default">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs md:text-sm text-gray-400 font-medium">UPTIME</span>
-                  <svg className="w-4 h-4 md:w-5 md:h-5 text-emerald-500" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
+              <CockpitPanel title="Years Active" panelNumber="04" status="info" className="hover:scale-105 transition-transform">
+                <div className="text-center">
+                  <div className="text-4xl font-bold text-blue-400 mb-3">7</div>
+                  <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
+                    <div className="h-full bg-gradient-to-r from-blue-600 to-blue-400 w-4/5"></div>
+                  </div>
+                  <div className="text-xs text-gray-500 mt-2 font-mono">2018 - 2025</div>
                 </div>
-                <div className="text-2xl md:text-3xl font-bold text-emerald-400 mb-1">99.99%</div>
-                <div className="flex items-center gap-1 text-xs mb-2">
-                  <span className="text-emerald-500">▲</span>
-                  <span className="text-emerald-500">0.01%</span>
-                  <span className="text-gray-500 hidden sm:inline">vs last period</span>
+              </CockpitPanel>
+
+              <CockpitPanel title="Security Lead" panelNumber="05" status="warning" className="hover:scale-105 transition-transform">
+                <div className="text-center">
+                  <div className="text-4xl font-bold text-orange-400 mb-3">5+ yrs</div>
+                  <div className="text-xs text-gray-400 leading-relaxed">Led, organized, setup and configured IBM Aspera WebApps Products for DISA and STIG Testing for Government Entities</div>
                 </div>
-                <div className="mt-2 pt-2 border-t border-gray-800">
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="text-gray-500 font-mono">GET /health</span>
-                    {healthCheckActive && (
-                      <span className="flex items-center gap-1 text-emerald-400">
-                        <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
-                        200 OK
-                      </span>
-                    )}
+              </CockpitPanel>
+
+              <CockpitPanel title="Certifications" panelNumber="06" status="info" className="hover:scale-105 transition-transform">
+                <div className="text-center">
+                  <div className="text-4xl font-bold text-purple-400 mb-3">CKA</div>
+                  <div className="inline-flex items-center gap-2 bg-yellow-500/20 text-yellow-400 text-xs px-3 py-1.5 rounded border border-yellow-500/40 font-mono">
+                    <span className="w-1.5 h-1.5 bg-yellow-500 rounded-full animate-pulse"></span>
+                    IN PROGRESS
                   </div>
                 </div>
-              </div>
-
-              <div className="bg-[#181b1f] rounded border border-gray-800 p-3 md:p-4 hover:border-blue-500/50 hover:scale-105 transition-all cursor-default">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs md:text-sm text-gray-400 font-medium">YEARS ACTIVE</span>
-                  <svg className="w-4 h-4 md:w-5 md:h-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                <div className="text-2xl md:text-3xl font-bold text-blue-400 mb-1">7</div>
-                <div className="h-1 bg-gray-800 rounded-full overflow-hidden">
-                  <div className="h-full bg-gradient-to-r from-blue-600 to-blue-400 w-4/5"></div>
-                </div>
-              </div>
-
-              <div className="bg-[#181b1f] rounded border border-gray-800 p-3 md:p-4 hover:border-orange-500/50 hover:scale-105 transition-all cursor-default">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs md:text-sm text-gray-400 font-medium">SECURITY LEADERSHIP</span>
-                  <svg className="w-4 h-4 md:w-5 md:h-5 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                <div className="text-2xl md:text-3xl font-bold text-orange-400 mb-1">5+ yrs</div>
-                <div className="text-xs text-gray-500">Led, organized, setup and configured IBM Aspera WebApps Products for DISA and STIG Testing for Government Entities</div>
-              </div>
-
-              <div className="bg-[#181b1f] rounded border border-gray-800 p-3 md:p-4 hover:border-purple-500/50 hover:scale-105 transition-all cursor-default">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs md:text-sm text-gray-400 font-medium">CERTIFICATIONS</span>
-                  <svg className="w-4 h-4 md:w-5 md:h-5 text-purple-500" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                </div>
-                <div className="text-2xl md:text-3xl font-bold text-purple-400 mb-1">CKA</div>
-                <div className="text-xs text-yellow-500 flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 bg-yellow-500 rounded-full"></span>
-                  In Progress
-                </div>
-              </div>
+              </CockpitPanel>
             </div>
 
-            <div className="bg-black rounded border border-green-500/30 shadow-lg shadow-green-500/10 mb-3 hover:border-green-500/50 transition-all">
-              <div className="flex items-center gap-2 px-3 md:px-4 py-2 md:py-3 border-b border-gray-800">
-                <div className="flex gap-1.5 md:gap-2">
-                  <div className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-red-500"></div>
-                  <div className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-yellow-500"></div>
-                  <div className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-green-500"></div>
+            {/* Terminal Panel */}
+            <CockpitPanel
+              title="Terminal Interface"
+              panelNumber="07"
+              status="nominal"
+              className="mb-4"
+              headerRight={
+                <div className="flex gap-1.5">
+                  <div className="w-2.5 h-2.5 rounded-full bg-red-500"></div>
+                  <div className="w-2.5 h-2.5 rounded-full bg-yellow-500"></div>
+                  <div className="w-2.5 h-2.5 rounded-full bg-green-500"></div>
                 </div>
-                <span className="text-gray-400 text-xs md:text-sm font-mono ml-2">terminal</span>
-              </div>
-              <div className="p-3 md:p-6">
+              }
+            >
+              <div className="bg-black/60 border border-gray-700 rounded p-4">
                 <div className="font-mono text-xs md:text-sm">
                   <div className="mb-2 overflow-x-auto">
                     <span className="text-green-400">user@devops</span>
@@ -239,27 +294,19 @@ const Overview = () => {
                   )}
                 </div>
               </div>
-            </div>
+            </CockpitPanel>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mb-3">
-              <div className="bg-[#181b1f] rounded border border-gray-800 hover:border-emerald-500/30 transition-all">
-                <div className="px-3 md:px-4 py-2 border-b border-gray-800 flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <svg className="w-4 h-4 md:w-5 md:h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clipRule="evenodd" />
-                      <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z" />
-                    </svg>
-                    <span className="text-xs md:text-sm font-medium text-gray-300">Experience Timeline</span>
-                  </div>
-                  <span className="w-2 h-2 bg-emerald-500 rounded-full"></span>
-                </div>
-                <div className="p-3 md:p-4 space-y-3">
+            {/* Bottom Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <CockpitPanel title="Experience Timeline" panelNumber="08" status="nominal">
+                <div className="space-y-3">
                   {experienceData.map((exp, index) => (
-                    <div key={`exp-${index}`} className="border-l-2 border-blue-500 pl-3 hover:border-emerald-500 transition-all cursor-default">
+                    <div key={`exp-${index}`} className="relative pl-4 border-l-2 border-blue-500/50 hover:border-emerald-500 transition-all">
+                      <div className="absolute -left-[5px] top-2 w-2 h-2 bg-blue-500 rounded-full"></div>
                       <div className="flex items-start justify-between mb-1">
-                        <span className="text-sm font-medium text-gray-200">{exp.position}</span>
+                        <span className="text-sm font-semibold text-gray-200">{exp.position}</span>
                         {exp.status && (
-                          <span className="bg-emerald-500/10 text-emerald-400 text-xs px-2 py-0.5 rounded border border-emerald-500/30">
+                          <span className="bg-emerald-500/20 text-emerald-400 text-xs px-2 py-0.5 rounded border border-emerald-500/40 font-mono">
                             {exp.status}
                           </span>
                         )}
@@ -269,39 +316,19 @@ const Overview = () => {
                     </div>
                   ))}
                 </div>
-              </div>
+              </CockpitPanel>
 
-              <div className="bg-[#181b1f] rounded border border-gray-800 hover:border-blue-500/30 transition-all">
-                <div className="px-3 md:px-4 py-2 border-b border-gray-800 flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <svg className="w-4 h-4 md:w-5 md:h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M13 7H7v6h6V7z" />
-                      <path fillRule="evenodd" d="M7 2a1 1 0 012 0v1h2V2a1 1 0 112 0v1h2a2 2 0 012 2v2h1a1 1 0 110 2h-1v2h1a1 1 0 110 2h-1v2a2 2 0 01-2 2h-2v1a1 1 0 11-2 0v-1H9v1a1 1 0 11-2 0v-1H5a2 2 0 01-2-2v-2H2a1 1 0 110-2h1V9H2a1 1 0 010-2h1V5a2 2 0 012-2h2V2zM5 5h10v10H5V5z" clipRule="evenodd" />
-                    </svg>
-                    <span className="text-xs md:text-sm font-medium text-gray-300">Core Skills Matrix</span>
-                  </div>
+              <CockpitPanel title="Core Skills Matrix" panelNumber="09" status="info">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+                  {coreSkills.map((skill, index) => {
+                    return (
+                      <div key={index} className="bg-black/40 border border-gray-700 rounded p-3 hover:border-blue-500/50 hover:bg-black/60 transition-all text-center">
+                        <span className="text-xs text-gray-300 font-medium">{skill}</span>
+                      </div>
+                    );
+                  })}
                 </div>
-                <div className="p-3 md:p-4">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    {coreSkills.map((skill, index) => {
-                      const widths = [95, 92, 88, 90, 94, 91, 89, 93, 96, 87];
-                      return (
-                        <div key={index} className="bg-[#0b0c0e] border border-gray-800 rounded p-2 hover:border-blue-500/50 hover:bg-[#0f1014] hover:scale-105 transition-all cursor-default">
-                          <div className="mb-1">
-                            <span className="text-xs text-gray-300">{skill}</span>
-                          </div>
-                          <div className="h-1 bg-gray-800 rounded-full overflow-hidden">
-                            <div
-                              className="h-full bg-gradient-to-r from-blue-500 to-emerald-500"
-                              style={{width: `${widths[index] || 90}%`}}
-                            ></div>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
+              </CockpitPanel>
             </div>
           </div>
         </PageWrapper>

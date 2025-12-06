@@ -6,7 +6,7 @@ import {
   NavigationMenuList,
 } from "@/components/ui/NavigationMenu";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import {Activity, Code, Download, Award, Menu, X, Star} from "lucide-react";
+import {Activity, Code, Download, Award, Menu, X, Star, Github, Home} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {LinkedInIcon} from "@/components/icons";
 import ResumePDF from "../../public/files/andre_resume_v4_ac.pdf";
@@ -79,6 +79,19 @@ export function Navbar() {
             <NavigationMenuList className="gap-3">
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
+                  <Link to="/home" className={`flex flex-row gap-2 items-center px-4 py-3 rounded-lg whitespace-nowrap transition-all hover:scale-105 ${
+                    location.pathname === "/home"
+                      ? "bg-blue-600 text-white shadow-lg focus:bg-blue-600"
+                      : "bg-slate-800 text-slate-300 hover:bg-slate-700"
+                  }`}>
+                    <Home />
+                    Home
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild>
                   <Link to="/overview" className={`flex flex-row gap-2 items-center px-4 py-3 rounded-lg whitespace-nowrap transition-all hover:scale-105 ${
                     location.pathname === "/overview"
                       ? "bg-blue-600 text-white shadow-lg focus:bg-blue-600"
@@ -98,14 +111,31 @@ export function Navbar() {
                       : "bg-slate-800 text-slate-300 hover:bg-slate-700"
                   }`}>
                     <Code />
-                    Resume
+                    k8s-resume deployment
                   </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild>
+                  <a href="https://github.com/dremerten" target="_blank" rel="noopener noreferrer" className="flex flex-row gap-2 items-center px-4 py-3 rounded-lg whitespace-nowrap transition-all hover:scale-105 bg-slate-800 text-slate-300 hover:bg-slate-700">
+                    <Github />
+                    GitHub
+                  </a>
                 </NavigationMenuLink>
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
 
           <div className="flex md:hidden gap-3">
+            <Link to="/home" className={`flex flex-row gap-2 items-center px-3 py-2 rounded-lg text-sm transition-all hover:scale-105 ${
+              location.pathname === "/home"
+                ? "bg-blue-600 text-white shadow-lg"
+                : "bg-slate-800 text-slate-300 hover:bg-slate-700"
+            }`}>
+              <Home className="w-4 h-4" />
+              <span className="hidden sm:inline">Home</span>
+            </Link>
             <Link to="/overview" className={`flex flex-row gap-2 items-center px-3 py-2 rounded-lg text-sm transition-all hover:scale-105 ${
               location.pathname === "/overview"
                 ? "bg-blue-600 text-white shadow-lg"
@@ -120,8 +150,12 @@ export function Navbar() {
                 : "bg-slate-800 text-slate-300 hover:bg-slate-700"
             }`}>
               <Code className="w-4 h-4" />
-              <span className="hidden sm:inline">Resume</span>
+              <span className="hidden sm:inline">k8s-resume</span>
             </Link>
+            <a href="https://github.com/dremerten" target="_blank" rel="noopener noreferrer" className="flex flex-row gap-2 items-center px-3 py-2 rounded-lg text-sm transition-all hover:scale-105 bg-slate-800 text-slate-300 hover:bg-slate-700">
+              <Github className="w-4 h-4" />
+              <span className="hidden sm:inline">GitHub</span>
+            </a>
           </div>
 
           <button

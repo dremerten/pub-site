@@ -1,12 +1,12 @@
 import {Activity, BookOpenText, CircleUser, MapPin} from "lucide-react";
 
 export const personalInfo = {
-  name: "Andreas Merten",
-  role: "Senior QA / DevOps Engineer Engineer",
+  name: "Andre Merten",
+  role: "DevOps Test & Infrastructure Engineer",
   summary: [
-    "I'm a DevOps-focused Infrastructure QA Engineer with 6+ years of experience building secure, reproducible QA/Dev environments and automating legacy and cloud systems using Kubernetes, Docker, Terraform, and Ansible. I have hands-on experience testing and managing Kubernetes clusters, as well as cloud infrastructure across AWS, Azure, and GCP. As the point engineer for DISA and FISC compliance environments, I've developed strong sysadmin expertise across DNS, networking, SMTP, LDAP, Active Directory, Linux, and Windows Server. I'm currently studying for the Certified Kubernetes Administrator (CKA) exam.",
-    "I have a strong QA testing mindset and consistently look for inefficiencies and areas for improvement to make both myself and the broader team more productive. While working in QA, I designed and built a continuous deployment infrastructure that allows QA and development engineers to quickly spin up and install new builds for testing and development purposes. Over the years, this system has saved the team hundreds of hours and significantly improved our ability to deliver high-quality software, often leading to QA sign-off multiple days ahead of schedule on several product releases.",
-    "I take initiative, continuously refine processes, and look for ways to help the team work smarter and deliver better results. I'm always eager to learn and grow, and helping my team succeed is at the core of how I work."
+    "I'm a DevOps Test & Infrastructure Engineer with 6+ years of experience automating and supporting secure, reliable environments across cloud infrastructure and on-prem systems. I have strong hands-on experience with Kubernetes, Docker, Terraform, and Ansible, along with a solid sysadmin foundation in Linux, Windows Server, networking, DNS, LDAP, AD, and identity services.",
+    "I've built CI/CD pipelines, automated environment provisioning, and migrated legacy processes into reproducible, infrastructure-as-code workflows. One of my key achievements was developing a self-service deployment system that saved hundreds of engineering hours and consistently accelerated release cycles, allowing QA to validate builds days earlier.",
+    "I bring a strong QA mindset to DevOps, always looking for ways to reduce manual work, improve team productivity, and increase deployment reliability. I'm currently preparing for the Certified Kubernetes Administrator (CKA) exam to deepen my Kubernetes operations knowledge and continue growing as a DevOps and platform engineer."
   ]
 };
 
@@ -33,7 +33,7 @@ export const coreSkills = [
 export const experienceData = [
   {
     company: "Aspera, an IBM company",
-    position: "Senior QA / DevOps Engineer",
+    position: "DevOps Test & Infrastructure Engineer",
     years: "2020 - Present",
     status: "Active",
     highlights: [
@@ -97,7 +97,7 @@ export const comments = [
 export const additionalExperience = [
   {
     company: "IBM Aspera",
-    role: "DevOps & Test Engineer",
+    role: "DevOps Test & Infrastructure Engineer",
     dateRange: "Feb 2019 - Present",
     experienceList: [
       "Implemented automation and parallel testing, reducing QA cycle times and accelerating release schedules.",

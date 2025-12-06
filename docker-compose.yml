@@ -6,5 +6,5 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - 127.0.0.1:3333:80
+      - 0.0.0.0:3333:80
 

@@ -1,13 +1,15 @@
 import { BrowserRouter as Router, Routes, Route, Navigate} from "react-router-dom";
 
 import Navbar from "./components/Navbar.jsx";
+import Home from "./pages/Home.jsx";
 import Overview from "./pages/Overview.jsx";
 import Resume from "./pages/Resume.jsx";
 import { ThemeProvider } from "./components/ThemeProvider.jsx";
 
 const App = () => {
   const appRoutes = [
-    {path: "/overview", title: "Overview", component: Overview},
+    {path: "/home", title: "Home", component: Home},
+    {path: "/overview", title: "Dashboard", component: Overview},
     {path: "/resume", title: "Resume", component: Resume}
   ];
 
@@ -18,7 +20,7 @@ const App = () => {
           <Navbar />
           <main>
             <Routes>
-              <Route path="/" element={<Navigate to="/overview" replace />} />
+              <Route path="/" element={<Navigate to="/home" replace />} />
               {
                 appRoutes.map(({path, component: Component}) => (
                   <Route key={path} path={path} element={<Component />} />

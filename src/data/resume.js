@@ -4,9 +4,9 @@ export const personalInfo = {
   name: "Andre Merten",
   role: "DevOps Test & Infrastructure Engineer",
   summary: [
-    "I'm a DevOps Test & Infrastructure Engineer with 6+ years of experience automating and supporting secure, reliable environments across cloud infrastructure and on-prem systems. I have strong hands-on experience with Kubernetes, Docker, Terraform, and Ansible, along with a solid sysadmin foundation in Linux, Windows Server, networking, DNS, LDAP, AD, and identity services.",
-    "I've built CI/CD pipelines, automated environment provisioning, and migrated legacy processes into reproducible, infrastructure-as-code workflows. One of my key achievements was developing a self-service deployment system that saved hundreds of engineering hours and consistently accelerated release cycles, allowing QA to validate builds days earlier.",
-    "I bring a strong QA mindset to DevOps, always looking for ways to reduce manual work, improve team productivity, and increase deployment reliability. I'm currently preparing for the Certified Kubernetes Administrator (CKA) exam to deepen my Kubernetes operations knowledge and continue growing as a DevOps and platform engineer."
+    "I'm a Senior QA/DevOps Engineer with 6+ years of experience building secure, automated infrastructure and enabling development teams through scalable platform solutions. I'm actively seeking my next role as a DevOps or Platform Engineer where I can leverage my deep automation expertise, infrastructure-as-code skills, and systems thinking to empower engineering teams at scale.",
+    "Throughout my career, I've built CI/CD pipelines, automated environment provisioning with Kubernetes and Docker, and designed self-service deployment systems that saved hundreds of engineering hours while accelerating release cycles. My expertise is centered on AWS cloud infrastructure, with hands-on experience in container orchestration, Terraform, Ansible, and strong sysadmin foundations in Linux, Windows Server, networking, DNS, LDAP, and Active Directory. I also have basic experience with Azure and Google Cloud Platform.",
+    "What sets me apart is my QA background—it gives me a reliability-first mindset focused on eliminating manual toil, improving developer experience, and building resilient systems. I approach DevOps and platform engineering with an eye for process improvement, test automation, and reducing friction in the software delivery lifecycle. I'm currently pursuing my CKA certification to deepen my Kubernetes expertise and position myself as a strong platform engineering contributor ready to tackle complex infrastructure challenges."
   ]
 };
 
@@ -92,7 +92,7 @@ export const experienceData = [
 ];
 
 export const skillsData = [
-  {type: "cloud", items: ["AWS", "Azure", "GCP"]},
+  {type: "cloud", items: ["AWS (Primary)", "Azure (Basic)", "GCP (Basic)"]},
   {type: "containerization & orchestration", items: ["Kubernetes", "OpenShift", "Docker", "Podman"]},
   {type: "ci/cd & automation", items: ["Jenkins", "GitLab CI", "GitHub Actions", "Python3", "Shell Scripting"]},
   {type: "infrastructure as code", items: ["Terraform", "Ansible"]},

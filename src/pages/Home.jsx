@@ -115,12 +115,16 @@ const Home = () => {
       <section id="hero" className="h-screen flex flex-col justify-center items-center relative overflow-hidden">
         <canvas ref={canvasRef} className="absolute inset-0 w-full h-full"></canvas>
 
-        <div className="relative z-10 text-center px-6 animate-fade-in">
-          <h1 className="text-6xl md:text-7xl font-light mb-2 animate-slide-in-left">
-            Hello, I'm <span className="font-normal text-[#ff4d5a]">{personalInfo.name.split(' ')[0]}</span>.
+        <div className="relative z-10 text-center px-6 animate-fade-in max-w-5xl mx-auto">
+          <h1 className="text-6xl md:text-7xl font-light mb-4 animate-slide-in-left">
+            Hi There! I'm <span className="font-normal text-[#ff4d5a]">{personalInfo.name.split(' ')[0]}</span>
           </h1>
-          <p className="text-4xl md:text-5xl font-light mb-12 animate-slide-in-right">
-            I'm a {personalInfo.role}.
+          <p className="text-3xl md:text-4xl font-light mb-6 animate-slide-in-right">
+            I'm looking for my next opportunity as a <span className="text-[#51a2e9] font-medium">DevOps</span> or <span className="text-[#51a2e9] font-medium">Platform Engineer</span>
+          </p>
+          <p className="text-lg md:text-xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed animate-slide-in-bottom">
+            I build and maintain the internal tools, systems, and infrastructure that development teams rely on to build, test, and deploy software efficiently.
+            My focus is on enabling teams through stable, scalable, and automated platforms—from CI/CD pipelines and container orchestration to cloud infrastructure and developer tooling.
           </p>
           <div className="flex gap-6 justify-center items-center flex-wrap">
             <a

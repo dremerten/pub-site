@@ -120,7 +120,7 @@ const Home = () => {
             Hi There! I'm <span className="font-normal text-[#ff4d5a]">{personalInfo.name.split(' ')[0]}</span>
           </h1>
           <p className="text-3xl md:text-4xl font-light mb-6 animate-slide-in-right">
-            I'm looking for my next opportunity as a <span className="text-[#51a2e9] font-medium">DevOps</span> or <span className="text-[#51a2e9] font-medium">Platform Engineer</span>
+            I'm looking for my next opportunity as a <span className="text-[#51a2e9] font-medium">Platform Engineer</span> or <span className="text-[#51a2e9] font-medium">(Infrastructure-Focused) DevOps Engineer</span>.
           </p>
           <p className="text-lg md:text-xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed animate-slide-in-bottom">
             I build and maintain the internal tools, systems, and infrastructure that development teams rely on to build, test, and deploy software efficiently.

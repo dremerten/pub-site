@@ -133,6 +133,15 @@ const Home = () => {
             >
               About me
             </a>
+            <a
+              href="https://www.linkedin.com/in/dremer10/details/recommendations/?detailScreenTabIndex=0"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-[rgba(26,26,26,0.6)] border-2 border-[#51a2e9] text-[#fafafa] font-medium px-10 py-4 text-2xl rounded hover:-translate-y-1 hover:shadow-lg transition-all duration-300 animate-slide-in-bottom"
+            >
+              <span className="text-yellow-400">★</span>
+              Recommendations
+            </a>
             <button
               onClick={() => {
                 navigate('/overview');
@@ -150,7 +159,7 @@ const Home = () => {
       <section id="about" className="py-32 px-6 bg-[#282828] relative">
         <canvas className="absolute inset-0 w-full h-full opacity-20"></canvas>
         <div className="max-w-5xl mx-auto relative z-10">
-          <h2 className="text-5xl font-bold mb-12 text-[#fafafa]">About</h2>
+          <h2 className="text-5xl font-bold mb-12 text-[#fafafa]">About Me</h2>
           <div className="space-y-6 text-xl text-[#fafafa] leading-relaxed mb-12">
             {personalInfo.summary.map((paragraph, index) => (
               <p key={index}>{paragraph}</p>
@@ -159,7 +168,7 @@ const Home = () => {
 
           {/* Skills Grid */}
           <div className="mb-12">
-            <h3 className="text-3xl font-semibold mb-8 text-[#fafafa]">Technologies & Tools</h3>
+            <h3 className="text-3xl font-semibold mb-8 text-[#fafafa]">My Technologies & Tools</h3>
             <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-6">
               {/* Docker */}
               <div className="flex flex-col items-center gap-3 hover:scale-110 transition-transform">

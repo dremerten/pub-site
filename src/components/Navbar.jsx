@@ -11,8 +11,8 @@ import {Button} from "@/components/ui/button";
 import {LinkedInIcon} from "@/components/icons";
 import { useState, useEffect, useRef } from "react";
 
-const ResumePDF = "/files/RAM_Resume2025-latest.pdf";
-const ResumeDOCX = "/files/RAM_Resume2025-latest.docx";
+const ResumePDF = "/files/RAM_Resume2025.pdf";
+const ResumeDOCX = "/files/RAM_Resume2025.docx";
 
 export function Navbar() {
   const location = useLocation();
@@ -54,7 +54,7 @@ export function Navbar() {
     // Download PDF
     const linkPDF = document.createElement('a');
     linkPDF.href = ResumePDF;
-    linkPDF.download = 'RAM_Resume2025-latest.pdf';
+    linkPDF.download = 'RAM_Resume2025.pdf';
     document.body.appendChild(linkPDF);
     linkPDF.click();
     document.body.removeChild(linkPDF);
@@ -63,7 +63,7 @@ export function Navbar() {
     setTimeout(() => {
       const linkDOCX = document.createElement('a');
       linkDOCX.href = ResumeDOCX;
-      linkDOCX.download = 'RAM_Resume2025-latest.docx';
+      linkDOCX.download = 'RAM_Resume2025.docx';
       document.body.appendChild(linkDOCX);
       linkDOCX.click();
       document.body.removeChild(linkDOCX);
@@ -222,7 +222,7 @@ export function Navbar() {
                   <div className="py-1">
                     <a
                       href={ResumePDF}
-                      download="RAM_Resume2025-latest.pdf"
+                      download="RAM_Resume2025.pdf"
                       className="flex items-center gap-2 px-4 py-2 text-sm text-slate-300 hover:bg-slate-700 transition-colors"
                       onClick={() => setDownloadDropdownOpen(false)}
                     >
@@ -231,7 +231,7 @@ export function Navbar() {
                     </a>
                     <a
                       href={ResumeDOCX}
-                      download="RAM_Resume2025-latest.docx"
+                      download="RAM_Resume2025.docx"
                       className="flex items-center gap-2 px-4 py-2 text-sm text-slate-300 hover:bg-slate-700 transition-colors"
                       onClick={() => setDownloadDropdownOpen(false)}
                     >
@@ -319,7 +319,7 @@ export function Navbar() {
                 <div className="mt-1 ml-4 flex flex-col gap-1 bg-slate-800/50 rounded-lg p-2">
                   <a
                     href={ResumePDF}
-                    download="RAM_Resume2025-latest.pdf"
+                    download="RAM_Resume2025.pdf"
                     className="flex items-center gap-2 px-3 py-2 text-sm text-slate-300 hover:bg-slate-700 rounded transition-colors"
                     onClick={() => setDownloadDropdownOpen(false)}
                   >
@@ -328,7 +328,7 @@ export function Navbar() {
                   </a>
                   <a
                     href={ResumeDOCX}
-                    download="RAM_Resume2025-latest.docx"
+                    download="RAM_Resume2025.docx"
                     className="flex items-center gap-2 px-3 py-2 text-sm text-slate-300 hover:bg-slate-700 rounded transition-colors"
                     onClick={() => setDownloadDropdownOpen(false)}
                   >

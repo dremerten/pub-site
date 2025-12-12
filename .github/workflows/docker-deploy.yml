@@ -61,13 +61,31 @@ jobs:
         sleep 5
 
         # Test if the container is running
+        echo "Testing if container is running..."
         docker ps | grep test-container
 
-        # Test HTTP response
-        curl -f http://localhost:8080 || exit 1
+        # Test main page loads
+        echo "Testing main page (index.html)..."
+        curl -f -s http://localhost:8080 | grep -q "Andreas Merten" || exit 1
 
-        # Check if static files are accessible
-        curl -f http://localhost:8080/assets/ || true
+        # Test that JavaScript bundle is accessible
+        echo "Testing JavaScript assets..."
+        curl -f -s -I http://localhost:8080/assets/ 2>&1 | grep -q "index.*\.js" || \
+          curl -f -s http://localhost:8080 | grep -q "assets/index.*\.js" || exit 1
+
+        # Test that CSS is accessible
+        echo "Testing CSS assets..."
+        curl -f -s http://localhost:8080 | grep -q "assets/index.*\.css" || exit 1
+
+        # Test health check - ensure nginx is responding
+        echo "Testing nginx health..."
+        HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080)
+        if [ "$HTTP_CODE" != "200" ]; then
+          echo "Error: Expected HTTP 200, got $HTTP_CODE"
+          exit 1
+        fi
+
+        echo "All tests passed!"
 
         # Stop and remove test container
         docker stop test-container

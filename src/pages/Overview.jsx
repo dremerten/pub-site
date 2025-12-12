@@ -262,12 +262,32 @@ const Overview = () => {
               </CockpitPanel>
             </div>
 
+            {/* Experience Timeline */}
+            <CockpitPanel title="Experience Timeline" panelNumber="08" status="nominal" className="mb-4">
+              <div className="space-y-3">
+                {experienceData.map((exp, index) => (
+                  <div key={`exp-${index}`} className="relative pl-4 border-l-2 border-blue-500/50 hover:border-emerald-500 transition-all">
+                    <div className="absolute -left-[5px] top-2 w-2 h-2 bg-blue-500 rounded-full"></div>
+                    <div className="flex items-start justify-between mb-1">
+                      <span className="text-sm font-semibold text-gray-200">{exp.position}</span>
+                      {exp.status && (
+                        <span className="bg-emerald-500/20 text-emerald-400 text-xs px-2 py-0.5 rounded border border-emerald-500/40 font-mono">
+                          {exp.status}
+                        </span>
+                      )}
+                    </div>
+                    <div className="text-xs text-gray-400 mb-1">{exp.company}</div>
+                    <div className="text-xs text-gray-500 font-mono">{exp.years}</div>
+                  </div>
+                ))}
+              </div>
+            </CockpitPanel>
+
             {/* Terminal Panel */}
             <CockpitPanel
               title="Terminal Interface"
               panelNumber="07"
               status="nominal"
-              className="mb-4"
               headerRight={
                 <div className="flex gap-1.5">
                   <div className="w-2.5 h-2.5 rounded-full bg-red-500"></div>
@@ -295,41 +315,6 @@ const Overview = () => {
                 </div>
               </div>
             </CockpitPanel>
-
-            {/* Bottom Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-              <CockpitPanel title="Experience Timeline" panelNumber="08" status="nominal">
-                <div className="space-y-3">
-                  {experienceData.map((exp, index) => (
-                    <div key={`exp-${index}`} className="relative pl-4 border-l-2 border-blue-500/50 hover:border-emerald-500 transition-all">
-                      <div className="absolute -left-[5px] top-2 w-2 h-2 bg-blue-500 rounded-full"></div>
-                      <div className="flex items-start justify-between mb-1">
-                        <span className="text-sm font-semibold text-gray-200">{exp.position}</span>
-                        {exp.status && (
-                          <span className="bg-emerald-500/20 text-emerald-400 text-xs px-2 py-0.5 rounded border border-emerald-500/40 font-mono">
-                            {exp.status}
-                          </span>
-                        )}
-                      </div>
-                      <div className="text-xs text-gray-400 mb-1">{exp.company}</div>
-                      <div className="text-xs text-gray-500 font-mono">{exp.years}</div>
-                    </div>
-                  ))}
-                </div>
-              </CockpitPanel>
-
-              <CockpitPanel title="Core Skills Matrix" panelNumber="09" status="info">
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
-                  {coreSkills.map((skill, index) => {
-                    return (
-                      <div key={index} className="bg-black/40 border border-gray-700 rounded p-3 hover:border-blue-500/50 hover:bg-black/60 transition-all text-center">
-                        <span className="text-xs text-gray-300 font-medium">{skill}</span>
-                      </div>
-                    );
-                  })}
-                </div>
-              </CockpitPanel>
-            </div>
           </div>
         </PageWrapper>
       </div>

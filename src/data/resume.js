@@ -33,43 +33,60 @@ export const coreSkills = [
 export const experienceData = [
   {
     company: "Aspera, an IBM company",
-    position: "DevOps Test & Infrastructure Engineer",
-    years: "2020 - Present",
+    position: "Senior QA / DevOps Engineer",
+    years: "Jan 2025 - Dec 2025 (1 year)",
     status: "Active",
     highlights: [
-      "Implemented automation and parallel testing, reducing QA cycle times and\n          accelerating release schedules.",
-      "Key contributor to the release cycles of HSTS, AsperaProxy, HTTP-Gateway,\n          and OTFV (Out-of-file-validation) virus detection ensuring stability and\n          timely delivery.",
-      "Enhanced product performance and customer satisfaction by contributing to\n          Faspex5 versions 5.0.0 through 5.0.14.",
-      "Created turnkey test environments, reducing setup time by 50%",
-      "Enabled parallel deployments across all supported OS versions, improving team\n          efficiency.",
-      "Helped Architect and implement high-availability Faspex5 deployments.\n          Responsible for validation testing for both on-prem (MariaDB Galera) and\n          cloud (RDS HA) ensuring compatibility.",
-      "Managed and successfully drove the annual DISA Security STIG testing to\n          completion as the sole engineer for the past five years.",
-      "Coordinated with External Security Teams and Pentest Teams for annual security\n          Testing for entire WebApp Portfolio.",
-      "Developed, maintained, and Dockerized automation scripts to streamline\n          workflows.",
-      "Led AWS cloud deployments and applied CI/CD pipelines using Jenkins for core\n          and legacy web applications.",
-      "Conducted comprehensive validation testing across distributed systems,\n          containers, and cloud infrastructure."
+      "Optimized application performance and automated deployment pipelines, reducing release cycles by up to 35% and saving hundreds of engineering hours annually",
+      "Led research, testing, and validation of a new containerized app, eliminated prior single points of failure, and authored the official HA documentation, becoming the Webapps team SME",
+      "Designed and maintained secure, reproducible internal environments, improving reliability, developer productivity, and QA testing efficiency",
+      "Led, organized, setup and configured IBM Aspera WebApps Products for DISA and STIG Testing for potential Government Entity contracts",
+      "Contributed to key product releases, including HSTS, Aspera Proxy, HTTP-Gateway, OTFV, and Faspex 5 (5.0.0–5.0.14), enhancing stability, high-availability, and customer satisfaction"
     ]
   },
   {
     company: "Aspera, an IBM company",
-    position: "Software Apprentice",
-    years: "2019 - 2020",
+    position: "QA Automation Engineer",
+    years: "Feb 2023 - Jan 2025 (2 years)",
     highlights: [
-      "Completed an intensive hands-on program specializing in software development, quality assurance, and testing methodologies.",
-      "Acquired practical experience in deploying, testing, and maintaining enterprise applications in both on-premises and cloud environments.",
-      "Developed foundational skills in DevOps practices, automation, and continuous integration pipelines, establishing a strong entry into the technology field."
+      "Implemented automation and parallel testing strategies, reducing QA cycle times by 50% and accelerating release schedules",
+      "Executed comprehensive QA and validation testing across distributed systems, containerized applications, and cloud infrastructure, ensuring defect-free releases",
+      "Developed turnkey test environments that reduced setup time by 50%, improved team collaboration, and enabled timely delivery of high-quality projects",
+      "Ensured software security and compliance by reviewing dependencies and enforcing long-term support (LTS) standards, reducing vulnerability exposure",
+      "Led AWS cloud deployments and implemented CI/CD pipelines with Jenkins, improving deployment reliability and delivery speed"
     ]
   },
   {
-    company: "Infoset-ng",
-    position: "Open Source Contributor",
-    years: "August 2017 - Feb 2018",
+    company: "Aspera, an IBM company",
+    position: "QA Engineer",
+    years: "Mar 2020 - May 2022 (2 years)",
     highlights: [
-      "Performed Unit Testing, Debugging and Technical Documentation.",
-      "Contributed to the development of an all-purpose data gathering application.",
-      "Collaborated in the design infrastructure and deployment of MySQL based back-end.",
-      "Implemented database connection pooling to reduce the load on the database server when experiencing high transaction volumes.",
-      "Assisted with the set up and maintenance of the organization's network agents"
+      "Adept in process improvement initiatives, identifying areas for optimization and implementing effective solutions",
+      "Proficient in defining comprehensive test plans, crafting detailed test cases, identifying crucial use cases, and creating effective test matrices",
+      "Solid expertise including Test Automation, Functional, Regression, Integration, System, Cross-platform, and Performance testing",
+      "Knowledgeable in security and compliance requirements, incorporating them into the QA processes",
+      "Developed and containerized automation scripts using Docker to streamline operational workflows and improve process reliability"
+    ]
+  },
+  {
+    company: "Aspera, an IBM company",
+    position: "Software Engineer Apprentice",
+    years: "Feb 2019 - Feb 2020 (1 year)",
+    highlights: [
+      "Selected as the sole apprentice from cohort to receive full-time employment offer upon program completion",
+      "Completed intensive hands-on program specializing in software development, quality assurance, and testing methodologies",
+      "Acquired practical experience deploying, testing, and maintaining enterprise applications in both on-premises and cloud environments",
+      "Contributed to quality assurance processes and test automation development for IBM Aspera products"
+    ]
+  },
+  {
+    company: "Infoset-ng (Open-Source Project)",
+    position: "Open-Source Contributor",
+    years: "Aug 2017 - Feb 2018 (6 months)",
+    highlights: [
+      "Contributed to design and development of data-gathering application for efficient collection, processing, and analysis of diverse datasets",
+      "Designed and deployed MySQL-based backend infrastructure with connection pooling for high-volume transactions",
+      "Deployed and maintained network monitoring agents, ensuring reliable performance"
     ]
   }
 ];

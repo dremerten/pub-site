@@ -9,9 +9,10 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import {Activity, Code, Download, Award, Menu, X, Star, Github, Home} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {LinkedInIcon} from "@/components/icons";
-import ResumePDF from "../../public/files/RAM-Resume2025.pdf";
-import ResumeDOCX from "../../public/files/RAM-Resume2025.docx";
 import { useState, useEffect, useRef } from "react";
+
+const ResumePDF = "/files/RAM_Resume2025-latest.pdf";
+const ResumeDOCX = "/files/RAM_Resume2025-latest.docx";
 
 export function Navbar() {
   const location = useLocation();
@@ -53,7 +54,7 @@ export function Navbar() {
     // Download PDF
     const linkPDF = document.createElement('a');
     linkPDF.href = ResumePDF;
-    linkPDF.download = 'Andre_Remer_Resume.pdf';
+    linkPDF.download = 'RAM_Resume2025-latest.pdf';
     document.body.appendChild(linkPDF);
     linkPDF.click();
     document.body.removeChild(linkPDF);
@@ -62,7 +63,7 @@ export function Navbar() {
     setTimeout(() => {
       const linkDOCX = document.createElement('a');
       linkDOCX.href = ResumeDOCX;
-      linkDOCX.download = 'Andre_Remer_Resume.docx';
+      linkDOCX.download = 'RAM_Resume2025-latest.docx';
       document.body.appendChild(linkDOCX);
       linkDOCX.click();
       document.body.removeChild(linkDOCX);
@@ -115,15 +116,6 @@ export function Navbar() {
                   </Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
-
-              <NavigationMenuItem>
-                <NavigationMenuLink asChild>
-                  <a href="https://github.com/dremerten" target="_blank" rel="noopener noreferrer" className="flex flex-row gap-2 items-center px-4 py-3 rounded-lg whitespace-nowrap transition-all hover:scale-105 bg-slate-800 text-slate-300 hover:bg-slate-700">
-                    <Github />
-                    GitHub
-                  </a>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
 
@@ -152,10 +144,6 @@ export function Navbar() {
               <Code className="w-4 h-4" />
               <span className="hidden sm:inline">k8s-resume</span>
             </Link>
-            <a href="https://github.com/dremerten" target="_blank" rel="noopener noreferrer" className="flex flex-row gap-2 items-center px-3 py-2 rounded-lg text-sm transition-all hover:scale-105 bg-slate-800 text-slate-300 hover:bg-slate-700">
-              <Github className="w-4 h-4" />
-              <span className="hidden sm:inline">GitHub</span>
-            </a>
           </div>
 
           <button
@@ -170,6 +158,12 @@ export function Navbar() {
               <a href="https://www.linkedin.com/in/dremer10" target="_blank" rel="noreferrer">
                 <LinkedInIcon />
                 <span className="hidden lg:inline">LinkedIn</span>
+              </a>
+            </Button>
+            <Button asChild variant="ghost" title="GitHub" className="text-xs lg:text-sm">
+              <a href="https://github.com/dremerten" target="_blank" rel="noreferrer">
+                <Github />
+                <span className="hidden lg:inline">GitHub</span>
               </a>
             </Button>
             <Button asChild variant="ghost" title="Recommendations" className="text-xs lg:text-sm">
@@ -228,7 +222,7 @@ export function Navbar() {
                   <div className="py-1">
                     <a
                       href={ResumePDF}
-                      download="Andre_Remer_Resume.pdf"
+                      download="RAM_Resume2025-latest.pdf"
                       className="flex items-center gap-2 px-4 py-2 text-sm text-slate-300 hover:bg-slate-700 transition-colors"
                       onClick={() => setDownloadDropdownOpen(false)}
                     >
@@ -237,7 +231,7 @@ export function Navbar() {
                     </a>
                     <a
                       href={ResumeDOCX}
-                      download="Andre_Remer_Resume.docx"
+                      download="RAM_Resume2025-latest.docx"
                       className="flex items-center gap-2 px-4 py-2 text-sm text-slate-300 hover:bg-slate-700 transition-colors"
                       onClick={() => setDownloadDropdownOpen(false)}
                     >
@@ -264,6 +258,12 @@ export function Navbar() {
               <a href="https://www.linkedin.com/in/dremer10" target="_blank" rel="noreferrer" className="justify-start">
                 <LinkedInIcon />
                 LinkedIn
+              </a>
+            </Button>
+            <Button asChild variant="ghost" title="GitHub">
+              <a href="https://github.com/dremerten" target="_blank" rel="noreferrer" className="justify-start">
+                <Github />
+                GitHub
               </a>
             </Button>
             <Button asChild variant="ghost" title="Recommendations">
@@ -319,7 +319,7 @@ export function Navbar() {
                 <div className="mt-1 ml-4 flex flex-col gap-1 bg-slate-800/50 rounded-lg p-2">
                   <a
                     href={ResumePDF}
-                    download="Andre_Remer_Resume.pdf"
+                    download="RAM_Resume2025-latest.pdf"
                     className="flex items-center gap-2 px-3 py-2 text-sm text-slate-300 hover:bg-slate-700 rounded transition-colors"
                     onClick={() => setDownloadDropdownOpen(false)}
                   >
@@ -328,7 +328,7 @@ export function Navbar() {
                   </a>
                   <a
                     href={ResumeDOCX}
-                    download="Andre_Remer_Resume.docx"
+                    download="RAM_Resume2025-latest.docx"
                     className="flex items-center gap-2 px-3 py-2 text-sm text-slate-300 hover:bg-slate-700 rounded transition-colors"
                     onClick={() => setDownloadDropdownOpen(false)}
                   >

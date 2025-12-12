@@ -9,8 +9,8 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import {Activity, Code, Download, Award, Menu, X, Star, Github, Home} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {LinkedInIcon} from "@/components/icons";
-import ResumePDF from "../../public/files/andre_resume_v4_ac.pdf";
-import ResumeDOCX from "../../public/files/andre_resume_v4_ac.docx";
+import ResumePDF from "../../public/files/RAM-Resume2025.pdf";
+import ResumeDOCX from "../../public/files/RAM-Resume2025.docx";
 import { useState, useEffect, useRef } from "react";
 
 export function Navbar() {

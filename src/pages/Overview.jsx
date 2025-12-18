@@ -1,6 +1,8 @@
 import {experienceData, personalInfo, coreSkills, metadataInfo} from "@/data/resume";
 import PageWrapper from "@/components/PageWrapper";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Trophy } from "lucide-react";
 
 // Cockpit Panel Component
 const CockpitPanel = ({ children, title, panelNumber, status = "nominal", className = "", headerRight = null }) => {
@@ -49,6 +51,7 @@ const CockpitPanel = ({ children, title, panelNumber, status = "nominal", classN
 };
 
 const Overview = () => {
+  const navigate = useNavigate();
   const [displayedText, setDisplayedText] = useState("");
   const fullText = "● System Online - All Services Up, Running and Healthy";
   const typingSpeed = 50;
@@ -261,6 +264,37 @@ const Overview = () => {
                 </div>
               </CockpitPanel>
             </div>
+
+            {/* Featured Projects Panel */}
+            <CockpitPanel title="Featured Projects" panelNumber="09" status="nominal" className="mb-4">
+              <div className="bg-gradient-to-br from-[#1a1d23] to-[#0f1117] rounded-lg p-6 border border-gray-700/50">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 bg-gradient-to-br from-orange-500/20 to-red-500/20 rounded-lg flex items-center justify-center">
+                      <Trophy className="w-6 h-6 text-orange-400" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-200">DevOps Toolkit</h3>
+                      <p className="text-xs text-gray-500">Production-ready cloud-native application</p>
+                    </div>
+                  </div>
+                </div>
+                <p className="text-sm text-gray-400 mb-4">
+                  Comprehensive full-stack DevOps toolkit with Kubernetes, CI/CD, and comprehensive monitoring
+                </p>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  <span className="text-xs bg-blue-500/20 text-blue-400 px-2 py-1 rounded border border-blue-500/40">Kubernetes</span>
+                  <span className="text-xs bg-purple-500/20 text-purple-400 px-2 py-1 rounded border border-purple-500/40">CI/CD</span>
+                  <span className="text-xs bg-emerald-500/20 text-emerald-400 px-2 py-1 rounded border border-emerald-500/40">Monitoring</span>
+                </div>
+                <button
+                  onClick={() => navigate('/projects')}
+                  className="w-full bg-gradient-to-r from-orange-500/20 to-red-500/20 hover:from-orange-500/30 hover:to-red-500/30 border border-orange-500/40 text-orange-300 font-mono text-sm px-4 py-2 rounded transition-all hover:scale-105"
+                >
+                  VIEW DETAILS →
+                </button>
+              </div>
+            </CockpitPanel>
 
             {/* Experience Timeline */}
             <CockpitPanel title="Experience Timeline" panelNumber="08" status="nominal" className="mb-4">

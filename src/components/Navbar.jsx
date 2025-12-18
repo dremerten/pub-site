@@ -6,7 +6,7 @@ import {
   NavigationMenuList,
 } from "@/components/ui/NavigationMenu";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import {Activity, Code, Download, Award, Menu, X, Star, Github, Home} from "lucide-react";
+import {Activity, Code, Download, Award, Menu, X, Star, Github, Home, Trophy} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {LinkedInIcon} from "@/components/icons";
 import { useState, useEffect, useRef } from "react";
@@ -73,7 +73,7 @@ export function Navbar() {
   };
 
   return (
-    <nav className="border-b">
+    <nav className="border-b border-[rgba(255,255,255,0.08)] bg-[#050505]/95 backdrop-blur-xl shadow-lg">
       <div className="w-[90%] mx-auto py-4">
         <div className="flex items-center justify-between">
           <NavigationMenu className="hidden md:block">
@@ -82,8 +82,8 @@ export function Navbar() {
                 <NavigationMenuLink asChild>
                   <Link to="/home" className={`flex flex-row gap-2 items-center px-4 py-3 rounded-lg whitespace-nowrap transition-all hover:scale-105 ${
                     location.pathname === "/home"
-                      ? "bg-blue-600 text-white shadow-lg focus:bg-blue-600"
-                      : "bg-slate-800 text-slate-300 hover:bg-slate-700"
+                      ? "bg-blue-600 text-white shadow-lg shadow-blue-600/30 focus:bg-blue-600"
+                      : "bg-[#0a0a0a] text-gray-300 hover:bg-[#0f0f0f] border border-[rgba(255,255,255,0.08)]"
                   }`}>
                     <Home />
                     Home
@@ -95,8 +95,8 @@ export function Navbar() {
                 <NavigationMenuLink asChild>
                   <Link to="/overview" className={`flex flex-row gap-2 items-center px-4 py-3 rounded-lg whitespace-nowrap transition-all hover:scale-105 ${
                     location.pathname === "/overview"
-                      ? "bg-blue-600 text-white shadow-lg focus:bg-blue-600"
-                      : "bg-slate-800 text-slate-300 hover:bg-slate-700"
+                      ? "bg-blue-600 text-white shadow-lg shadow-blue-600/30 focus:bg-blue-600"
+                      : "bg-[#0a0a0a] text-gray-300 hover:bg-[#0f0f0f] border border-[rgba(255,255,255,0.08)]"
                   }`}>
                     <Activity />
                     Overview
@@ -106,10 +106,23 @@ export function Navbar() {
 
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
+                  <Link to="/projects" className={`flex flex-row gap-2 items-center px-4 py-3 rounded-lg whitespace-nowrap transition-all hover:scale-105 ${
+                    location.pathname === "/projects"
+                      ? "bg-blue-600 text-white shadow-lg shadow-blue-600/30 focus:bg-blue-600"
+                      : "bg-[#0a0a0a] text-gray-300 hover:bg-[#0f0f0f] border border-[rgba(255,255,255,0.08)]"
+                  }`}>
+                    <Trophy />
+                    Projects
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild>
                   <Link to="/resume" className={`flex flex-row gap-2 items-center px-4 py-3 rounded-lg whitespace-nowrap transition-all hover:scale-105 ${
                     location.pathname === "/resume"
-                      ? "bg-blue-600 text-white shadow-lg focus:bg-blue-600"
-                      : "bg-slate-800 text-slate-300 hover:bg-slate-700"
+                      ? "bg-blue-600 text-white shadow-lg shadow-blue-600/30 focus:bg-blue-600"
+                      : "bg-[#0a0a0a] text-gray-300 hover:bg-[#0f0f0f] border border-[rgba(255,255,255,0.08)]"
                   }`}>
                     <Code />
                     k8s-resume deployment
@@ -119,27 +132,35 @@ export function Navbar() {
             </NavigationMenuList>
           </NavigationMenu>
 
-          <div className="flex md:hidden gap-3">
+          <div className="flex md:hidden gap-2">
             <Link to="/home" className={`flex flex-row gap-2 items-center px-3 py-2 rounded-lg text-sm transition-all hover:scale-105 ${
               location.pathname === "/home"
-                ? "bg-blue-600 text-white shadow-lg"
-                : "bg-slate-800 text-slate-300 hover:bg-slate-700"
+                ? "bg-blue-600 text-white shadow-lg shadow-blue-600/30"
+                : "bg-[#0a0a0a] text-gray-300 hover:bg-[#0f0f0f] border border-[rgba(255,255,255,0.08)]"
             }`}>
               <Home className="w-4 h-4" />
               <span className="hidden sm:inline">Home</span>
             </Link>
             <Link to="/overview" className={`flex flex-row gap-2 items-center px-3 py-2 rounded-lg text-sm transition-all hover:scale-105 ${
               location.pathname === "/overview"
-                ? "bg-blue-600 text-white shadow-lg"
-                : "bg-slate-800 text-slate-300 hover:bg-slate-700"
+                ? "bg-blue-600 text-white shadow-lg shadow-blue-600/30"
+                : "bg-[#0a0a0a] text-gray-300 hover:bg-[#0f0f0f] border border-[rgba(255,255,255,0.08)]"
             }`}>
               <Activity className="w-4 h-4" />
               <span className="hidden sm:inline">Overview</span>
             </Link>
+            <Link to="/projects" className={`flex flex-row gap-2 items-center px-3 py-2 rounded-lg text-sm transition-all hover:scale-105 ${
+              location.pathname === "/projects"
+                ? "bg-blue-600 text-white shadow-lg shadow-blue-600/30"
+                : "bg-[#0a0a0a] text-gray-300 hover:bg-[#0f0f0f] border border-[rgba(255,255,255,0.08)]"
+            }`}>
+              <Trophy className="w-4 h-4" />
+              <span className="hidden sm:inline">Projects</span>
+            </Link>
             <Link to="/resume" className={`flex flex-row gap-2 items-center px-3 py-2 rounded-lg text-sm transition-all hover:scale-105 ${
               location.pathname === "/resume"
-                ? "bg-blue-600 text-white shadow-lg"
-                : "bg-slate-800 text-slate-300 hover:bg-slate-700"
+                ? "bg-blue-600 text-white shadow-lg shadow-blue-600/30"
+                : "bg-[#0a0a0a] text-gray-300 hover:bg-[#0f0f0f] border border-[rgba(255,255,255,0.08)]"
             }`}>
               <Code className="w-4 h-4" />
               <span className="hidden sm:inline">k8s-resume</span>
@@ -147,7 +168,7 @@ export function Navbar() {
           </div>
 
           <button
-            className="md:hidden p-2 hover:bg-slate-800 rounded transition-all"
+            className="md:hidden p-2 hover:bg-[#0f0f0f] rounded transition-all border border-[rgba(255,255,255,0.08)]"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -183,13 +204,13 @@ export function Navbar() {
                 <span className="hidden lg:inline">Professional Credentials</span>
               </Button>
               {credentialsDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-56 bg-slate-800 border border-slate-700 rounded-lg shadow-lg z-50">
+                <div className="absolute right-0 mt-2 w-56 bg-[#0a0a0a] border-2 border-[rgba(255,255,255,0.1)] rounded-lg shadow-2xl shadow-black/50 z-50">
                   <div className="py-1">
                     <a
                       href="https://www.credly.com/badges/009b8d08-22da-4cc8-a720-934ea26add1e/linked_in_profile"
                       target="_blank"
                       rel="noreferrer"
-                      className="flex items-center gap-2 px-4 py-2 text-sm text-slate-300 hover:bg-slate-700 transition-colors"
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-gray-300 hover:bg-[#0f0f0f] transition-colors"
                     >
                       <Award className="w-4 h-4" />
                       <span>IBM Apprenticeship Program - Professional Skills</span>
@@ -198,7 +219,7 @@ export function Navbar() {
                       href="https://www.credly.com/badges/6683b6f5-4907-4f11-b139-cbeafcf82cbd/linked_in_profile"
                       target="_blank"
                       rel="noreferrer"
-                      className="flex items-center gap-2 px-4 py-2 text-sm text-slate-300 hover:bg-slate-700 transition-colors"
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-gray-300 hover:bg-[#0f0f0f] transition-colors"
                     >
                       <Award className="w-4 h-4" />
                       <span>IBM Software Engineer Apprenticeship</span>
@@ -218,12 +239,12 @@ export function Navbar() {
                 <span className="hidden lg:inline">Download Resume</span>
               </Button>
               {downloadDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-slate-800 border border-slate-700 rounded-lg shadow-lg z-50">
+                <div className="absolute right-0 mt-2 w-48 bg-[#0a0a0a] border-2 border-[rgba(255,255,255,0.1)] rounded-lg shadow-2xl shadow-black/50 z-50">
                   <div className="py-1">
                     <a
                       href={ResumePDF}
                       download="RAM_Resume2025.pdf"
-                      className="flex items-center gap-2 px-4 py-2 text-sm text-slate-300 hover:bg-slate-700 transition-colors"
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-gray-300 hover:bg-[#0f0f0f] transition-colors"
                       onClick={() => setDownloadDropdownOpen(false)}
                     >
                       <Download className="w-4 h-4" />
@@ -232,7 +253,7 @@ export function Navbar() {
                     <a
                       href={ResumeDOCX}
                       download="RAM_Resume2025.docx"
-                      className="flex items-center gap-2 px-4 py-2 text-sm text-slate-300 hover:bg-slate-700 transition-colors"
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-gray-300 hover:bg-[#0f0f0f] transition-colors"
                       onClick={() => setDownloadDropdownOpen(false)}
                     >
                       <Download className="w-4 h-4" />
@@ -240,7 +261,7 @@ export function Navbar() {
                     </a>
                     <button
                       onClick={handleDownloadBoth}
-                      className="flex items-center gap-2 px-4 py-2 text-sm text-slate-300 hover:bg-slate-700 transition-colors w-full text-left"
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-gray-300 hover:bg-[#0f0f0f] transition-colors w-full text-left"
                     >
                       <Download className="w-4 h-4" />
                       <span>Both Formats</span>
@@ -283,12 +304,12 @@ export function Navbar() {
                 Professional Credentials
               </Button>
               {credentialsDropdownOpen && (
-                <div className="mt-1 ml-4 flex flex-col gap-1 bg-slate-800/50 rounded-lg p-2">
+                <div className="mt-1 ml-4 flex flex-col gap-1 bg-[#0a0a0a]/90 rounded-lg p-2 border border-[rgba(255,255,255,0.08)]">
                   <a
                     href="https://www.credly.com/badges/009b8d08-22da-4cc8-a720-934ea26add1e/linked_in_profile"
                     target="_blank"
                     rel="noreferrer"
-                    className="flex items-center gap-2 px-3 py-2 text-sm text-slate-300 hover:bg-slate-700 rounded transition-colors"
+                    className="flex items-center gap-2 px-3 py-2 text-sm text-gray-300 hover:bg-[#0f0f0f] rounded transition-colors"
                   >
                     <Award className="w-4 h-4" />
                     <span>Credential 1</span>
@@ -297,7 +318,7 @@ export function Navbar() {
                     href="https://www.credly.com/badges/6683b6f5-4907-4f11-b139-cbeafcf82cbd/linked_in_profile"
                     target="_blank"
                     rel="noreferrer"
-                    className="flex items-center gap-2 px-3 py-2 text-sm text-slate-300 hover:bg-slate-700 rounded transition-colors"
+                    className="flex items-center gap-2 px-3 py-2 text-sm text-gray-300 hover:bg-[#0f0f0f] rounded transition-colors"
                   >
                     <Award className="w-4 h-4" />
                     <span>Credential 2</span>
@@ -316,11 +337,11 @@ export function Navbar() {
                 Download Resume
               </Button>
               {downloadDropdownOpen && (
-                <div className="mt-1 ml-4 flex flex-col gap-1 bg-slate-800/50 rounded-lg p-2">
+                <div className="mt-1 ml-4 flex flex-col gap-1 bg-[#0a0a0a]/90 rounded-lg p-2 border border-[rgba(255,255,255,0.08)]">
                   <a
                     href={ResumePDF}
                     download="RAM_Resume2025.pdf"
-                    className="flex items-center gap-2 px-3 py-2 text-sm text-slate-300 hover:bg-slate-700 rounded transition-colors"
+                    className="flex items-center gap-2 px-3 py-2 text-sm text-gray-300 hover:bg-[#0f0f0f] rounded transition-colors"
                     onClick={() => setDownloadDropdownOpen(false)}
                   >
                     <Download className="w-4 h-4" />
@@ -329,7 +350,7 @@ export function Navbar() {
                   <a
                     href={ResumeDOCX}
                     download="RAM_Resume2025.docx"
-                    className="flex items-center gap-2 px-3 py-2 text-sm text-slate-300 hover:bg-slate-700 rounded transition-colors"
+                    className="flex items-center gap-2 px-3 py-2 text-sm text-gray-300 hover:bg-[#0f0f0f] rounded transition-colors"
                     onClick={() => setDownloadDropdownOpen(false)}
                   >
                     <Download className="w-4 h-4" />

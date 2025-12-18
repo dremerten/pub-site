@@ -1,25 +1,17 @@
 .idea/
-
 node_modules/
-
 dist/*
 **.DS_STORE
-
 node_modules/
-
 dist/*
 !*/.keep
-
 scratch/
 !.keep
-
-# Deployment documentation (keep local only)
 .DEPLOYMENT.md
 k8s/*.sh
 k8s/*.md
 argocd
 scripts/*argocd*.sh
-
-# Old resume versions
 public/files/*-template.pdf
 *.bkup
+project-info.md

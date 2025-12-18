@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate} from "react-router-do
 import Navbar from "./components/Navbar.jsx";
 import Home from "./pages/Home.jsx";
 import Overview from "./pages/Overview.jsx";
+import Projects from "./pages/Projects.jsx";
 import Resume from "./pages/Resume.jsx";
 import { ThemeProvider } from "./components/ThemeProvider.jsx";
 
@@ -10,6 +11,7 @@ const App = () => {
   const appRoutes = [
     {path: "/home", title: "Home", component: Home},
     {path: "/overview", title: "Dashboard", component: Overview},
+    {path: "/projects", title: "Projects", component: Projects},
     {path: "/resume", title: "Resume", component: Resume}
   ];
 

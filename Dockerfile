@@ -5,13 +5,12 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm ci && \
+RUN npm install && \
     npm cache clean --force
 
 COPY . .
 
 RUN npm run build && \
-    # Remove large unused source maps
     find dist -name "*.map" -delete && \
     apk add --no-cache brotli && \
     find dist -type f -name "*.js" -exec brotli -Z {} \; && \

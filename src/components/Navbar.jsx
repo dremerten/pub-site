@@ -19,10 +19,21 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [credentialsDropdownOpen, setCredentialsDropdownOpen] = useState(false);
   const [downloadDropdownOpen, setDownloadDropdownOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const dropdownRef = useRef(null);
   const mobileDropdownRef = useRef(null);
   const downloadDropdownRef = useRef(null);
   const mobileDownloadDropdownRef = useRef(null);
+
+  // Scroll detection
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -73,19 +84,28 @@ export function Navbar() {
   };
 
   return (
-    <nav className="border-b border-[rgba(255,255,255,0.08)] bg-[#050505]/95 backdrop-blur-xl shadow-lg">
-      <div className="w-[90%] mx-auto py-4">
-        <div className="flex items-center justify-between">
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      isScrolled ? 'py-2' : 'py-4'
+    }`}>
+      <div className={`mx-auto transition-all duration-500 ${
+        isScrolled ? 'px-4 max-w-[98%]' : 'px-6 max-w-7xl'
+      }`}>
+        <div className={`bg-black backdrop-blur-xl transition-all duration-500 ${
+          isScrolled
+            ? 'shadow-lg shadow-blue-500/20 rounded-full px-4 py-2 border border-blue-500/30'
+            : 'shadow-md border-b border-blue-500/20 px-6 py-3'
+        }`}>
+          <div className="flex items-center justify-between">
           <NavigationMenu className="hidden md:block">
             <NavigationMenuList className="gap-3">
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
-                  <Link to="/home" className={`flex flex-row gap-2 items-center px-4 py-3 rounded-lg whitespace-nowrap transition-all hover:scale-105 ${
+                  <Link to="/home" className={`flex flex-row gap-1 items-center px-3 py-1.5 rounded-full whitespace-nowrap transition-all text-sm ${
                     location.pathname === "/home"
-                      ? "bg-blue-600 text-white shadow-lg shadow-blue-600/30 focus:bg-blue-600"
-                      : "bg-[#0a0a0a] text-gray-300 hover:bg-[#0f0f0f] border border-[rgba(255,255,255,0.08)]"
+                      ? "bg-blue-600 text-white shadow-lg shadow-blue-500/50"
+                      : "text-white hover:text-blue-400 hover:bg-white/10 hover:shadow-lg hover:shadow-blue-500/20"
                   }`}>
-                    <Home />
+                    <Home className="w-4 h-4" />
                     Home
                   </Link>
                 </NavigationMenuLink>
@@ -93,12 +113,12 @@ export function Navbar() {
 
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
-                  <Link to="/overview" className={`flex flex-row gap-2 items-center px-4 py-3 rounded-lg whitespace-nowrap transition-all hover:scale-105 ${
+                  <Link to="/overview" className={`flex flex-row gap-1 items-center px-3 py-1.5 rounded-full whitespace-nowrap transition-all text-sm ${
                     location.pathname === "/overview"
-                      ? "bg-blue-600 text-white shadow-lg shadow-blue-600/30 focus:bg-blue-600"
-                      : "bg-[#0a0a0a] text-gray-300 hover:bg-[#0f0f0f] border border-[rgba(255,255,255,0.08)]"
+                      ? "bg-blue-600 text-white shadow-lg shadow-blue-500/50"
+                      : "text-white hover:text-blue-400 hover:bg-white/10 hover:shadow-lg hover:shadow-blue-500/20"
                   }`}>
-                    <Activity />
+                    <Activity className="w-4 h-4" />
                     Overview
                   </Link>
                 </NavigationMenuLink>
@@ -106,12 +126,12 @@ export function Navbar() {
 
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
-                  <Link to="/projects" className={`flex flex-row gap-2 items-center px-4 py-3 rounded-lg whitespace-nowrap transition-all hover:scale-105 ${
+                  <Link to="/projects" className={`flex flex-row gap-1 items-center px-3 py-1.5 rounded-full whitespace-nowrap transition-all text-sm ${
                     location.pathname === "/projects"
-                      ? "bg-blue-600 text-white shadow-lg shadow-blue-600/30 focus:bg-blue-600"
-                      : "bg-[#0a0a0a] text-gray-300 hover:bg-[#0f0f0f] border border-[rgba(255,255,255,0.08)]"
+                      ? "bg-blue-600 text-white shadow-lg shadow-blue-500/50"
+                      : "text-white hover:text-blue-400 hover:bg-white/10 hover:shadow-lg hover:shadow-blue-500/20"
                   }`}>
-                    <Trophy />
+                    <Trophy className="w-4 h-4" />
                     Projects
                   </Link>
                 </NavigationMenuLink>
@@ -119,12 +139,12 @@ export function Navbar() {
 
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
-                  <Link to="/resume" className={`flex flex-row gap-2 items-center px-4 py-3 rounded-lg whitespace-nowrap transition-all hover:scale-105 ${
+                  <Link to="/resume" className={`flex flex-row gap-1 items-center px-3 py-1.5 rounded-full whitespace-nowrap transition-all text-sm ${
                     location.pathname === "/resume"
-                      ? "bg-blue-600 text-white shadow-lg shadow-blue-600/30 focus:bg-blue-600"
-                      : "bg-[#0a0a0a] text-gray-300 hover:bg-[#0f0f0f] border border-[rgba(255,255,255,0.08)]"
+                      ? "bg-blue-600 text-white shadow-lg shadow-blue-500/50"
+                      : "text-white hover:text-blue-400 hover:bg-white/10 hover:shadow-lg hover:shadow-blue-500/20"
                   }`}>
-                    <Code />
+                    <Code className="w-4 h-4" />
                     k8s-resume deployment
                   </Link>
                 </NavigationMenuLink>
@@ -168,49 +188,49 @@ export function Navbar() {
           </div>
 
           <button
-            className="md:hidden p-2 hover:bg-[#0f0f0f] rounded transition-all border border-[rgba(255,255,255,0.08)]"
+            className="md:hidden p-2 hover:bg-white/10 rounded transition-all border border-white/20 text-white"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
 
-          <div className="hidden md:flex items-center flex-wrap gap-2">
-            <Button asChild variant="ghost" href="/" title="LinkedIn" className="text-xs lg:text-sm">
-              <a href="https://www.linkedin.com/in/dremer10" target="_blank" rel="noreferrer">
-                <LinkedInIcon />
-                <span className="hidden lg:inline">LinkedIn</span>
+          <div className="hidden md:flex items-center gap-1.5">
+            <Button asChild variant="ghost" href="/" title="LinkedIn" className="text-xs px-2 py-1 h-auto text-white hover:text-blue-400 hover:bg-white/10 hover:shadow-md hover:shadow-blue-500/30">
+              <a href="https://www.linkedin.com/in/dremer10" target="_blank" rel="noreferrer" className="flex items-center gap-1">
+                <LinkedInIcon className="w-4 h-4" />
+                <span>LinkedIn</span>
               </a>
             </Button>
-            <Button asChild variant="ghost" title="GitHub" className="text-xs lg:text-sm">
-              <a href="https://github.com/dremerten" target="_blank" rel="noreferrer">
-                <Github />
-                <span className="hidden lg:inline">GitHub</span>
+            <Button asChild variant="ghost" title="GitHub" className="text-xs px-2 py-1 h-auto text-white hover:text-blue-400 hover:bg-white/10 hover:shadow-md hover:shadow-blue-500/30">
+              <a href="https://github.com/dremerten" target="_blank" rel="noreferrer" className="flex items-center gap-1">
+                <Github className="w-4 h-4" />
+                <span>GitHub</span>
               </a>
             </Button>
-            <Button asChild variant="ghost" title="Recommendations" className="text-xs lg:text-sm">
-              <a href="https://www.linkedin.com/in/dremer10/details/recommendations/?detailScreenTabIndex=0" target="_blank" rel="noreferrer">
-                <Star />
-                <span className="hidden lg:inline">Recommendations</span>
+            <Button asChild variant="ghost" title="Recommendations" className="text-xs px-2 py-1 h-auto text-white hover:text-blue-400 hover:bg-white/10 hover:shadow-md hover:shadow-blue-500/30">
+              <a href="https://www.linkedin.com/in/dremer10/details/recommendations/?detailScreenTabIndex=0" target="_blank" rel="noreferrer" className="flex items-center gap-1">
+                <Star className="w-4 h-4" />
+                <span>Recommendations</span>
               </a>
             </Button>
             <div className="relative" ref={dropdownRef}>
               <Button
                 variant="ghost"
                 title="Professional Credentials"
-                className="text-xs lg:text-sm"
+                className="text-xs px-2 py-1 h-auto text-white hover:text-blue-400 hover:bg-white/10 hover:shadow-md hover:shadow-blue-500/30"
                 onClick={() => setCredentialsDropdownOpen(!credentialsDropdownOpen)}
               >
-                <Award />
-                <span className="hidden lg:inline">Professional Credentials</span>
+                <Award className="w-4 h-4" />
+                <span className="ml-1">Professional Credentials</span>
               </Button>
               {credentialsDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-56 bg-[#0a0a0a] border-2 border-[rgba(255,255,255,0.1)] rounded-lg shadow-2xl shadow-black/50 z-50">
+                <div className="absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded-xl shadow-lg z-50">
                   <div className="py-1">
                     <a
                       href="https://www.credly.com/badges/009b8d08-22da-4cc8-a720-934ea26add1e/linked_in_profile"
                       target="_blank"
                       rel="noreferrer"
-                      className="flex items-center gap-2 px-4 py-2 text-sm text-gray-300 hover:bg-[#0f0f0f] transition-colors"
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
                     >
                       <Award className="w-4 h-4" />
                       <span>IBM Apprenticeship Program - Professional Skills</span>
@@ -219,7 +239,7 @@ export function Navbar() {
                       href="https://www.credly.com/badges/6683b6f5-4907-4f11-b139-cbeafcf82cbd/linked_in_profile"
                       target="_blank"
                       rel="noreferrer"
-                      className="flex items-center gap-2 px-4 py-2 text-sm text-gray-300 hover:bg-[#0f0f0f] transition-colors"
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
                     >
                       <Award className="w-4 h-4" />
                       <span>IBM Software Engineer Apprenticeship</span>
@@ -232,19 +252,19 @@ export function Navbar() {
               <Button
                 variant="ghost"
                 title="Download Resume"
-                className="text-xs lg:text-sm"
+                className="text-xs px-2 py-1 h-auto text-white hover:text-blue-400 hover:bg-white/10 hover:shadow-md hover:shadow-blue-500/30"
                 onClick={() => setDownloadDropdownOpen(!downloadDropdownOpen)}
               >
-                <Download />
-                <span className="hidden lg:inline">Download Resume</span>
+                <Download className="w-4 h-4" />
+                <span className="ml-1">Download Resume</span>
               </Button>
               {downloadDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-[#0a0a0a] border-2 border-[rgba(255,255,255,0.1)] rounded-lg shadow-2xl shadow-black/50 z-50">
+                <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-xl shadow-lg z-50">
                   <div className="py-1">
                     <a
                       href={ResumePDF}
                       download="RAM_Resume2025.pdf"
-                      className="flex items-center gap-2 px-4 py-2 text-sm text-gray-300 hover:bg-[#0f0f0f] transition-colors"
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
                       onClick={() => setDownloadDropdownOpen(false)}
                     >
                       <Download className="w-4 h-4" />
@@ -253,7 +273,7 @@ export function Navbar() {
                     <a
                       href={ResumeDOCX}
                       download="RAM_Resume2025.docx"
-                      className="flex items-center gap-2 px-4 py-2 text-sm text-gray-300 hover:bg-[#0f0f0f] transition-colors"
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
                       onClick={() => setDownloadDropdownOpen(false)}
                     >
                       <Download className="w-4 h-4" />
@@ -261,7 +281,7 @@ export function Navbar() {
                     </a>
                     <button
                       onClick={handleDownloadBoth}
-                      className="flex items-center gap-2 px-4 py-2 text-sm text-gray-300 hover:bg-[#0f0f0f] transition-colors w-full text-left"
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors w-full text-left"
                     >
                       <Download className="w-4 h-4" />
                       <span>Both Formats</span>
@@ -270,11 +290,13 @@ export function Navbar() {
                 </div>
               )}
             </div>
+            </div>
           </div>
         </div>
 
         {mobileMenuOpen && (
-          <div className="md:hidden mt-4 pt-4 border-t flex flex-col gap-2">
+          <div className="md:hidden mt-4 bg-white/95 backdrop-blur-xl shadow-lg rounded-2xl p-4 border border-gray-200/50">
+            <div className="flex flex-col gap-2">
             <Button asChild variant="ghost" href="/" title="LinkedIn">
               <a href="https://www.linkedin.com/in/dremer10" target="_blank" rel="noreferrer" className="justify-start">
                 <LinkedInIcon />
@@ -365,6 +387,7 @@ export function Navbar() {
                   </button>
                 </div>
               )}
+            </div>
             </div>
           </div>
         )}

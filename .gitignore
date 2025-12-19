@@ -15,3 +15,4 @@ scripts/*argocd*.sh
 public/files/*-template.pdf
 *.bkup
 project-info.md
+DESIGN_UPDATES_MEMORY.md

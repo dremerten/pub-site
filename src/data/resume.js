@@ -78,16 +78,6 @@ export const experienceData = [
       "Acquired practical experience deploying, testing, and maintaining enterprise applications in both on-premises and cloud environments",
       "Contributed to quality assurance processes and test automation development for IBM Aspera products"
     ]
-  },
-  {
-    company: "Infoset-ng (Open-Source Project)",
-    position: "Open-Source Contributor",
-    years: "Aug 2017 - Feb 2018 (6 months)",
-    highlights: [
-      "Contributed to design and development of data-gathering application for efficient collection, processing, and analysis of diverse datasets",
-      "Designed and deployed MySQL-based backend infrastructure with connection pooling for high-volume transactions",
-      "Deployed and maintained network monitoring agents, ensuring reliable performance"
-    ]
   }
 ];
 

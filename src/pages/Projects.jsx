@@ -72,7 +72,7 @@ const Projects = () => {
           >
             <div className="inline-block mb-8">
               <div className="text-xs tracking-[0.3em] uppercase text-gray-500 mb-4">Portfolio</div>
-              <h1 className="text-7xl font-light tracking-tight text-gray-900 mb-8">Featured Projects</h1>
+              <h1 className="text-7xl font-normal tracking-tight text-gray-900 mb-8">Featured Projects</h1>
               <div className="h-px w-32 mx-auto bg-gradient-to-r from-transparent via-gray-400 to-transparent"></div>
             </div>
           </div>
@@ -85,11 +85,11 @@ const Projects = () => {
               isVisible.environments ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
             }`}
           >
-            <p className="text-gray-700 text-sm font-light tracking-wide">NAVIGATE TO LIVE ENVIRONMENTS</p>
+            <p className="text-gray-700 text-sm font-normal tracking-wide">NAVIGATE TO LIVE ENVIRONMENTS</p>
             <div className="relative inline-block" ref={dropdownRef}>
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="flex items-center gap-3 bg-gray-900 hover:bg-gray-800 text-white font-light px-8 py-4 rounded-full transition-all duration-300 min-w-[280px] justify-between"
+                className="flex items-center gap-3 bg-gray-900 hover:bg-gray-800 text-white font-semibold px-8 py-4 rounded-full transition-all duration-300 min-w-[280px] justify-between"
               >
                 <span className="flex items-center gap-2">
                   <ExternalLink className="w-4 h-4" />
@@ -109,7 +109,7 @@ const Projects = () => {
                       className="w-full text-left px-6 py-4 transition-all duration-200 flex items-center justify-between gap-3 text-gray-700 hover:bg-gray-50 border-b border-gray-100 last:border-b-0"
                       onClick={() => setIsDropdownOpen(false)}
                     >
-                      <span className="flex items-center gap-3 font-light">
+                      <span className="flex items-center gap-3 font-normal">
                         <span className="w-2 h-2 bg-emerald-500 rounded-full"></span>
                         {env.name}
                       </span>
@@ -124,7 +124,7 @@ const Projects = () => {
               href="https://grafana.devops-toolkit.dremer10.com/public-dashboards/f0c7dc746ec24ce3be08a7e74fdbd4f0"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-gray-900 font-light text-sm hover:text-gray-700 transition-colors underline decoration-dotted underline-offset-4"
+              className="inline-flex items-center gap-2 text-gray-900 font-normal text-sm hover:text-gray-700 transition-colors underline decoration-dotted underline-offset-4"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
@@ -148,7 +148,7 @@ const Projects = () => {
               }`}
             >
               <h2
-                className="text-5xl font-light tracking-tight text-gray-900 mb-8"
+                className="text-5xl font-normal tracking-tight text-gray-900 mb-8"
                 style={{
                   animation: isVisible.intro ? 'fadeInUp 0.6s ease-out 0.1s both' : 'none'
                 }}
@@ -156,7 +156,7 @@ const Projects = () => {
                 DevOps Toolkit
               </h2>
               <p
-                className="text-xl text-gray-800 leading-relaxed font-light mb-6"
+                className="text-xl text-gray-800 leading-relaxed font-normal mb-6"
                 style={{
                   animation: isVisible.intro ? 'fadeInUp 0.6s ease-out 0.2s both' : 'none'
                 }}
@@ -166,7 +166,7 @@ const Projects = () => {
                 and complete observability.
               </p>
               <p
-                className="text-lg text-gray-700 leading-loose font-light mb-8"
+                className="text-lg text-gray-700 leading-loose font-normal mb-8"
                 style={{
                   animation: isVisible.intro ? 'fadeInUp 0.6s ease-out 0.3s both' : 'none'
                 }}
@@ -180,7 +180,7 @@ const Projects = () => {
                 {['Kubernetes', 'Docker', 'CI/CD', 'Prometheus', 'Grafana', 'GitHub Actions', 'Vue.js', 'TypeScript'].map((tech, index) => (
                   <span
                     key={index}
-                    className="text-sm text-gray-700 font-light border-b border-gray-400 pb-0.5 transition-all duration-300 hover:border-gray-900 hover:text-gray-900 cursor-default inline-block hover:-translate-y-0.5"
+                    className="text-sm text-gray-700 font-normal border-b border-gray-400 pb-0.5 transition-all duration-300 hover:border-gray-900 hover:text-gray-900 cursor-default inline-block hover:-translate-y-0.5"
                     style={{
                       animation: isVisible.intro ? `fadeInUp 0.6s ease-out ${index * 0.1}s both` : 'none'
                     }}
@@ -246,7 +246,7 @@ const Projects = () => {
               }`}
             >
               <h3
-                className="text-4xl font-light tracking-tight text-gray-900 mb-8"
+                className="text-4xl font-normal tracking-tight text-gray-900 mb-8"
                 style={{
                   animation: isVisible.pipeline ? 'fadeInUp 0.6s ease-out 0.1s both' : 'none'
                 }}
@@ -266,38 +266,37 @@ const Projects = () => {
                     <div className="bg-gradient-to-br from-blue-50 to-white border border-blue-200 rounded-lg p-4 hover:shadow-md transition-shadow duration-300">
                       <div className="flex items-center gap-2 mb-2">
                         <div className="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs font-bold">1</div>
-                        <span className="text-sm font-medium text-gray-900">Code Commit</span>
+                        <span className="text-sm font-semibold text-gray-900">Code Commit</span>
                       </div>
-                      <p className="text-xs text-gray-700 font-light">Developer pushes to main branch, triggering automated workflow</p>
+                      <p className="text-xs text-gray-700 font-normal">Developer pushes to main branch, triggering automated workflow</p>
                     </div>
                     <div className="bg-gradient-to-br from-green-50 to-white border border-green-200 rounded-lg p-4 hover:shadow-md transition-shadow duration-300">
                       <div className="flex items-center gap-2 mb-2">
                         <div className="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center text-white text-xs font-bold">2</div>
-                        <span className="text-sm font-medium text-gray-900">Build & Scan</span>
+                        <span className="text-sm font-semibold text-gray-900">Build & Scan</span>
                       </div>
-                      <p className="text-xs text-gray-700 font-light">Docker image built and scanned for vulnerabilities with Trivy</p>
+                      <p className="text-xs text-gray-700 font-normal">Docker image built and scanned for vulnerabilities with Trivy</p>
                     </div>
                     <div className="bg-gradient-to-br from-purple-50 to-white border border-purple-200 rounded-lg p-4 hover:shadow-md transition-shadow duration-300">
                       <div className="flex items-center gap-2 mb-2">
                         <div className="w-6 h-6 rounded-full bg-purple-500 flex items-center justify-center text-white text-xs font-bold">3</div>
-                        <span className="text-sm font-medium text-gray-900">Deploy</span>
+                        <span className="text-sm font-semibold text-gray-900">Deploy</span>
                       </div>
-                      <p className="text-xs text-gray-700 font-light">Rolling update to Kubernetes cluster with zero downtime</p>
+                      <p className="text-xs text-gray-700 font-normal">Rolling update to Kubernetes cluster with zero downtime</p>
                     </div>
                   </div>
 
                   <div className="overflow-hidden rounded-lg relative">
                     <img
-                      src="/images/main-flow.png"
+                      src="/images/main-push.png"
                       alt="Production CI/CD Pipeline"
-                      className="w-full rounded-lg shadow-xl cursor-pointer hover:shadow-2xl transition-all duration-500 hover:scale-[1.02]"
-                      onClick={() => window.open('/images/main-flow.png', '_blank')}
+                      className="w-full max-w-6xl mx-auto rounded-lg shadow-2xl"
+                      style={{ maxWidth: '100%', height: 'auto' }}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
                   </div>
                 </div>
                 <p
-                  className="text-sm text-gray-600 text-center mt-4 font-light italic transition-all duration-300"
+                  className="text-sm text-gray-600 text-center mt-4 font-normal italic transition-all duration-300"
                   style={{
                     animation: isVisible.pipeline ? 'fadeInUp 0.6s ease-out 0.5s both' : 'none'
                   }}
@@ -307,7 +306,7 @@ const Projects = () => {
               </div>
 
               <p
-                className="text-lg text-gray-800 leading-loose font-light mb-6"
+                className="text-lg text-gray-800 leading-loose font-normal mb-6"
                 style={{
                   animation: isVisible.pipeline ? 'fadeInUp 0.6s ease-out 0.6s both' : 'none'
                 }}
@@ -329,38 +328,37 @@ const Projects = () => {
                     <div className="bg-gradient-to-br from-orange-50 to-white border border-orange-200 rounded-lg p-4 hover:shadow-md transition-shadow duration-300">
                       <div className="flex items-center gap-2 mb-2">
                         <div className="w-6 h-6 rounded-full bg-orange-500 flex items-center justify-center text-white text-xs font-bold">1</div>
-                        <span className="text-sm font-medium text-gray-900">Rapid Testing</span>
+                        <span className="text-sm font-semibold text-gray-900">Rapid Testing</span>
                       </div>
-                      <p className="text-xs text-gray-700 font-light">Fast iteration cycle for development and QA environments</p>
+                      <p className="text-xs text-gray-700 font-normal">Fast iteration cycle for development and QA environments</p>
                     </div>
                     <div className="bg-gradient-to-br from-cyan-50 to-white border border-cyan-200 rounded-lg p-4 hover:shadow-md transition-shadow duration-300">
                       <div className="flex items-center gap-2 mb-2">
                         <div className="w-6 h-6 rounded-full bg-cyan-500 flex items-center justify-center text-white text-xs font-bold">2</div>
-                        <span className="text-sm font-medium text-gray-900">Quality Gates</span>
+                        <span className="text-sm font-semibold text-gray-900">Quality Gates</span>
                       </div>
-                      <p className="text-xs text-gray-700 font-light">Automated checks before promoting to staging</p>
+                      <p className="text-xs text-gray-700 font-normal">Automated checks before promoting to staging</p>
                     </div>
                     <div className="bg-gradient-to-br from-pink-50 to-white border border-pink-200 rounded-lg p-4 hover:shadow-md transition-shadow duration-300">
                       <div className="flex items-center gap-2 mb-2">
                         <div className="w-6 h-6 rounded-full bg-pink-500 flex items-center justify-center text-white text-xs font-bold">3</div>
-                        <span className="text-sm font-medium text-gray-900">Progressive Deploy</span>
+                        <span className="text-sm font-semibold text-gray-900">Progressive Deploy</span>
                       </div>
-                      <p className="text-xs text-gray-700 font-light">Gradual rollout across environments before production</p>
+                      <p className="text-xs text-gray-700 font-normal">Gradual rollout across environments before production</p>
                     </div>
                   </div>
 
                   <div className="overflow-hidden rounded-lg relative">
                     <img
-                      src="/images/develop-flow.png"
+                      src="/images/dev-push.png"
                       alt="Development CI/CD Pipeline"
-                      className="w-full rounded-lg shadow-xl cursor-pointer hover:shadow-2xl transition-all duration-500 hover:scale-[1.02]"
-                      onClick={() => window.open('/images/develop-flow.png', '_blank')}
+                      className="w-full max-w-6xl mx-auto rounded-lg shadow-2xl"
+                      style={{ maxWidth: '100%', height: 'auto' }}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
                   </div>
                 </div>
                 <p
-                  className="text-sm text-gray-600 text-center mt-4 font-light italic transition-all duration-300"
+                  className="text-sm text-gray-600 text-center mt-4 font-normal italic transition-all duration-300"
                   style={{
                     animation: isVisible.pipeline ? 'fadeInUp 0.6s ease-out 0.9s both' : 'none'
                   }}
@@ -369,7 +367,7 @@ const Projects = () => {
                 </p>
               </div>
 
-              <p className="text-lg text-gray-800 leading-loose font-light">
+              <p className="text-lg text-gray-800 leading-loose font-normal">
                 The pipeline architecture separates concerns between development and production workflows, ensuring
                 rapid iteration in lower environments while maintaining strict controls for production deployments.
                 Trivy security scanning runs on every build, catching vulnerabilities before they reach production.
@@ -390,7 +388,7 @@ const Projects = () => {
               }`}
             >
               <h3
-                className="text-4xl font-light tracking-tight text-gray-900 mb-8"
+                className="text-4xl font-normal tracking-tight text-gray-900 mb-8"
                 style={{
                   animation: isVisible.infrastructure ? 'fadeInUp 0.6s ease-out 0.1s both' : 'none'
                 }}
@@ -399,7 +397,7 @@ const Projects = () => {
               </h3>
 
               <p
-                className="text-lg text-gray-800 leading-loose font-light mb-6"
+                className="text-lg text-gray-800 leading-loose font-normal mb-6"
                 style={{
                   animation: isVisible.infrastructure ? 'fadeInUp 0.6s ease-out 0.2s both' : 'none'
                 }}
@@ -415,7 +413,7 @@ const Projects = () => {
                   animation: isVisible.infrastructure ? 'fadeInUp 0.8s ease-out 0.4s both' : 'none'
                 }}
               >
-                <h4 className="text-2xl font-light text-gray-900 mb-6">Cluster Architecture</h4>
+                <h4 className="text-2xl font-normal text-gray-900 mb-6">Cluster Architecture</h4>
                 <div className="space-y-6">
                   <div
                     className="transform transition-all duration-300 hover:translate-x-2"
@@ -424,7 +422,7 @@ const Projects = () => {
                     }}
                   >
                     <p className="text-base font-normal text-gray-900 mb-2">NGINX Ingress Controller</p>
-                    <p className="text-sm text-gray-700 font-light leading-relaxed">
+                    <p className="text-sm text-gray-700 font-normal leading-relaxed">
                       Handles external traffic routing with automatic SSL/TLS termination. Configured with
                       NodePort services for HTTP and HTTPS traffic with host-based routing.
                     </p>
@@ -437,7 +435,7 @@ const Projects = () => {
                     }}
                   >
                     <p className="text-base font-normal text-gray-900 mb-2">Certificate Management</p>
-                    <p className="text-sm text-gray-700 font-light leading-relaxed">
+                    <p className="text-sm text-gray-700 font-normal leading-relaxed">
                       cert-manager integrates with Let's Encrypt to provide automatic TLS certificate
                       provisioning and renewal, ensuring all traffic is encrypted without manual intervention.
                     </p>
@@ -450,7 +448,7 @@ const Projects = () => {
                     }}
                   >
                     <p className="text-base font-normal text-gray-900 mb-2">Multi-Environment Namespaces</p>
-                    <p className="text-sm text-gray-700 font-light leading-relaxed">
+                    <p className="text-sm text-gray-700 font-normal leading-relaxed">
                       Isolated namespaces for development, QA, staging, and production environments, each
                       running dedicated application pods with environment-specific configurations.
                     </p>
@@ -458,7 +456,7 @@ const Projects = () => {
                 </div>
               </div>
 
-              <p className="text-lg text-gray-800 leading-loose font-light">
+              <p className="text-lg text-gray-800 leading-loose font-normal">
                 Infrastructure as code principles govern the entire deployment, with all Kubernetes manifests
                 version-controlled and automatically applied through the CI/CD pipeline. This ensures reproducible
                 deployments and eliminates configuration drift across environments.
@@ -479,7 +477,7 @@ const Projects = () => {
               }`}
             >
               <h3
-                className="text-4xl font-light tracking-tight text-gray-900 mb-8"
+                className="text-4xl font-normal tracking-tight text-gray-900 mb-8"
                 style={{
                   animation: isVisible.observability ? 'fadeInUp 0.6s ease-out 0.1s both' : 'none'
                 }}
@@ -488,7 +486,7 @@ const Projects = () => {
               </h3>
 
               <p
-                className="text-lg text-gray-800 leading-loose font-light mb-6"
+                className="text-lg text-gray-800 leading-loose font-normal mb-6"
                 style={{
                   animation: isVisible.observability ? 'fadeInUp 0.6s ease-out 0.2s both' : 'none'
                 }}
@@ -504,7 +502,7 @@ const Projects = () => {
                   animation: isVisible.observability ? 'fadeInUp 0.8s ease-out 0.4s both' : 'none'
                 }}
               >
-                <h4 className="text-2xl font-light text-gray-900 mb-6">Monitoring Stack</h4>
+                <h4 className="text-2xl font-normal text-gray-900 mb-6">Monitoring Stack</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div
                     className="transform transition-all duration-300 hover:scale-105"
@@ -513,7 +511,7 @@ const Projects = () => {
                     }}
                   >
                     <p className="text-base font-normal text-gray-900 mb-2">Prometheus Metrics</p>
-                    <p className="text-sm text-gray-700 font-light leading-relaxed">
+                    <p className="text-sm text-gray-700 font-normal leading-relaxed">
                       Time-series metrics collection with service discovery and auto-configuration.
                       Stores performance data and provides alerting capabilities.
                     </p>
@@ -526,7 +524,7 @@ const Projects = () => {
                     }}
                   >
                     <p className="text-base font-normal text-gray-900 mb-2">Grafana Dashboards</p>
-                    <p className="text-sm text-gray-700 font-light leading-relaxed">
+                    <p className="text-sm text-gray-700 font-normal leading-relaxed">
                       Custom visualizations with public dashboard access, providing stakeholders
                       with real-time insights into system health.
                     </p>
@@ -539,7 +537,7 @@ const Projects = () => {
                     }}
                   >
                     <p className="text-base font-normal text-gray-900 mb-2">Node Exporter</p>
-                    <p className="text-sm text-gray-700 font-light leading-relaxed">
+                    <p className="text-sm text-gray-700 font-normal leading-relaxed">
                       System-level metrics including CPU, memory, disk I/O, and network statistics
                       for comprehensive host monitoring.
                     </p>
@@ -552,7 +550,7 @@ const Projects = () => {
                     }}
                   >
                     <p className="text-base font-normal text-gray-900 mb-2">cAdvisor</p>
-                    <p className="text-sm text-gray-700 font-light leading-relaxed">
+                    <p className="text-sm text-gray-700 font-normal leading-relaxed">
                       Container-specific metrics providing visibility into resource utilization
                       and performance at the container level.
                     </p>
@@ -560,7 +558,31 @@ const Projects = () => {
                 </div>
               </div>
 
-              <p className="text-lg text-gray-800 leading-loose font-light">
+              <div
+                className="mb-12 group"
+                style={{
+                  animation: isVisible.observability ? 'fadeInUp 0.8s ease-out 1.0s both' : 'none'
+                }}
+              >
+                <div className="overflow-hidden rounded-lg relative">
+                  <img
+                    src="/images/grafana.png"
+                    alt="Grafana Monitoring Dashboard"
+                    className="w-full max-w-6xl mx-auto rounded-lg shadow-2xl"
+                    style={{ maxWidth: '100%', height: 'auto' }}
+                  />
+                </div>
+                <p
+                  className="text-sm text-gray-600 text-center mt-4 font-normal italic"
+                  style={{
+                    animation: isVisible.observability ? 'fadeInUp 0.6s ease-out 1.2s both' : 'none'
+                  }}
+                >
+                  Live Grafana Dashboard - Real-time cluster monitoring
+                </p>
+              </div>
+
+              <p className="text-lg text-gray-800 leading-loose font-normal">
                 The observability stack runs within its own dedicated namespace, isolated from application
                 workloads while maintaining access to cluster-wide metrics. Public dashboards allow demonstration
                 of real-time monitoring capabilities without requiring authentication.
@@ -581,7 +603,7 @@ const Projects = () => {
               }`}
             >
               <h3
-                className="text-4xl font-light tracking-tight text-gray-900 mb-8"
+                className="text-4xl font-normal tracking-tight text-gray-900 mb-8"
                 style={{
                   animation: isVisible.achievements ? 'fadeInUp 0.6s ease-out 0.1s both' : 'none'
                 }}
@@ -596,8 +618,8 @@ const Projects = () => {
                     animation: isVisible.achievements ? 'slideInLeft 0.6s ease-out 0.3s both' : 'none'
                   }}
                 >
-                  <h4 className="text-2xl font-light text-gray-900 mb-3">Production-Ready Architecture</h4>
-                  <p className="text-lg text-gray-800 leading-loose font-light">
+                  <h4 className="text-2xl font-normal text-gray-900 mb-3">Production-Ready Architecture</h4>
+                  <p className="text-lg text-gray-800 leading-loose font-normal">
                     A fully automated deployment pipeline spanning four environments, from development through
                     production. Each environment operates independently with environment-specific configurations,
                     demonstrating proper separation of concerns and progressive delivery practices.
@@ -610,8 +632,8 @@ const Projects = () => {
                     animation: isVisible.achievements ? 'slideInLeft 0.6s ease-out 0.5s both' : 'none'
                   }}
                 >
-                  <h4 className="text-2xl font-light text-gray-900 mb-3">Security-First Approach</h4>
-                  <p className="text-lg text-gray-800 leading-loose font-light">
+                  <h4 className="text-2xl font-normal text-gray-900 mb-3">Security-First Approach</h4>
+                  <p className="text-lg text-gray-800 leading-loose font-normal">
                     Integrated security scanning with Trivy catches vulnerabilities at build time. Automated
                     TLS certificate management ensures all traffic is encrypted. Kubernetes RBAC and network
                     policies provide defense in depth.
@@ -624,8 +646,8 @@ const Projects = () => {
                     animation: isVisible.achievements ? 'slideInLeft 0.6s ease-out 0.7s both' : 'none'
                   }}
                 >
-                  <h4 className="text-2xl font-light text-gray-900 mb-3">Modern Development Workflow</h4>
-                  <p className="text-lg text-gray-800 leading-loose font-light">
+                  <h4 className="text-2xl font-normal text-gray-900 mb-3">Modern Development Workflow</h4>
+                  <p className="text-lg text-gray-800 leading-loose font-normal">
                     GitOps principles govern all changes, with infrastructure and application code living in
                     version control. Automated testing, linting, and quality gates ensure code quality.
                     Zero-downtime rolling updates maintain service availability during deployments.
@@ -649,7 +671,7 @@ const Projects = () => {
                 }}
               ></div>
               <p
-                className="text-sm text-gray-600 font-light tracking-wide"
+                className="text-sm text-gray-600 font-normal tracking-wide"
                 style={{
                   animation: isVisible.closing ? 'fadeInUp 0.8s ease-out 0.5s both' : 'none'
                 }}

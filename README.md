@@ -1,34 +1,50 @@
-# Simple React JS Project
+## Overview
 
-## What is the use of this Repo
+A modern React-based portfolio site showcasing professional information, projects, and background.
 
-This Project is a Simple ReactJS Project which demonstrates the following
-1. Creating a Component in React
-2. Making HTTP calls
-3. Communicating between parent and child component
-4. Using Bootstrap along with React
-5. Using Basic Routing in React
+## Technology Stack
 
-The project Template can be used to build bigger projects
+- **Frontend**: React 18 + Vite
+- **Styling**: TailwindCSS + styled-components
+- **UI Components**: Radix UI, Lucide React
+- **Containerization**: Docker (multi-stage build)
+- **Web Server**: Nginx (Alpine)
+- **Orchestration**: Kubernetes
 
-## Application design
+## Deployment
 
-#### Components
+The site is deployed to Kubernetes with automated CI/CD via GitHub Actions.
 
-1. **Customers** Component : This Component displays a list of customers. This Component gets the data from a json file in assets folder
+### Production
+- **Environment**: `pub-site-prod` namespace
+- **Trigger**: Push to `main` branch
 
-2. **CustomerDetails** Component : This Component Displays the details of the selected customer. This Component gets its data from a json file in assets folder as well. This Component is the Child Component of *Customers* Component
+### Testing
+- **Environment**: `pub-site-dev` namespace
+- **Trigger**: Pull request to `main` branch
+```
 
-#### HTTP client
+## CI/CD Pipeline
 
-**axios** library is used to make HTTP Calls
+The GitHub Actions workflow automatically:
+1. Builds and tests the Docker image
+2. Runs security scans with Trivy
+3. Pushes to Docker Hub
+4. Deploys to appropriate Kubernetes environment
+5. Comments on PRs with preview URL
 
-#### URL
+## Project Structure
 
-The application has just one url /customerlist which ties to *Customers* Component
-
-## To Deploy
-
-1. git clone git@github.com:dremerten/pub-site.git
-2. ``` docker-compose up -d```
+```
+.
+├── src/                 # React source code
+├── public/              # Static assets
+├── k8s/                 # Kubernetes manifests
+│   ├── production.yaml  # Production deployment
+│   ├── testing.yaml     # Testing deployment
+│   └── deploy.sh        # Manual deployment script
+├── .github/workflows/   # CI/CD workflows
+├── Dockerfile           # Multi-stage Docker build
+└── nginx-container.conf # Nginx configuration
+```
 

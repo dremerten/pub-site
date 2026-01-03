@@ -1,8 +1,13 @@
 name: Build and Deploy
 
+# Workflow Behavior:
+# - Feature branch push: Fast deploy to info-dev (no tests)
+# - PR to main: Test + Scan gate (no deployment)
+# - Main push: Deploy to production (no tests, already passed in PR)
+
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "**" ]  # Trigger on push to any branch
   pull_request:
     branches: [ "main" ]
 
@@ -39,6 +44,7 @@ jobs:
   test:
     needs: build
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
 
     steps:
     - name: Download Docker image artifact
@@ -94,6 +100,7 @@ jobs:
   scan:
     needs: build
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
 
     steps:
     - name: Download Docker image artifact
@@ -130,8 +137,8 @@ jobs:
         ignore-unfixed: true
         severity: 'CRITICAL,HIGH'
 
-  push:
-    needs: [test, scan]
+  push-production:
+    needs: build
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
@@ -160,13 +167,44 @@ jobs:
         cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:latest
         cache-to: type=inline
 
-  deploy:
-    needs: push
+  push-testing:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref != 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Build and push Docker image with test tag
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: ./Dockerfile
+        push: true
+        tags: ${{ env.IMAGE_NAME }}:test
+        cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:latest
+        cache-to: type=inline
+
+  deploy-production:
+    needs: push-production
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
 
     steps:
-    - name: Deploy to server
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Deploy to Hostinger k8s (production)
       uses: appleboy/ssh-action@v1.0.0
       with:
         host: ${{ secrets.DEPLOY_HOST }}
@@ -174,8 +212,253 @@ jobs:
         key: ${{ secrets.DEPLOY_SSH_KEY }}
         port: 33001
         script: |
-          cd /opt/pub-site
-          export DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }}
-          docker compose -f docker-compose.prod.yml pull
-          docker compose -f docker-compose.prod.yml up -d
-          docker image prune -f
+          kubectl apply -f - <<EOF
+          $(cat <<'YAML'
+          ---
+          apiVersion: v1
+          kind: Namespace
+          metadata:
+            name: pub-site-prod
+            labels:
+              name: pub-site-prod
+
+          ---
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: pub-site
+            namespace: pub-site-prod
+            labels:
+              app: pub-site
+              environment: production
+          spec:
+            replicas: 2
+            selector:
+              matchLabels:
+                app: pub-site
+                environment: production
+            template:
+              metadata:
+                labels:
+                  app: pub-site
+                  environment: production
+              spec:
+                containers:
+                - name: pub-site
+                  image: ${{ secrets.DOCKERHUB_USERNAME }}/pub-site:latest
+                  imagePullPolicy: Always
+                  ports:
+                  - containerPort: 80
+                    name: http
+                  resources:
+                    requests:
+                      memory: "16Mi"
+                      cpu: "10m"
+                    limits:
+                      memory: "32Mi"
+                      cpu: "50m"
+                  livenessProbe:
+                    httpGet:
+                      path: /
+                      port: 80
+                    initialDelaySeconds: 10
+                    periodSeconds: 10
+                  readinessProbe:
+                    httpGet:
+                      path: /
+                      port: 80
+                    initialDelaySeconds: 5
+                    periodSeconds: 5
+
+          ---
+          apiVersion: v1
+          kind: Service
+          metadata:
+            name: pub-site
+            namespace: pub-site-prod
+            labels:
+              app: pub-site
+              environment: production
+          spec:
+            type: ClusterIP
+            selector:
+              app: pub-site
+              environment: production
+            ports:
+            - port: 80
+              targetPort: 80
+              protocol: TCP
+              name: http
+
+          ---
+          apiVersion: networking.k8s.io/v1
+          kind: Ingress
+          metadata:
+            name: pub-site
+            namespace: pub-site-prod
+            annotations:
+              cert-manager.io/cluster-issuer: letsencrypt-prod
+              nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+              nginx.ingress.kubernetes.io/ssl-redirect: "true"
+          spec:
+            ingressClassName: nginx
+            rules:
+            - host: info.dremer10.com
+              http:
+                paths:
+                - path: /
+                  pathType: Prefix
+                  backend:
+                    service:
+                      name: pub-site
+                      port:
+                        number: 80
+            tls:
+            - hosts:
+              - info.dremer10.com
+              secretName: pub-site-production-tls
+          YAML
+          )
+          EOF
+
+          kubectl rollout status deployment/pub-site -n pub-site-prod --timeout=5m
+
+  deploy-testing:
+    needs: push-testing
+    runs-on: ubuntu-latest
+    if: github.ref != 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Deploy to Hostinger k8s (testing)
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.DEPLOY_HOST }}
+        username: ${{ secrets.DEPLOY_USER }}
+        key: ${{ secrets.DEPLOY_SSH_KEY }}
+        port: 33001
+        script: |
+          kubectl apply -f - <<EOF
+          $(cat <<'YAML'
+          ---
+          apiVersion: v1
+          kind: Namespace
+          metadata:
+            name: pub-site-dev
+            labels:
+              name: pub-site-dev
+
+          ---
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: pub-site
+            namespace: pub-site-dev
+            labels:
+              app: pub-site
+              environment: testing
+          spec:
+            replicas: 1
+            selector:
+              matchLabels:
+                app: pub-site
+                environment: testing
+            template:
+              metadata:
+                labels:
+                  app: pub-site
+                  environment: testing
+              spec:
+                containers:
+                - name: pub-site
+                  image: ${{ secrets.DOCKERHUB_USERNAME }}/pub-site:test
+                  imagePullPolicy: Always
+                  ports:
+                  - containerPort: 80
+                    name: http
+                  resources:
+                    requests:
+                      memory: "12Mi"
+                      cpu: "5m"
+                    limits:
+                      memory: "24Mi"
+                      cpu: "25m"
+                  livenessProbe:
+                    httpGet:
+                      path: /
+                      port: 80
+                    initialDelaySeconds: 10
+                    periodSeconds: 10
+                  readinessProbe:
+                    httpGet:
+                      path: /
+                      port: 80
+                    initialDelaySeconds: 5
+                    periodSeconds: 5
+
+          ---
+          apiVersion: v1
+          kind: Service
+          metadata:
+            name: pub-site
+            namespace: pub-site-dev
+            labels:
+              app: pub-site
+              environment: testing
+          spec:
+            type: ClusterIP
+            selector:
+              app: pub-site
+              environment: testing
+            ports:
+            - port: 80
+              targetPort: 80
+              protocol: TCP
+              name: http
+
+          ---
+          apiVersion: networking.k8s.io/v1
+          kind: Ingress
+          metadata:
+            name: pub-site
+            namespace: pub-site-dev
+            annotations:
+              cert-manager.io/cluster-issuer: letsencrypt-prod
+              nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+              nginx.ingress.kubernetes.io/ssl-redirect: "true"
+          spec:
+            ingressClassName: nginx
+            rules:
+            - host: info-dev.dremer10.com
+              http:
+                paths:
+                - path: /
+                  pathType: Prefix
+                  backend:
+                    service:
+                      name: pub-site
+                      port:
+                        number: 80
+            tls:
+            - hosts:
+              - info-dev.dremer10.com
+              secretName: pub-site-testing-tls
+          YAML
+          )
+          EOF
+
+          kubectl rollout status deployment/pub-site -n pub-site-dev --timeout=5m
+
+    - name: Comment PR with testing URL
+      uses: actions/github-script@v7
+      if: github.event_name == 'pull_request'
+      with:
+        script: |
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: '✅ Testing deployment successful!\n\n🔗 Preview your changes at: https://info-dev.dremer10.com\n\nThe testing environment will remain active until this PR is merged or closed.'
+          })

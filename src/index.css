@@ -118,6 +118,15 @@
   }
 }
 
+@media (max-width: 640px) {
+  html {
+    font-size: 14px;
+  }
+  body {
+    line-height: 1.5;
+  }
+}
+
 /* Animations matching benscott.dev */
 @keyframes slideInLeft {
   0% {

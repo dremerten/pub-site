@@ -4,6 +4,8 @@ import Navbar from "./components/Navbar.jsx";
 import Home from "./pages/Home.jsx";
 import Overview from "./pages/Overview.jsx";
 import Projects from "./pages/Projects.jsx";
+import DevOpsToolkit from "./pages/DevOpsToolkit.jsx";
+import SolarSystem from "./pages/SolarSystem.jsx";
 import Resume from "./pages/Resume.jsx";
 import { ThemeProvider } from "./components/ThemeProvider.jsx";
 
@@ -26,6 +28,8 @@ const AppContent = () => {
               <Route key={path} path={path} element={<Component />} />
             ))
           }
+          <Route path="/projects/devops-toolkit" element={<DevOpsToolkit />} />
+          <Route path="/projects/solar-system-simulator" element={<SolarSystem />} />
         </Routes>
       </main>
     </div>

@@ -46,16 +46,16 @@ const Overview = () => {
   return (
     <div className="bg-white text-gray-900 relative min-h-screen">
       {/* Hero Section */}
-      <section className="min-h-[60vh] flex flex-col justify-center items-center relative">
-        <div className="relative z-10 text-center px-8 max-w-6xl mx-auto py-32">
-          <div className="inline-block mb-12">
-            <div className="text-xs tracking-[0.3em] uppercase text-gray-500 mb-6">Professional Dashboard</div>
-            <h1 className="text-6xl md:text-7xl font-light mb-8 tracking-tight leading-tight text-gray-900">
+      <section className="min-h-[45vh] flex flex-col justify-center items-center relative">
+        <div className="relative z-10 text-center px-6 sm:px-8 max-w-6xl mx-auto py-12 sm:py-20">
+          <div className="inline-block mb-10">
+            <div className="text-[11px] sm:text-xs tracking-[0.3em] uppercase text-gray-500 mb-4">Professional Dashboard</div>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-light mb-6 tracking-tight leading-tight text-gray-900">
               {personalInfo.name}
             </h1>
 
             {/* Small Professional Snapshot Icons */}
-            <div className="flex items-center justify-center gap-3 mb-8">
+            <div className="flex items-center justify-center gap-3 mb-6">
               {/* Status */}
               <div className="group relative">
                 <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105">
@@ -105,35 +105,64 @@ const Overview = () => {
               </div>
             </div>
 
-            <div className="h-px w-32 mx-auto bg-gradient-to-r from-transparent via-gray-400 to-transparent mb-8"></div>
-            <p className="text-xl md:text-2xl text-gray-700 max-w-3xl mx-auto font-normal leading-relaxed">
+            <div className="h-px w-32 mx-auto bg-gradient-to-r from-transparent via-gray-400 to-transparent mb-6"></div>
+            <p className="text-base sm:text-lg md:text-xl text-gray-700 max-w-3xl mx-auto font-normal leading-relaxed">
               Actively seeking opportunities as a <span className="text-gray-900 font-medium">Platform Engineer</span> or <span className="text-gray-900 font-medium">(Infrastructure-Focused) DevOps Engineer</span>
             </p>
           </div>
         </div>
       </section>
 
-      {/* Decorative Divider */}
-      <div className="mb-16 relative z-10">
-        <div className="h-px w-full bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
-      </div>
+      <div className="max-w-6xl mx-auto px-6 sm:px-8 relative z-10">
+        {/* Experience Timeline Section */}
+        <section className="py-4">
+          <div className="text-center mb-6">
+            <h2 className="text-3xl sm:text-4xl font-light mb-3 text-gray-900 tracking-tight">Experience Timeline</h2>
+            <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto font-normal">
+              My professional journey from Software Apprentice to Senior QA / DevOps Engineer
+            </p>
+          </div>
 
-      <div className="max-w-6xl mx-auto px-8 relative z-10">
+          <div className="bg-white rounded-xl border border-gray-200 shadow-md hover:shadow-lg transition-all duration-300 p-5 sm:p-6">
+            <div className="space-y-4">
+              {experienceData.map((exp, index) => (
+                <div key={`exp-${index}`} className="relative pl-5 border-l-2 border-gray-200 hover:border-blue-500 transition-all">
+                  <div className="absolute -left-[5px] top-1.5 w-2 h-2 bg-blue-500 rounded-full"></div>
+                  <div className="flex items-start justify-between mb-1.5">
+                    <span className="text-sm sm:text-base font-medium text-gray-900">{exp.position}</span>
+                    {exp.status && (
+                      <span className="bg-green-50 text-green-700 text-[11px] px-2 py-0.5 rounded-full border border-green-200 font-normal">
+                        {exp.status}
+                      </span>
+                    )}
+                  </div>
+                  <div className="text-xs sm:text-sm text-gray-700 mb-1 font-normal">{exp.company}</div>
+                  <div className="text-[11px] text-gray-500 font-normal">{exp.years}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Decorative Divider */}
+        <div className="mb-6 relative z-10">
+          <div className="h-px w-full bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
+        </div>
 
         {/* Key Achievements Section */}
-        <section className="py-16">
-          <div className="text-center mb-16">
-            <h2 className="text-5xl font-light mb-6 text-gray-900 tracking-tight">Key Achievements</h2>
-            <p className="text-lg text-gray-700 max-w-3xl mx-auto font-normal leading-loose">
+        <section className="py-6">
+          <div className="text-center mb-6">
+            <h2 className="text-4xl sm:text-5xl font-light mb-4 text-gray-900 tracking-tight">Key Achievements</h2>
+            <p className="text-base sm:text-lg text-gray-700 max-w-3xl mx-auto font-normal leading-relaxed">
               Highlights from my professional journey in Platform Engineering and DevOps
             </p>
           </div>
 
           {/* Terminal Panel */}
-          <div className="relative bg-white rounded-2xl border border-gray-200 shadow-lg hover:shadow-xl transition-all duration-300 mb-16">
+          <div className="relative bg-white rounded-2xl border border-gray-200 shadow-lg hover:shadow-xl transition-all duration-300 mb-6 hidden sm:block">
             {/* Terminal Header */}
-            <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between bg-gray-50 rounded-t-2xl">
-              <h3 className="text-lg font-medium text-gray-900">Terminal Output</h3>
+            <div className="px-5 sm:px-6 py-3 sm:py-4 border-b border-gray-200 flex items-center justify-between bg-gray-50 rounded-t-2xl">
+              <h3 className="text-base sm:text-lg font-medium text-gray-900">Terminal Output</h3>
               <div className="flex gap-2">
                 <div className="w-3 h-3 rounded-full bg-red-500"></div>
                 <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
@@ -142,10 +171,10 @@ const Overview = () => {
             </div>
 
             {/* Terminal Content */}
-            <div className="p-8">
-              <div className="bg-gray-900 border border-gray-800 rounded-xl p-8">
-                <div className="font-mono text-sm">
-                  <div className="mb-4 overflow-x-auto">
+            <div className="p-5 sm:p-6">
+              <div className="bg-gray-900 border border-gray-800 rounded-xl p-4 sm:p-6 w-full min-h-[420px] sm:min-h-[520px] max-h-[70vh]">
+                <div className="font-mono text-[13px] sm:text-sm h-full w-full flex flex-col">
+                  <div className="mb-3 overflow-x-auto">
                     <span className="text-green-400">user@devops</span>
                     <span className="text-white">:</span>
                     <span className="text-blue-400">~</span>
@@ -155,42 +184,12 @@ const Overview = () => {
                     )}
                   </div>
                   {aboutText && (
-                    <div className="text-green-300 leading-loose whitespace-pre-wrap break-words">
+                    <div className="text-green-300 leading-relaxed whitespace-pre-wrap break-words text-xs sm:text-sm flex-1">
                       {aboutText}
                     </div>
                   )}
                 </div>
               </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Experience Timeline Section */}
-        <section className="py-12">
-          <div className="text-center mb-10">
-            <h2 className="text-3xl font-light mb-3 text-gray-900 tracking-tight">Experience Timeline</h2>
-            <p className="text-sm text-gray-600 max-w-2xl mx-auto font-normal">
-              My professional journey from Software Apprentice to Senior QA / DevOps Engineer
-            </p>
-          </div>
-
-          <div className="bg-white rounded-xl border border-gray-200 shadow-md hover:shadow-lg transition-all duration-300 p-6">
-            <div className="space-y-5">
-              {experienceData.map((exp, index) => (
-                <div key={`exp-${index}`} className="relative pl-6 border-l-2 border-gray-200 hover:border-blue-500 transition-all">
-                  <div className="absolute -left-[5px] top-1.5 w-2 h-2 bg-blue-500 rounded-full"></div>
-                  <div className="flex items-start justify-between mb-1.5">
-                    <span className="text-base font-medium text-gray-900">{exp.position}</span>
-                    {exp.status && (
-                      <span className="bg-green-50 text-green-700 text-xs px-2.5 py-0.5 rounded-full border border-green-200 font-normal">
-                        {exp.status}
-                      </span>
-                    )}
-                  </div>
-                  <div className="text-sm text-gray-700 mb-1 font-normal">{exp.company}</div>
-                  <div className="text-xs text-gray-500 font-normal">{exp.years}</div>
-                </div>
-              ))}
             </div>
           </div>
         </section>

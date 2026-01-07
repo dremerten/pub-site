@@ -133,7 +133,10 @@ const Projects = () => {
 
                       <div className="flex flex-wrap gap-1.5">
                         {project.tags.map((tag) => (
-                          <span key={tag} className="px-2.5 py-0.5 rounded-full text-[10px] sm:text-xs font-semibold bg-white/10 text-white border border-white/20">
+                          <span
+                            key={tag}
+                            className="px-2.5 py-0.5 rounded-md text-[10px] sm:text-xs font-medium bg-transparent text-gray-300 border border-white/10"
+                          >
                             {tag}
                           </span>
                         ))}

@@ -98,7 +98,7 @@ const AboutShowcase = () => {
                         <p className="text-sm sm:text-base text-gray-200 leading-relaxed">{project.description}</p>
                         <div className="flex flex-wrap gap-2">
                           {project.tags.map((tag) => (
-                            <span key={tag} className="px-2.5 py-1 rounded-full bg-white/10 text-white text-[10px] sm:text-xs font-semibold border border-white/20">
+                            <span key={tag} className="px-2.5 py-1 rounded-md bg-transparent text-white text-[10px] sm:text-xs font-medium border border-white/10">
                               {tag}
                             </span>
                           ))}
@@ -112,7 +112,7 @@ const AboutShowcase = () => {
                             <ArrowRight className="w-3 h-3" />
                           </Link>
                           {project.ctas
-                            .filter((cta) => cta.type === "external")
+                            .filter((cta) => cta.type === "external" && cta.label.toLowerCase().includes("check it out"))
                             .map((cta) => (
                               <a
                                 key={cta.label}

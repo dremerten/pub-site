@@ -2,6 +2,7 @@ import { ExternalLink, ChevronDown, ArrowLeft, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import PageWrapper from "@/components/PageWrapper";
 import { useState, useEffect, useRef } from "react";
+import { StickyButtons } from "@/components/StickyButtons";
 
 const DevOpsToolkit = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -76,88 +77,99 @@ const DevOpsToolkit = () => {
   };
 
   return (
-    <div className="bg-white min-h-screen">
+    <div className="bg-gradient-to-b from-[#050914] via-[#070b16] to-black text-white min-h-screen">
+      <StickyButtons />
       <PageWrapper>
-        <div className="max-w-4xl mx-auto px-8 py-24">
-          <div className="flex items-center gap-3 text-sm text-gray-600 mb-10">
-            <Link to="/projects" className="inline-flex items-center gap-2 text-gray-700 hover:text-gray-900 transition-colors group">
-              <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
+        <div className="max-w-3xl mx-auto px-4 py-12">
+          <div className="flex items-center gap-2 text-xs text-gray-400 mb-6">
+            <Link to="/projects" className="inline-flex items-center gap-1.5 text-gray-300 hover:text-white transition-colors group">
+              <ArrowLeft className="w-3 h-3 group-hover:-translate-x-0.5 transition-transform" />
               Back to projects
             </Link>
             <span className="text-gray-400">/</span>
-            <span className="text-gray-900">DevOps Toolkit</span>
+            <span className="text-white">DevOps Toolkit</span>
           </div>
 
           <div
             ref={(el) => (sectionRefs.current[0] = el)}
             data-section="header"
-            className={`text-center mb-24 transition-all duration-1000 ${
+            className={`text-center mb-12 transition-all duration-1000 ${
               isVisible.header ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
             }`}
           >
-            <div className="inline-block mb-8">
-              <div className="text-xs tracking-[0.3em] uppercase text-gray-500 mb-4">Portfolio</div>
-              <h1 className="text-5xl md:text-7xl font-normal tracking-tight text-gray-900 mb-8">DevOps Toolkit</h1>
-              <div className="h-px w-32 mx-auto bg-gradient-to-r from-transparent via-gray-400 to-transparent"></div>
+            <div className="inline-block mb-5">
+              <div className="text-[10px] tracking-[0.3em] uppercase text-gray-500 mb-2">Portfolio</div>
+              <h1 className="text-3xl md:text-5xl font-normal tracking-tight text-white mb-5">DevOps Toolkit</h1>
+              <div className="h-px w-24 mx-auto bg-gradient-to-r from-transparent via-gray-400 to-transparent"></div>
             </div>
           </div>
 
           <div
             ref={(el) => (sectionRefs.current[1] = el)}
             data-section="environments"
-            className={`mb-20 flex flex-col items-center gap-6 transition-all duration-1000 delay-200 ${
+            className={`mb-12 flex flex-col items-center gap-5 transition-all duration-1000 delay-200 ${
               isVisible.environments ? "opacity-100 scale-100" : "opacity-0 scale-95"
             }`}
           >
-            <p className="text-gray-700 text-sm font-normal tracking-wide">NAVIGATE TO LIVE ENVIRONMENTS</p>
-            <div className="relative inline-block" ref={dropdownRef}>
-              <button
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className={`env-trigger flex items-center gap-3 bg-gray-900 hover:bg-gray-800 text-white font-semibold px-8 py-4 rounded-full transition-all duration-300 min-w-[280px] justify-between ${isDropdownOpen ? "shadow-[0_0_0_10px_rgba(59,130,246,0.12)] scale-[1.01]" : ""}`}
-              >
-                <span className="flex items-center gap-2">
-                  <ExternalLink className="w-4 h-4" />
-                  Select Environment
-                </span>
-                <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isDropdownOpen ? "rotate-180" : ""}`} />
-              </button>
+            <div className="text-center">
+              <p className="text-gray-300 text-xs font-semibold tracking-[0.2em] uppercase mb-1.5">Explore Live Environments</p>
+              <p className="text-gray-400 text-[10px] font-normal">Click any environment to visit it instantly</p>
+            </div>
 
-              {isDropdownOpen && (
-                <div className="env-dropdown absolute top-full mt-3 w-full bg-white shadow-2xl rounded-2xl overflow-hidden z-50 border border-gray-100">
-                  {environments.map((env) => (
-                    <a
-                      key={env.value}
-                      href={env.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full text-left px-6 py-4 transition-all duration-200 flex items-center justify-between gap-3 text-gray-700 hover:bg-gray-50 border-b border-gray-100 last:border-b-0"
-                      onClick={() => setIsDropdownOpen(false)}
-                    >
-                      <span className="flex items-center gap-3 font-normal">
-                        <span className="w-2 h-2 bg-emerald-500 rounded-full"></span>
-                        {env.name}
-                      </span>
-                      <ExternalLink className="w-4 h-4 opacity-30" />
-                    </a>
-                  ))}
-                </div>
-              )}
+            {/* New Environment Grid */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 w-full max-w-3xl">
+              {environments.map((env, index) => {
+                const colors = {
+                  development: { bg: "from-blue-500 to-blue-600", hover: "hover:from-blue-600 hover:to-blue-700", shadow: "shadow-blue-500/50" },
+                  qa: { bg: "from-green-500 to-green-600", hover: "hover:from-green-600 hover:to-green-700", shadow: "shadow-green-500/50" },
+                  staging: { bg: "from-amber-500 to-amber-600", hover: "hover:from-amber-600 hover:to-amber-700", shadow: "shadow-amber-500/50" },
+                  production: { bg: "from-purple-500 to-purple-600", hover: "hover:from-purple-600 hover:to-purple-700", shadow: "shadow-purple-500/50" }
+                };
+                const color = colors[env.value];
+
+                return (
+                  <a
+                    key={env.value}
+                    href={env.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`group relative overflow-hidden bg-gradient-to-br ${color.bg} ${color.hover} rounded-xl p-4 transition-all duration-500 hover:scale-105 hover:shadow-xl ${color.shadow} cursor-pointer transform`}
+                    style={{
+                      animation: isVisible.environments ? `envCardSlideIn 0.6s ease-out ${index * 0.1}s both` : "none"
+                    }}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div className="relative z-10 flex flex-col items-center gap-2">
+                      <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:bg-white/30 transition-all duration-300 group-hover:scale-110">
+                        <ExternalLink className="w-5 h-5 text-white" />
+                      </div>
+                      <span className="text-white font-bold text-sm text-center">{env.name}</span>
+                      <div className="flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span className="w-1.5 h-1.5 bg-white/5 rounded-full animate-pulse"></span>
+                        <span className="text-white text-[10px] font-medium">Live</span>
+                      </div>
+                    </div>
+                    <div className="absolute -bottom-2 -right-2 w-16 h-16 bg-white/10 rounded-full blur-xl group-hover:bg-white/20 transition-all duration-500"></div>
+                  </a>
+                );
+              })}
             </div>
 
             <a
               href="https://grafana.devops-toolkit.dremer10.com/public-dashboards/f0c7dc746ec24ce3be08a7e74fdbd4f0"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-blue-600 font-semibold text-sm hover:text-blue-800 transition-colors underline underline-offset-4 decoration-blue-400"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold text-xs rounded-full shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 transition-all duration-300 hover:scale-105 cursor-pointer"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
               </svg>
-              View Live Kubernetes Cluster Monitoring Dashboard
+              View Live Monitoring
+              <ChevronDown className="w-3 h-3 rotate-[-90deg]" />
             </a>
           </div>
 
-          <div className="mb-20">
+          <div className="mb-12">
             <div className="h-px w-full bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
           </div>
 
@@ -170,7 +182,7 @@ const DevOpsToolkit = () => {
               }`}
             >
               <h2
-                className="text-4xl md:text-5xl font-normal tracking-tight text-gray-900 mb-8"
+                className="text-4xl md:text-5xl font-normal tracking-tight text-white mb-8"
                 style={{
                   animation: isVisible.intro ? "fadeInUp 0.6s ease-out 0.1s both" : "none"
                 }}
@@ -178,7 +190,7 @@ const DevOpsToolkit = () => {
                 DevOps Toolkit
               </h2>
               <p
-                className="text-xl text-gray-800 leading-relaxed font-normal mb-6"
+                className="text-xl text-gray-200 leading-relaxed font-normal mb-6"
                 style={{
                   animation: isVisible.intro ? "fadeInUp 0.6s ease-out 0.2s both" : "none"
                 }}
@@ -188,7 +200,7 @@ const DevOpsToolkit = () => {
                 and complete observability.
               </p>
               <p
-                className="text-lg text-gray-700 leading-loose font-normal mb-8"
+                className="text-lg text-gray-300 leading-loose font-normal mb-8"
                 style={{
                   animation: isVisible.intro ? "fadeInUp 0.6s ease-out 0.3s both" : "none"
                 }}
@@ -202,7 +214,7 @@ const DevOpsToolkit = () => {
                 {["Kubernetes", "Docker", "CI/CD", "Prometheus", "Grafana", "GitHub Actions", "Vue.js", "TypeScript"].map((tech, index) => (
                   <span
                     key={index}
-                    className="text-sm text-gray-700 font-normal border-b border-gray-400 pb-0.5 transition-all duration-300 hover:border-gray-900 hover:text-gray-900 cursor-default inline-block hover:-translate-y-0.5"
+                    className="text-sm text-gray-300 font-normal border-b border-gray-400 pb-0.5 transition-all duration-300 hover:border-gray-900 hover:text-white cursor-default inline-block hover:-translate-y-0.5"
                     style={{
                       animation: isVisible.intro ? `fadeInUp 0.6s ease-out ${index * 0.1}s both` : "none"
                     }}
@@ -282,6 +294,17 @@ const DevOpsToolkit = () => {
               .attention-bounce {
                 animation: attentionBounce 2.4s ease-in-out infinite, glowPulse 2.4s ease-in-out infinite;
               }
+
+              @keyframes envCardSlideIn {
+                from {
+                  opacity: 0;
+                  transform: translateY(20px) scale(0.95);
+                }
+                to {
+                  opacity: 1;
+                  transform: translateY(0) scale(1);
+                }
+              }
             `}</style>
 
             <section
@@ -292,7 +315,7 @@ const DevOpsToolkit = () => {
               }`}
             >
               <h3
-                className="text-4xl font-normal tracking-tight text-gray-900 mb-8"
+                className="text-4xl font-normal tracking-tight text-white mb-8"
                 style={{
                   animation: isVisible.pipeline ? "fadeInUp 0.6s ease-out 0.1s both" : "none"
                 }}
@@ -308,40 +331,44 @@ const DevOpsToolkit = () => {
               >
                 <div className="relative">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                    <div className="bg-gradient-to-br from-blue-50 to-white border border-blue-200 rounded-lg p-4 hover:shadow-md transition-shadow duration-300">
+                    <div className="bg-white/5 border border-white/10 rounded-lg p-4 hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-300">
                       <div className="flex items-center gap-2 mb-2">
                         <div className="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs font-bold">1</div>
-                        <span className="text-sm font-semibold text-gray-900">Code Commit</span>
+                        <span className="text-sm font-semibold text-white">Code Commit</span>
                       </div>
-                      <p className="text-xs text-gray-700 font-normal">Developer pushes to main branch, triggering automated workflow</p>
+                      <p className="text-xs text-gray-200 font-normal">Developer pushes to main branch, triggering automated workflow</p>
                     </div>
-                    <div className="bg-gradient-to-br from-green-50 to-white border border-green-200 rounded-lg p-4 hover:shadow-md transition-shadow duration-300">
+                    <div className="bg-white/5 border border-white/10 rounded-lg p-4 hover:shadow-lg hover:shadow-green-500/20 transition-all duration-300">
                       <div className="flex items-center gap-2 mb-2">
                         <div className="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center text-white text-xs font-bold">2</div>
-                        <span className="text-sm font-semibold text-gray-900">Build & Scan</span>
+                        <span className="text-sm font-semibold text-white">Build & Scan</span>
                       </div>
-                      <p className="text-xs text-gray-700 font-normal">Docker image built and scanned for vulnerabilities with Trivy</p>
+                      <p className="text-xs text-gray-200 font-normal">Docker image built and scanned for vulnerabilities with Trivy</p>
                     </div>
-                    <div className="bg-gradient-to-br from-purple-50 to-white border border-purple-200 rounded-lg p-4 hover:shadow-md transition-shadow duration-300">
+                    <div className="bg-white/5 border border-white/10 rounded-lg p-4 hover:shadow-lg hover:shadow-purple-500/20 transition-all duration-300">
                       <div className="flex items-center gap-2 mb-2">
                         <div className="w-6 h-6 rounded-full bg-purple-500 flex items-center justify-center text-white text-xs font-bold">3</div>
-                        <span className="text-sm font-semibold text-gray-900">Deploy</span>
+                        <span className="text-sm font-semibold text-white">Deploy</span>
                       </div>
-                      <p className="text-xs text-gray-700 font-normal">Rolling update to Kubernetes cluster with zero downtime</p>
+                      <p className="text-xs text-gray-200 font-normal">Rolling update to Kubernetes cluster with zero downtime</p>
                     </div>
                   </div>
 
-                  <div className="overflow-hidden rounded-lg relative cursor-zoom-in" onClick={() => setActiveImageIndex(0)}>
+                  <div
+                    className="overflow-hidden rounded-lg relative cursor-zoom-in group"
+                    onClick={() => setActiveImageIndex(0)}
+                    onMouseEnter={() => setActiveImageIndex(0)}
+                  >
                     <img
                       src="/images/main-push.png"
                       alt="Production CI/CD Pipeline"
-                      className="w-full max-w-6xl mx-auto rounded-lg shadow-2xl"
+                      className="w-full max-w-6xl mx-auto rounded-lg shadow-2xl transition-transform duration-500 ease-out group-hover:scale-105"
                       style={{ maxWidth: "100%", height: "auto" }}
                     />
                   </div>
                 </div>
                 <p
-                  className="text-sm text-gray-600 text-center mt-4 font-normal italic transition-all duration-300"
+                  className="text-sm text-gray-400 text-center mt-4 font-normal italic transition-all duration-300"
                   style={{
                     animation: isVisible.pipeline ? "fadeInUp 0.6s ease-out 0.5s both" : "none"
                   }}
@@ -351,7 +378,7 @@ const DevOpsToolkit = () => {
               </div>
 
               <p
-                className="text-lg text-gray-800 leading-loose font-normal mb-6"
+                className="text-lg text-gray-200 leading-loose font-normal mb-6"
                 style={{
                   animation: isVisible.pipeline ? "fadeInUp 0.6s ease-out 0.6s both" : "none"
                 }}
@@ -369,40 +396,44 @@ const DevOpsToolkit = () => {
               >
                 <div className="relative">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                    <div className="bg-gradient-to-br from-orange-50 to-white border border-orange-200 rounded-lg p-4 hover:shadow-md transition-shadow duration-300">
+                    <div className="bg-white/5 border border-white/10 rounded-lg p-4 hover:shadow-lg hover:shadow-orange-500/20 transition-all duration-300">
                       <div className="flex items-center gap-2 mb-2">
                         <div className="w-6 h-6 rounded-full bg-orange-500 flex items-center justify-center text-white text-xs font-bold">1</div>
-                        <span className="text-sm font-semibold text-gray-900">Rapid Testing</span>
+                        <span className="text-sm font-semibold text-white">Rapid Testing</span>
                       </div>
-                      <p className="text-xs text-gray-700 font-normal">Fast iteration cycle for development and QA environments</p>
+                      <p className="text-xs text-gray-200 font-normal">Fast iteration cycle for development and QA environments</p>
                     </div>
-                    <div className="bg-gradient-to-br from-cyan-50 to-white border border-cyan-200 rounded-lg p-4 hover:shadow-md transition-shadow duration-300">
+                    <div className="bg-white/5 border border-white/10 rounded-lg p-4 hover:shadow-lg hover:shadow-cyan-500/20 transition-all duration-300">
                       <div className="flex items-center gap-2 mb-2">
                         <div className="w-6 h-6 rounded-full bg-cyan-500 flex items-center justify-center text-white text-xs font-bold">2</div>
-                        <span className="text-sm font-semibold text-gray-900">Quality Gates</span>
+                        <span className="text-sm font-semibold text-white">Quality Gates</span>
                       </div>
-                      <p className="text-xs text-gray-700 font-normal">Automated checks before promoting to staging</p>
+                      <p className="text-xs text-gray-200 font-normal">Automated checks before promoting to staging</p>
                     </div>
-                    <div className="bg-gradient-to-br from-pink-50 to-white border border-pink-200 rounded-lg p-4 hover:shadow-md transition-shadow duration-300">
+                    <div className="bg-white/5 border border-white/10 rounded-lg p-4 hover:shadow-lg hover:shadow-pink-500/20 transition-all duration-300">
                       <div className="flex items-center gap-2 mb-2">
                         <div className="w-6 h-6 rounded-full bg-pink-500 flex items-center justify-center text-white text-xs font-bold">3</div>
-                        <span className="text-sm font-semibold text-gray-900">Progressive Deploy</span>
+                        <span className="text-sm font-semibold text-white">Progressive Deploy</span>
                       </div>
-                      <p className="text-xs text-gray-700 font-normal">Gradual rollout across environments before production</p>
+                      <p className="text-xs text-gray-200 font-normal">Gradual rollout across environments before production</p>
                     </div>
                   </div>
 
-                  <div className="overflow-hidden rounded-lg relative cursor-zoom-in" onClick={() => setActiveImageIndex(1)}>
+                  <div
+                    className="overflow-hidden rounded-lg relative cursor-zoom-in group"
+                    onClick={() => setActiveImageIndex(1)}
+                    onMouseEnter={() => setActiveImageIndex(1)}
+                  >
                     <img
                       src="/images/dev-push.png"
                       alt="Development CI/CD Pipeline"
-                      className="w-full max-w-6xl mx-auto rounded-lg shadow-2xl"
+                      className="w-full max-w-6xl mx-auto rounded-lg shadow-2xl transition-transform duration-500 ease-out group-hover:scale-105"
                       style={{ maxWidth: "100%", height: "auto" }}
                     />
                   </div>
                 </div>
                 <p
-                  className="text-sm text-gray-600 text-center mt-4 font-normal italic transition-all duration-300"
+                  className="text-sm text-gray-400 text-center mt-4 font-normal italic transition-all duration-300"
                   style={{
                     animation: isVisible.pipeline ? "fadeInUp 0.6s ease-out 0.9s both" : "none"
                   }}
@@ -411,7 +442,7 @@ const DevOpsToolkit = () => {
                 </p>
               </div>
 
-              <p className="text-lg text-gray-800 leading-loose font-normal">
+              <p className="text-lg text-gray-200 leading-loose font-normal">
                 The pipeline architecture separates concerns between development and production workflows, ensuring
                 rapid iteration in lower environments while maintaining strict controls for production deployments.
                 Trivy security scanning runs on every build, catching vulnerabilities before they reach production.
@@ -430,7 +461,7 @@ const DevOpsToolkit = () => {
               }`}
             >
               <h3
-                className="text-4xl font-normal tracking-tight text-gray-900 mb-8"
+                className="text-4xl font-normal tracking-tight text-white mb-8"
                 style={{
                   animation: isVisible.infrastructure ? "fadeInUp 0.6s ease-out 0.1s both" : "none"
                 }}
@@ -439,7 +470,7 @@ const DevOpsToolkit = () => {
               </h3>
 
               <p
-                className="text-lg text-gray-800 leading-loose font-normal mb-6"
+                className="text-lg text-gray-200 leading-loose font-normal mb-6"
                 style={{
                   animation: isVisible.infrastructure ? "fadeInUp 0.6s ease-out 0.2s both" : "none"
                 }}
@@ -450,12 +481,12 @@ const DevOpsToolkit = () => {
               </p>
 
               <div
-                className="bg-gray-50 rounded-lg p-8 my-12 hover:shadow-lg transition-shadow duration-500"
+                className="bg-white/5 rounded-lg p-8 my-12 hover:shadow-lg transition-shadow duration-500"
                 style={{
                   animation: isVisible.infrastructure ? "fadeInUp 0.8s ease-out 0.4s both" : "none"
                 }}
               >
-                <h4 className="text-2xl font-normal text-gray-900 mb-6">Cluster Architecture</h4>
+                <h4 className="text-2xl font-normal text-white mb-6">Cluster Architecture</h4>
                 <div className="space-y-6">
                   <div
                     className="transform transition-all duration-300 hover:translate-x-2"
@@ -463,8 +494,8 @@ const DevOpsToolkit = () => {
                       animation: isVisible.infrastructure ? "slideInLeft 0.6s ease-out 0.6s both" : "none"
                     }}
                   >
-                    <p className="text-base font-normal text-gray-900 mb-2">NGINX Ingress Controller</p>
-                    <p className="text-sm text-gray-700 font-normal leading-relaxed">
+                    <p className="text-base font-normal text-white mb-2">NGINX Ingress Controller</p>
+                    <p className="text-sm text-gray-300 font-normal leading-relaxed">
                       Handles external traffic routing with automatic SSL/TLS termination. Configured with
                       NodePort services for HTTP and HTTPS traffic with host-based routing.
                     </p>
@@ -476,8 +507,8 @@ const DevOpsToolkit = () => {
                       animation: isVisible.infrastructure ? "slideInLeft 0.6s ease-out 0.8s both" : "none"
                     }}
                   >
-                    <p className="text-base font-normal text-gray-900 mb-2">Certificate Management</p>
-                    <p className="text-sm text-gray-700 font-normal leading-relaxed">
+                    <p className="text-base font-normal text-white mb-2">Certificate Management</p>
+                    <p className="text-sm text-gray-300 font-normal leading-relaxed">
                       cert-manager integrates with Let's Encrypt to provide automatic TLS certificate
                       provisioning and renewal, ensuring all traffic is encrypted without manual intervention.
                     </p>
@@ -489,8 +520,8 @@ const DevOpsToolkit = () => {
                       animation: isVisible.infrastructure ? "slideInLeft 0.6s ease-out 1.0s both" : "none"
                     }}
                   >
-                    <p className="text-base font-normal text-gray-900 mb-2">Multi-Environment Namespaces</p>
-                    <p className="text-sm text-gray-700 font-normal leading-relaxed">
+                    <p className="text-base font-normal text-white mb-2">Multi-Environment Namespaces</p>
+                    <p className="text-sm text-gray-300 font-normal leading-relaxed">
                       Isolated namespaces for development, QA, staging, and production environments, each
                       running dedicated application pods with environment-specific configurations.
                     </p>
@@ -498,7 +529,7 @@ const DevOpsToolkit = () => {
                 </div>
               </div>
 
-              <p className="text-lg text-gray-800 leading-loose font-normal">
+              <p className="text-lg text-gray-200 leading-loose font-normal">
                 Infrastructure as code principles govern the entire deployment, with all Kubernetes manifests
                 version-controlled and automatically applied through the CI/CD pipeline. This ensures reproducible
                 deployments and eliminates configuration drift across environments.
@@ -517,7 +548,7 @@ const DevOpsToolkit = () => {
               }`}
             >
               <h3
-                className="text-4xl font-normal tracking-tight text-gray-900 mb-8"
+                className="text-4xl font-normal tracking-tight text-white mb-8"
                 style={{
                   animation: isVisible.observability ? "fadeInUp 0.6s ease-out 0.1s both" : "none"
                 }}
@@ -526,7 +557,7 @@ const DevOpsToolkit = () => {
               </h3>
 
               <p
-                className="text-lg text-gray-800 leading-loose font-normal mb-6"
+                className="text-lg text-gray-200 leading-loose font-normal mb-6"
                 style={{
                   animation: isVisible.observability ? "fadeInUp 0.6s ease-out 0.2s both" : "none"
                 }}
@@ -537,12 +568,12 @@ const DevOpsToolkit = () => {
               </p>
 
               <div
-                className="bg-gray-50 rounded-lg p-8 my-12 hover:shadow-lg transition-shadow duration-500"
+                className="bg-white/5 rounded-lg p-8 my-12 hover:shadow-lg transition-shadow duration-500"
                 style={{
                   animation: isVisible.observability ? "fadeInUp 0.8s ease-out 0.4s both" : "none"
                 }}
               >
-                <h4 className="text-2xl font-normal text-gray-900 mb-6">Monitoring Stack</h4>
+                <h4 className="text-2xl font-normal text-white mb-6">Monitoring Stack</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div
                     className="transform transition-all duration-300 hover:scale-105"
@@ -550,8 +581,8 @@ const DevOpsToolkit = () => {
                       animation: isVisible.observability ? "fadeInUp 0.6s ease-out 0.6s both" : "none"
                     }}
                   >
-                    <p className="text-base font-normal text-gray-900 mb-2">Prometheus Metrics</p>
-                    <p className="text-sm text-gray-700 font-normal leading-relaxed">
+                    <p className="text-base font-normal text-white mb-2">Prometheus Metrics</p>
+                    <p className="text-sm text-gray-300 font-normal leading-relaxed">
                       Time-series metrics collection with service discovery and auto-configuration.
                       Stores performance data and provides alerting capabilities.
                     </p>
@@ -563,8 +594,8 @@ const DevOpsToolkit = () => {
                       animation: isVisible.observability ? "fadeInUp 0.6s ease-out 0.7s both" : "none"
                     }}
                   >
-                    <p className="text-base font-normal text-gray-900 mb-2">Grafana Dashboards</p>
-                    <p className="text-sm text-gray-700 font-normal leading-relaxed">
+                    <p className="text-base font-normal text-white mb-2">Grafana Dashboards</p>
+                    <p className="text-sm text-gray-300 font-normal leading-relaxed">
                       Custom visualizations with public dashboard access, providing stakeholders
                       with real-time insights into system health.
                     </p>
@@ -576,8 +607,8 @@ const DevOpsToolkit = () => {
                       animation: isVisible.observability ? "fadeInUp 0.6s ease-out 0.8s both" : "none"
                     }}
                   >
-                    <p className="text-base font-normal text-gray-900 mb-2">Node Exporter</p>
-                    <p className="text-sm text-gray-700 font-normal leading-relaxed">
+                    <p className="text-base font-normal text-white mb-2">Node Exporter</p>
+                    <p className="text-sm text-gray-300 font-normal leading-relaxed">
                       System-level metrics including CPU, memory, disk I/O, and network statistics
                       for comprehensive host monitoring.
                     </p>
@@ -589,8 +620,8 @@ const DevOpsToolkit = () => {
                       animation: isVisible.observability ? "fadeInUp 0.6s ease-out 0.9s both" : "none"
                     }}
                   >
-                    <p className="text-base font-normal text-gray-900 mb-2">cAdvisor</p>
-                    <p className="text-sm text-gray-700 font-normal leading-relaxed">
+                    <p className="text-base font-normal text-white mb-2">cAdvisor</p>
+                    <p className="text-sm text-gray-300 font-normal leading-relaxed">
                       Container-specific metrics providing visibility into resource utilization
                       and performance at the container level.
                     </p>
@@ -604,16 +635,20 @@ const DevOpsToolkit = () => {
                   animation: isVisible.observability ? "fadeInUp 0.8s ease-out 1.0s both" : "none"
                 }}
               >
-                <div className="overflow-hidden rounded-lg relative cursor-zoom-in" onClick={() => setActiveImageIndex(2)}>
+                <div
+                  className="overflow-hidden rounded-lg relative cursor-zoom-in group"
+                  onClick={() => setActiveImageIndex(2)}
+                  onMouseEnter={() => setActiveImageIndex(2)}
+                >
                   <img
                     src="/images/grafana.png"
                     alt="Grafana Monitoring Dashboard"
-                    className="w-full max-w-6xl mx-auto rounded-lg shadow-2xl"
+                    className="w-full max-w-6xl mx-auto rounded-lg shadow-2xl transition-transform duration-500 ease-out group-hover:scale-105"
                     style={{ maxWidth: "100%", height: "auto" }}
                   />
                 </div>
                 <p
-                  className="text-sm text-gray-600 text-center mt-4 font-normal italic"
+                  className="text-sm text-gray-400 text-center mt-4 font-normal italic"
                   style={{
                     animation: isVisible.observability ? "fadeInUp 0.6s ease-out 1.2s both" : "none"
                   }}
@@ -622,7 +657,7 @@ const DevOpsToolkit = () => {
                 </p>
               </div>
 
-              <p className="text-lg text-gray-800 leading-loose font-normal">
+              <p className="text-lg text-gray-200 leading-loose font-normal">
                 The observability stack runs within its own dedicated namespace, isolated from application
                 workloads while maintaining access to cluster-wide metrics. Public dashboards allow demonstration
                 of real-time monitoring capabilities without requiring authentication.
@@ -641,7 +676,7 @@ const DevOpsToolkit = () => {
               }`}
             >
               <h3
-                className="text-4xl font-normal tracking-tight text-gray-900 mb-8"
+                className="text-4xl font-normal tracking-tight text-white mb-8"
                 style={{
                   animation: isVisible.achievements ? "fadeInUp 0.6s ease-out 0.1s both" : "none"
                 }}
@@ -656,8 +691,8 @@ const DevOpsToolkit = () => {
                     animation: isVisible.achievements ? "slideInLeft 0.6s ease-out 0.3s both" : "none"
                   }}
                 >
-                  <h4 className="text-2xl font-normal text-gray-900 mb-3">Production-Ready Architecture</h4>
-                  <p className="text-lg text-gray-800 leading-loose font-normal">
+                  <h4 className="text-2xl font-normal text-white mb-3">Production-Ready Architecture</h4>
+                  <p className="text-lg text-gray-200 leading-loose font-normal">
                     A fully automated deployment pipeline spanning four environments, from development through
                     production. Each environment operates independently with environment-specific configurations,
                     demonstrating proper separation of concerns and progressive delivery practices.
@@ -670,8 +705,8 @@ const DevOpsToolkit = () => {
                     animation: isVisible.achievements ? "slideInLeft 0.6s ease-out 0.5s both" : "none"
                   }}
                 >
-                  <h4 className="text-2xl font-normal text-gray-900 mb-3">Security-First Approach</h4>
-                  <p className="text-lg text-gray-800 leading-loose font-normal">
+                  <h4 className="text-2xl font-normal text-white mb-3">Security-First Approach</h4>
+                  <p className="text-lg text-gray-200 leading-loose font-normal">
                     Integrated security scanning with Trivy catches vulnerabilities at build time. Automated
                     TLS certificate management ensures all traffic is encrypted. Kubernetes RBAC and network
                     policies provide defense in depth.
@@ -684,8 +719,8 @@ const DevOpsToolkit = () => {
                     animation: isVisible.achievements ? "slideInLeft 0.6s ease-out 0.7s both" : "none"
                   }}
                 >
-                  <h4 className="text-2xl font-normal text-gray-900 mb-3">Modern Development Workflow</h4>
-                  <p className="text-lg text-gray-800 leading-loose font-normal">
+                  <h4 className="text-2xl font-normal text-white mb-3">Modern Development Workflow</h4>
+                  <p className="text-lg text-gray-200 leading-loose font-normal">
                     GitOps principles govern all changes, with infrastructure and application code living in
                     version control. Automated testing, linting, and quality gates ensure code quality.
                     Zero-downtime rolling updates maintain service availability during deployments.
@@ -708,7 +743,7 @@ const DevOpsToolkit = () => {
                 }}
               ></div>
               <p
-                className="text-sm text-gray-600 font-normal tracking-wide"
+                className="text-sm text-gray-400 font-normal tracking-wide"
                 style={{
                   animation: isVisible.closing ? "fadeInUp 0.8s ease-out 0.5s both" : "none"
                 }}
@@ -723,7 +758,7 @@ const DevOpsToolkit = () => {
         href="https://devops-toolkit.dremer10.com"
         target="_blank"
         rel="noreferrer"
-        className="fixed right-2 bottom-2 sm:right-6 sm:bottom-6 z-40 inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-3 py-2 sm:px-5 sm:py-3 rounded-full shadow-lg sm:shadow-xl shadow-blue-500/25 transition-all attention-bounce text-xs sm:text-base"
+        className="fixed right-20 bottom-3 sm:right-28 sm:bottom-6 z-40 inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-3 py-2 sm:px-5 sm:py-3 rounded-full shadow-lg sm:shadow-xl shadow-indigo-500/25 transition-all attention-bounce text-xs sm:text-base"
       >
         Check it out Live
         <ExternalLink className="w-4 h-4" />
@@ -731,7 +766,11 @@ const DevOpsToolkit = () => {
 
       {activeImageIndex !== null && (
         <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center px-4" onClick={() => setActiveImageIndex(null)}>
-          <div className="relative max-w-6xl w-[90vw] max-h-[90vh] rounded-2xl overflow-hidden border border-white/20 bg-black/80 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="relative max-w-6xl w-[90vw] max-h-[90vh] rounded-2xl overflow-hidden border border-white/20 bg-black/80 shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+            onMouseLeave={() => setActiveImageIndex(null)}
+          >
             <img
               src={galleryImages[activeImageIndex].src}
               alt={galleryImages[activeImageIndex].alt}
@@ -752,14 +791,14 @@ const DevOpsToolkit = () => {
             </div>
             <button
               aria-label="Previous"
-              className="absolute left-3 bottom-16 p-3 rounded-full bg-white/85 text-gray-900 shadow-lg shadow-black/20 hover:bg-white transition"
+              className="absolute left-3 bottom-16 p-3 rounded-full bg-white/85 text-white shadow-lg shadow-black/20 hover:bg-white/5 transition"
               onClick={handlePrev}
             >
               <ArrowLeft className="w-5 h-5" />
             </button>
             <button
               aria-label="Next"
-              className="absolute right-3 bottom-16 p-3 rounded-full bg-white/85 text-gray-900 shadow-lg shadow-black/20 hover:bg-white transition"
+              className="absolute right-3 bottom-16 p-3 rounded-full bg-white/85 text-white shadow-lg shadow-black/20 hover:bg-white/5 transition"
               onClick={handleNext}
             >
               <ArrowRight className="w-5 h-5" />

@@ -1,6 +1,7 @@
 import PageWrapper from "../components/PageWrapper.jsx";
 import { personalInfo, experienceData, skillsData, comments } from "@/data/resume";
 import { useState, useEffect } from "react";
+import { StickyButtons } from "@/components/StickyButtons";
 
 const Resume = () => {
   const [getNodesCommand, setGetNodesCommand] = useState("");
@@ -161,6 +162,7 @@ Events:                 <none>`;
 
   return (
     <div className="pt-24">
+      <StickyButtons />
       <PageWrapper>
         <div className="bg-black rounded border border-green-500/30 shadow-lg shadow-green-500/10 hover:border-green-500/50 transition-all">
         <div className="flex items-center gap-2 px-3 md:px-4 py-2 md:py-3 border-b border-gray-800">

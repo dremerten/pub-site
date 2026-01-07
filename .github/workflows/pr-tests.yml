@@ -1,0 +1,54 @@
+name: PR Tests and Scan
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/pub-site
+
+jobs:
+  build-test-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Build Docker image (local only, no push)
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: ./Dockerfile
+        push: false
+        tags: ${{ env.IMAGE_NAME }}:pr-test
+        cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:latest
+        cache-to: type=inline
+
+    - name: Run tests against built image
+      run: |
+        docker run -d -p 8080:80 --name test-container ${{ env.IMAGE_NAME }}:pr-test
+        sleep 5
+        docker ps | grep test-container
+        curl -f -s http://localhost:8080 | grep -q "Andreas Merten" || exit 1
+        curl -f -s http://localhost:8080 | grep -q "assets/index.*\\.js" || exit 1
+        curl -f -s http://localhost:8080 | grep -q "assets/index.*\\.css" || exit 1
+        HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080)
+        if [ "$HTTP_CODE" != "200" ]; then
+          echo "Error: Expected HTTP 200, got $HTTP_CODE"
+          exit 1
+        fi
+        docker stop test-container
+        docker rm test-container
+
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        image-ref: ${{ env.IMAGE_NAME }}:pr-test
+        format: 'table'
+        exit-code: '0'
+        ignore-unfixed: true
+        severity: 'CRITICAL,HIGH'

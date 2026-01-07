@@ -8,8 +8,6 @@ name: Build and Deploy
 on:
   push:
     branches: [ "**" ]  # Trigger on push to any branch
-  pull_request:
-    branches: [ "main" ]
 
 env:
   IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/pub-site
@@ -19,9 +17,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Set short image tag
-      run: echo "IMAGE_TAG_SHORT=${GITHUB_SHA::7}" >> $GITHUB_ENV
-
     - name: Checkout code
       uses: actions/checkout@v4
 
@@ -35,7 +30,6 @@ jobs:
         file: ./Dockerfile
         tags: |
           ${{ env.IMAGE_NAME }}:test
-          ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG_SHORT }}
         outputs: type=docker,dest=/tmp/image.tar
         cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:latest
         cache-to: type=inline
@@ -149,9 +143,6 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     steps:
-    - name: Set short image tag
-      run: echo "IMAGE_TAG_SHORT=${GITHUB_SHA::7}" >> $GITHUB_ENV
-
     - name: Checkout code
       uses: actions/checkout@v4
 
@@ -171,7 +162,6 @@ jobs:
         file: ./Dockerfile
         push: true
         tags: |
-          ${{ env.IMAGE_NAME }}:v1
           ${{ env.IMAGE_NAME }}:latest
         cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:latest
         cache-to: type=inline
@@ -182,9 +172,6 @@ jobs:
     if: github.ref != 'refs/heads/main' && github.event_name == 'push'
 
     steps:
-    - name: Set short image tag
-      run: echo "IMAGE_TAG_SHORT=${GITHUB_SHA::7}" >> $GITHUB_ENV
-
     - name: Checkout code
       uses: actions/checkout@v4
 
@@ -205,7 +192,6 @@ jobs:
         push: true
         tags: |
           ${{ env.IMAGE_NAME }}:test
-          ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG_SHORT }}
         cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:latest
         cache-to: type=inline
 
@@ -387,7 +373,7 @@ jobs:
               spec:
                 containers:
                 - name: pub-site
-                  image: ${{ secrets.DOCKERHUB_USERNAME }}/pub-site:${{ env.IMAGE_TAG_SHORT }}
+                  image: ${{ secrets.DOCKERHUB_USERNAME }}/pub-site:test
                   imagePullPolicy: Always
                   ports:
                   - containerPort: 80

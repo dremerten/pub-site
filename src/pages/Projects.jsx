@@ -143,31 +143,33 @@ const Projects = () => {
                       </div>
 
                       <div className="flex flex-wrap gap-1.5 md:gap-2 pt-1 md:pt-1.5">
-                        {project.ctas.map((cta) =>
-                          cta.type === "internal" ? (
-                            <Link
-                              key={cta.label}
-                              to={cta.to}
-                              onClick={(e) => e.stopPropagation()}
-                              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-white/10 text-white text-xs font-semibold hover:bg-white/20 hover:translate-y-[-1px] hover:shadow-lg hover:shadow-black/40 transition-all cursor-pointer"
-                            >
-                              {cta.label}
-                              <ArrowRight className="w-3 h-3" />
-                            </Link>
-                          ) : (
-                            <a
-                              key={cta.label}
-                              href={cta.href}
-                              target="_blank"
-                              rel="noreferrer"
-                              onClick={(e) => e.stopPropagation()}
-                              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-blue-600 text-white border border-blue-600 text-xs font-semibold hover:bg-blue-700 hover:border-blue-700 hover:-translate-y-0.5 transition-all cursor-pointer"
-                            >
-                              {cta.label}
-                              <ExternalLink className="w-3 h-3" />
-                            </a>
-                          )
-                        )}
+                        {project.ctas
+                          .filter((cta) => cta.type === "internal" || cta.label.toLowerCase().includes("check it out"))
+                          .map((cta) =>
+                            cta.type === "internal" ? (
+                              <Link
+                                key={cta.label}
+                                to={cta.to}
+                                onClick={(e) => e.stopPropagation()}
+                                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-white/10 text-white text-xs font-semibold hover:bg-white/20 hover:translate-y-[-1px] hover:shadow-lg hover:shadow-black/40 transition-all cursor-pointer"
+                              >
+                                {cta.label}
+                                <ArrowRight className="w-3 h-3" />
+                              </Link>
+                            ) : (
+                              <a
+                                key={cta.label}
+                                href={cta.href}
+                                target="_blank"
+                                rel="noreferrer"
+                                onClick={(e) => e.stopPropagation()}
+                                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-blue-600 text-white border border-blue-600 text-xs font-semibold hover:bg-blue-700 hover:border-blue-700 hover:-translate-y-0.5 transition-all cursor-pointer"
+                              >
+                                {cta.label}
+                                <ExternalLink className="w-3 h-3" />
+                              </a>
+                            )
+                          )}
                       </div>
                     </div>
                   </div>

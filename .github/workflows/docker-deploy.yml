@@ -214,7 +214,6 @@ jobs:
         script: |
           kubectl apply -f - <<EOF
           $(cat <<'YAML'
-          ---
           apiVersion: v1
           kind: Namespace
           metadata:
@@ -353,7 +352,6 @@ jobs:
         script: |
           kubectl apply -f - <<EOF
           $(cat <<'YAML'
-          ---
           apiVersion: v1
           kind: Namespace
           metadata:

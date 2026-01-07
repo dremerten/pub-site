@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, ArrowRight, Sparkles, Orbit, MousePointer2, Rocket, ExternalLink, MonitorSmartphone } from "lucide-react";
 import PageWrapper from "@/components/PageWrapper";
+import { StickyButtons } from "@/components/StickyButtons";
 
 const SolarSystem = () => {
   const [isVisible, setIsVisible] = useState({});
@@ -117,12 +118,11 @@ const SolarSystem = () => {
     },
   ];
 
-  const envLinks = [
-    { label: "Live App", href: "https://solar.dremer10.com", tone: "from-amber-500 to-orange-500" },
-  ];
+  const envLinks = [];
 
   return (
     <div className="bg-gradient-to-b from-[#030712] via-[#050c1d] to-[#0b1229] text-white min-h-screen">
+      <StickyButtons />
       <PageWrapper>
         <div className="max-w-5xl mx-auto px-6 py-24 relative">
           <div className="absolute inset-0 pointer-events-none">
@@ -250,6 +250,7 @@ const SolarSystem = () => {
                   style={{ animation: isVisible.screens ? `fadeInUp 0.6s ease ${idx * 0.1}s both` : "none" }}
                   className="group relative overflow-hidden rounded-2xl border border-white/10 bg-black/30 backdrop-blur shadow-2xl cursor-zoom-in"
                   onClick={() => setActiveIndex(idx)}
+                  onMouseEnter={() => setActiveIndex(idx)}
                 >
                   <img
                     src={shot.src}
@@ -324,7 +325,7 @@ const SolarSystem = () => {
         href="https://solar.dremer10.com"
         target="_blank"
         rel="noreferrer"
-        className="fixed right-2 bottom-2 sm:right-6 sm:bottom-6 z-40 inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-3 py-2 sm:px-5 sm:py-3 rounded-full shadow-lg sm:shadow-xl shadow-indigo-500/25 transition-all attention-bounce text-xs sm:text-base"
+        className="fixed right-20 bottom-3 sm:right-28 sm:bottom-6 z-40 inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-3 py-2 sm:px-5 sm:py-3 rounded-full shadow-lg sm:shadow-xl shadow-indigo-500/25 transition-all attention-bounce text-xs sm:text-base"
       >
         Check it out Live
         <ExternalLink className="w-4 h-4" />
@@ -338,6 +339,7 @@ const SolarSystem = () => {
           <div
             className="relative max-w-6xl w-[90vw] max-h-[90vh] rounded-2xl overflow-hidden border border-white/20 bg-black/80 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
+            onMouseLeave={() => setActiveIndex(null)}
           >
             <img
               src={screenshots[activeIndex].src}

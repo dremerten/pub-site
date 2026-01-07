@@ -75,77 +75,36 @@ export function Navbar() {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-black/85 backdrop-blur border-b border-white/10">
-      <div className="max-w-7xl mx-auto px-4 md:px-6">
-        <div className="w-full px-1 py-3">
+      <div className="max-w-7xl mx-auto px-3 md:px-5">
+        <div className="w-full px-0.5 py-2">
           <div className="flex items-center justify-between">
-          <NavigationMenu className="hidden md:block">
-            <NavigationMenuList className="gap-3">
-              {location.pathname !== "/home" && (
-                <NavigationMenuItem>
-                  <NavigationMenuLink asChild>
-                    <Link to="/home" className={`flex flex-row gap-2 items-center px-4 py-2 rounded-full whitespace-nowrap transition-all text-sm md:text-base border border-transparent ${
-                      location.pathname === "/home"
-                        ? "bg-blue-600 text-white shadow-lg shadow-blue-500/30 border-blue-500/60"
-                        : "text-white hover:text-blue-300 hover:bg-white/10 hover:shadow-lg hover:shadow-blue-500/20"
-                    }`}>
-                      <Home className="w-4 h-4" />
-                      Home
-                    </Link>
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-              )}
-              <NavigationMenuItem>
-                <NavigationMenuLink asChild>
-                  <Link to="/overview" className={`flex flex-row gap-2 items-center px-4 py-2 rounded-full whitespace-nowrap transition-all text-sm md:text-base border border-transparent ${
-                    location.pathname === "/overview"
-                      ? "bg-blue-600 text-white shadow-lg shadow-blue-500/30 border-blue-500/60"
-                      : "text-white hover:text-blue-300 hover:bg-white/10 hover:shadow-lg hover:shadow-blue-500/20"
-                  }`}>
-                    <Activity className="w-4 h-4" />
-                    Overview
-                  </Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-
-              <NavigationMenuItem>
-                <NavigationMenuLink asChild>
-                  <Link to="/projects" className={`flex flex-row gap-2 items-center px-4 py-2 rounded-full whitespace-nowrap transition-all text-sm md:text-base border border-transparent ${
-                    isProjectsPath
-                      ? "bg-blue-600 text-white shadow-lg shadow-blue-500/30 border-blue-500/60"
-                      : "text-white hover:text-blue-300 hover:bg-white/10 hover:shadow-lg hover:shadow-blue-500/20"
-                  }`}>
-                    <Trophy className="w-4 h-4" />
-                    Projects
-                  </Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-
-              <NavigationMenuItem>
-                <NavigationMenuLink asChild>
-                  <Link to="/resume" className={`flex flex-row gap-2 items-center px-4 py-2 rounded-full whitespace-nowrap transition-all text-sm md:text-base border border-transparent ${
-                    location.pathname === "/resume"
-                      ? "bg-blue-600 text-white shadow-lg shadow-blue-500/30 border-blue-500/60"
-                      : "text-white hover:text-blue-300 hover:bg-white/10 hover:shadow-lg hover:shadow-blue-500/20"
-                  }`}>
-                    <Code className="w-4 h-4" />
-                    k8s-resume deployment
-                  </Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
-
-          <div className="flex md:hidden gap-2">
+          {/* Left: Home + Name */}
+          <div className="flex items-center gap-2">
             {location.pathname !== "/home" && (
-              <Link to="/home" className={`flex flex-row gap-2 items-center px-3 py-2 rounded-lg text-sm transition-all hover:scale-105 ${
+              <Link to="/home" className={`flex flex-row gap-1.5 items-center px-2.5 py-1.5 rounded-lg text-xs sm:text-sm transition-all hover:scale-105 ${
                 location.pathname === "/home"
                   ? "bg-blue-600 text-white shadow-lg shadow-blue-600/30"
-                  : "bg-[#0a0a0a] text-gray-300 hover:bg-[#0f0f0f] border border-[rgba(255,255,255,0.08)]"
+                  : "bg-[#0a0a0a] text-gray-200 hover:bg-[#0f0f0f] border border-[rgba(255,255,255,0.08)]"
               }`}>
                 <Home className="w-4 h-4" />
-                <span className="hidden sm:inline">Home</span>
+                <span>Home</span>
               </Link>
             )}
+            <div className="hidden md:block">
+              <Link to="/home" className="text-white font-bold text-lg tracking-tight hover:text-blue-300 transition-colors cursor-pointer">
+                Andre M.
+              </Link>
+            </div>
+
+            {/* Mobile: Name */}
+            <div className="md:hidden">
+              <Link to="/home" className="text-white font-bold text-base tracking-tight cursor-pointer">
+                Andre M.
+              </Link>
+            </div>
+          </div>
+
+          <div className="flex md:hidden gap-2">
             <Link to="/overview" className={`flex flex-row gap-2 items-center px-3 py-2 rounded-lg text-sm md:text-base transition-all hover:scale-105 ${
               location.pathname === "/overview"
                 ? "bg-blue-600 text-white shadow-lg shadow-blue-600/30"
@@ -168,47 +127,80 @@ export function Navbar() {
                 : "bg-[#0a0a0a] text-gray-300 hover:bg-[#0f0f0f] border border-[rgba(255,255,255,0.08)]"
             }`}>
               <Code className="w-4 h-4" />
-              <span className="hidden sm:inline">k8s-resume</span>
+              <span className="hidden sm:inline">Kubernetes</span>
             </Link>
           </div>
 
           <button
-            className="md:hidden p-2 hover:bg-white/10 rounded transition-all border border-white/20 text-white"
+            className="md:hidden p-2 hover:bg-white/10 rounded transition-all border border-white/20 text-white cursor-pointer"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
 
           <div className="hidden md:flex items-center gap-1.5 ml-auto">
-            {location.pathname !== "/home" && (
-              <>
-                <Button asChild variant="ghost" href="/" title="LinkedIn" className="p-2 h-auto text-white hover:text-blue-300 hover:bg-white/10">
-                  <a href="https://www.linkedin.com/in/dremer10" target="_blank" rel="noreferrer" className="flex items-center">
-                    <LinkedInIcon className="w-4 h-4" />
-                  </a>
-                </Button>
-                <Button asChild variant="ghost" title="GitHub" className="p-2 h-auto text-white hover:text-blue-300 hover:bg-white/10">
-                  <a href="https://github.com/dremerten" target="_blank" rel="noreferrer" className="flex items-center">
-                    <Github className="w-4 h-4" />
-                  </a>
-                </Button>
-              </>
-            )}
-            <Button asChild variant="ghost" title="Recommendations" className="text-xs px-2 py-1 h-auto text-white hover:text-blue-300 hover:bg-white/10">
+            {/* Navigation Menu Items */}
+            <NavigationMenu>
+              <NavigationMenuList className="gap-1">
+                <NavigationMenuItem>
+                  <NavigationMenuLink asChild>
+                    <Link to="/overview" className={`flex items-center gap-1.5 px-2 py-1 h-auto rounded-lg transition-all cursor-pointer text-xs ${
+                      location.pathname === "/overview"
+                        ? "bg-blue-600 text-white"
+                        : "text-white hover:text-blue-300 hover:bg-white/10"
+                    }`}>
+                      <Activity className="w-3 h-3" />
+                      <span>Overview</span>
+                    </Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+
+                <NavigationMenuItem>
+                  <NavigationMenuLink asChild>
+                    <Link to="/projects" className={`flex items-center gap-1.5 px-2 py-1 h-auto rounded-lg transition-all cursor-pointer text-xs ${
+                      isProjectsPath
+                        ? "bg-blue-600 text-white"
+                        : "text-white hover:text-blue-300 hover:bg-white/10"
+                    }`}>
+                      <Trophy className="w-3 h-3" />
+                      <span>Projects</span>
+                    </Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+
+                <NavigationMenuItem>
+                  <NavigationMenuLink asChild>
+                    <Link to="/resume" className={`flex items-center gap-1.5 px-2 py-1 h-auto rounded-lg transition-all cursor-pointer text-xs ${
+                      location.pathname === "/resume"
+                        ? "bg-blue-600 text-white"
+                        : "text-white hover:text-blue-300 hover:bg-white/10"
+                    }`}>
+                      <Code className="w-3 h-3" />
+                      <span>Kubernetes</span>
+                    </Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
+
+            {/* Recommendations */}
+            <Button asChild variant="ghost" title="Recommendations" className="flex items-center gap-1 px-2 py-1 h-auto text-white hover:text-blue-300 hover:bg-white/10 text-xs">
               <a href="https://www.linkedin.com/in/dremer10/details/recommendations/?detailScreenTabIndex=0" target="_blank" rel="noreferrer" className="flex items-center gap-1">
-                <Star className="w-4 h-4 animate-pulse drop-shadow-[0_0_6px_rgba(251,191,36,0.8)]" color="#f59e0b" fill="#fbbf24" />
+                <Star className="w-3 h-3 animate-pulse drop-shadow-[0_0_6px_rgba(251,191,36,0.8)]" color="#f59e0b" fill="#fbbf24" />
                 <span>Recommendations</span>
               </a>
             </Button>
+
+            {/* Professional Credentials */}
             <div className="relative" ref={dropdownRef}>
               <Button
                 variant="ghost"
                 title="Professional Credentials"
-                className="text-xs px-2 py-1 h-auto text-white hover:text-blue-300 hover:bg-white/10"
+                className="flex items-center gap-1 px-2 py-1 h-auto text-white hover:text-blue-300 hover:bg-white/10 cursor-pointer text-xs"
                 onClick={() => setCredentialsDropdownOpen(!credentialsDropdownOpen)}
               >
-                <Award className="w-4 h-4" />
-                <span className="ml-1">Professional Credentials</span>
+                <Award className="w-3 h-3" />
+                <span>Credentials</span>
               </Button>
               {credentialsDropdownOpen && (
                 <div className="absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded-xl shadow-lg z-50">
@@ -235,15 +227,16 @@ export function Navbar() {
                 </div>
               )}
             </div>
+            {/* Download Resume */}
             <div className="relative" ref={downloadDropdownRef}>
               <Button
                 variant="ghost"
                 title="Download Resume"
-                className="text-xs px-2 py-1 h-auto text-white hover:text-blue-400 hover:bg-white/10 hover:shadow-md hover:shadow-blue-500/30"
+                className="flex items-center gap-1 px-2 py-1 h-auto text-white hover:text-blue-400 hover:bg-white/10 hover:shadow-md hover:shadow-blue-500/30 cursor-pointer text-xs"
                 onClick={() => setDownloadDropdownOpen(!downloadDropdownOpen)}
               >
-                <Download className="w-4 h-4" />
-                <span className="ml-1">Download Resume</span>
+                <Download className="w-3 h-3" />
+                <span>Resume Download</span>
               </Button>
               {downloadDropdownOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-xl shadow-lg z-50">
@@ -268,7 +261,7 @@ export function Navbar() {
                     </a>
                     <button
                       onClick={handleDownloadBoth}
-                      className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors w-full text-left"
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors w-full text-left cursor-pointer"
                     >
                       <Download className="w-4 h-4" />
                       <span>Both Formats</span>
@@ -284,22 +277,6 @@ export function Navbar() {
         {mobileMenuOpen && (
           <div className="md:hidden mt-4 bg-black/95 text-white backdrop-blur-xl shadow-lg rounded-2xl p-4 border border-white/10">
             <div className="flex flex-col gap-2">
-            {location.pathname !== "/home" && (
-              <>
-                <Button asChild variant="ghost" href="/" title="LinkedIn" className="justify-start text-white hover:bg-white/10">
-                  <a href="https://www.linkedin.com/in/dremer10" target="_blank" rel="noreferrer" className="justify-start">
-                    <LinkedInIcon />
-                    <span className="ml-2">LinkedIn</span>
-                  </a>
-                </Button>
-                <Button asChild variant="ghost" title="GitHub" className="justify-start text-white hover:bg-white/10">
-                  <a href="https://github.com/dremerten" target="_blank" rel="noreferrer" className="justify-start">
-                    <Github />
-                    <span className="ml-2">GitHub</span>
-                  </a>
-                </Button>
-              </>
-            )}
             <Button asChild variant="ghost" title="Recommendations" className="justify-start text-white hover:bg-white/10">
               <a href="https://www.linkedin.com/in/dremer10/details/recommendations/?detailScreenTabIndex=0" target="_blank" rel="noreferrer" className="justify-start">
                 <Star className="animate-pulse drop-shadow-[0_0_6px_rgba(251,191,36,0.8)]" color="#f59e0b" fill="#fbbf24" />
@@ -310,7 +287,7 @@ export function Navbar() {
               <Button
                 variant="ghost"
                 title="Professional Credentials"
-                className="w-full justify-start text-white hover:bg-white/10"
+                className="w-full justify-start text-white hover:bg-white/10 cursor-pointer"
                 onClick={() => setCredentialsDropdownOpen(!credentialsDropdownOpen)}
               >
                 <Award />
@@ -343,7 +320,7 @@ export function Navbar() {
               <Button
                 variant="ghost"
                 title="Download Resume"
-                className="w-full justify-start text-white hover:bg-white/10"
+                className="w-full justify-start text-white hover:bg-white/10 cursor-pointer"
                 onClick={() => setDownloadDropdownOpen(!downloadDropdownOpen)}
               >
                 <Download />
@@ -371,7 +348,7 @@ export function Navbar() {
                   </a>
                   <button
                     onClick={handleDownloadBoth}
-                    className="flex items-center gap-2 px-3 py-2 text-sm text-slate-300 hover:bg-slate-700 rounded transition-colors text-left"
+                    className="flex items-center gap-2 px-3 py-2 text-sm text-slate-300 hover:bg-slate-700 rounded transition-colors text-left cursor-pointer"
                   >
                     <Download className="w-4 h-4" />
                     <span>Both Formats</span>

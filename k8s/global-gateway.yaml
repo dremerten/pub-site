@@ -1,0 +1,140 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: global-gateway
+  namespace: nginx-gateway
+spec:
+  gatewayClassName: nginx
+  listeners:
+  - name: devops-toolkit
+    hostname: devops-toolkit.dremer10.com
+    port: 443
+    protocol: HTTPS
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - name: devops-toolkit-production-tls
+        kind: Secret
+    allowedRoutes:
+      namespaces:
+        from: All
+  - name: devops-toolkit-staging
+    hostname: staging-devops-toolkit.dremer10.com
+    port: 443
+    protocol: HTTPS
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - name: devops-toolkit-staging-tls
+        kind: Secret
+    allowedRoutes:
+      namespaces:
+        from: All
+  - name: devops-toolkit-qa
+    hostname: qa-devops-toolkit.dremer10.com
+    port: 443
+    protocol: HTTPS
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - name: devops-toolkit-qa-tls
+        kind: Secret
+    allowedRoutes:
+      namespaces:
+        from: All
+  - name: devops-toolkit-dev
+    hostname: dev-devops-toolkit.dremer10.com
+    port: 443
+    protocol: HTTPS
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - name: devops-toolkit-dev-tls
+        kind: Secret
+    allowedRoutes:
+      namespaces:
+        from: All
+  - name: grafana
+    hostname: grafana.devops-toolkit.dremer10.com
+    port: 443
+    protocol: HTTPS
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - name: grafana-tls
+        kind: Secret
+    allowedRoutes:
+      namespaces:
+        from: All
+  - name: prometheus
+    hostname: prometheus.devops-toolkit.dremer10.com
+    port: 443
+    protocol: HTTPS
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - name: prometheus-tls
+        kind: Secret
+    allowedRoutes:
+      namespaces:
+        from: All
+  - name: n8n
+    hostname: n8n.dremer10.com
+    port: 443
+    protocol: HTTPS
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - name: n8n-tls
+        kind: Secret
+    allowedRoutes:
+      namespaces:
+        from: All
+  - name: pub-site-prod
+    hostname: info.dremer10.com
+    port: 443
+    protocol: HTTPS
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - name: pub-site-production-tls
+        kind: Secret
+    allowedRoutes:
+      namespaces:
+        from: All
+  - name: pub-site-dev
+    hostname: info-dev.dremer10.com
+    port: 443
+    protocol: HTTPS
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - name: pub-site-testing-tls
+        kind: Secret
+    allowedRoutes:
+      namespaces:
+        from: All
+  - name: solar-dev
+    hostname: solar-dev.dremer10.com
+    port: 443
+    protocol: HTTPS
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - name: solar-dev-tls
+        kind: Secret
+    allowedRoutes:
+      namespaces:
+        from: All
+  - name: solar-prod
+    hostname: solar.dremer10.com
+    port: 443
+    protocol: HTTPS
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - name: solar-system-prod-tls
+        kind: Secret
+    allowedRoutes:
+      namespaces:
+        from: All

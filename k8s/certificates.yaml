@@ -1,0 +1,27 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: pub-site-prod-cert
+  namespace: nginx-gateway
+spec:
+  secretName: pub-site-production-tls
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-gateway
+  dnsNames:
+  - info.dremer10.com
+
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: pub-site-dev-cert
+  namespace: nginx-gateway
+spec:
+  secretName: pub-site-testing-tls
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-gateway
+  dnsNames:
+  - info-dev.dremer10.com

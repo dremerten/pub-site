@@ -212,12 +212,12 @@ jobs:
         key: ${{ secrets.DEPLOY_SSH_KEY }}
         port: 33001
         script: |
-          # Apply shared Gateway issuer/certs and global gateway
-          kubectl apply -f k8s/clusterissuer-gateway.yaml
-          kubectl apply -f k8s/global-gateway.yaml
-          kubectl apply -f k8s/certificates.yaml
-          # Apply app manifests (HTTPRoute points to global-gateway)
-          kubectl apply -f k8s/production.yaml
+          set -euo pipefail
+          RAW_BASE="https://raw.githubusercontent.com/${{ github.repository }}/${{ github.ref_name }}"
+          kubectl apply -f "$RAW_BASE/k8s/clusterissuer-gateway.yaml"
+          kubectl apply -f "$RAW_BASE/k8s/global-gateway.yaml"
+          kubectl apply -f "$RAW_BASE/k8s/certificates.yaml"
+          kubectl apply -f "$RAW_BASE/k8s/production.yaml"
           kubectl rollout status deployment/pub-site -n pub-site-prod --timeout=5m
 
   deploy-testing:
@@ -237,12 +237,12 @@ jobs:
         key: ${{ secrets.DEPLOY_SSH_KEY }}
         port: 33001
         script: |
-          # Apply shared Gateway issuer/certs and global gateway
-          kubectl apply -f k8s/clusterissuer-gateway.yaml
-          kubectl apply -f k8s/global-gateway.yaml
-          kubectl apply -f k8s/certificates.yaml
-          # Apply app manifests (HTTPRoute points to global-gateway)
-          kubectl apply -f k8s/testing.yaml
+          set -euo pipefail
+          RAW_BASE="https://raw.githubusercontent.com/${{ github.repository }}/${{ github.ref_name }}"
+          kubectl apply -f "$RAW_BASE/k8s/clusterissuer-gateway.yaml"
+          kubectl apply -f "$RAW_BASE/k8s/global-gateway.yaml"
+          kubectl apply -f "$RAW_BASE/k8s/certificates.yaml"
+          kubectl apply -f "$RAW_BASE/k8s/testing.yaml"
           kubectl rollout status deployment/pub-site -n pub-site-dev --timeout=5m
 
     - name: Comment PR with testing URL

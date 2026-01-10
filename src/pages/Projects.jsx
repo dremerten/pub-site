@@ -157,8 +157,8 @@ const Projects = () => {
       )}
 
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm px-3 md:px-8">
-          <div className="relative w-full max-w-[55vw] h-[65vh] max-h-[75vh] overflow-hidden rounded-2xl border border-white/10 bg-slate-900/95 shadow-2xl shadow-cyan-900/50">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm px-2 md:px-8">
+          <div className="relative w-[95vw] max-w-3xl md:max-w-[55vw] h-[88vh] md:h-[85vh] max-h-[95vh] overflow-y-auto md:overflow-hidden rounded-2xl border border-white/10 bg-slate-900/95 shadow-2xl shadow-cyan-900/50">
             <div className="absolute right-3 top-3 flex gap-2">
               <button
                 onClick={closeModal}
@@ -170,23 +170,23 @@ const Projects = () => {
             </div>
 
             {modalView === "info" ? (
-              <div className="relative flex h-full flex-col gap-4 overflow-hidden p-6">
+              <div className="relative flex h-full flex-col gap-4 overflow-hidden p-4 md:p-6">
                 <div className="pointer-events-none absolute inset-0 opacity-20">
                   <div className="absolute left-10 top-10 h-32 w-32 rounded-full bg-emerald-400/30 blur-3xl"></div>
                   <div className="absolute right-6 bottom-12 h-36 w-36 rounded-full bg-cyan-400/25 blur-3xl"></div>
                   <div className="absolute left-1/2 top-1/3 h-16 w-16 -translate-x-1/2 rounded-full bg-blue-500/20 blur-2xl"></div>
                 </div>
 
-                <div className="flex flex-col gap-3 rounded-2xl border border-white/10 bg-white/5 p-5 shadow-inner shadow-black/30 backdrop-blur">
+                <div className="flex flex-col gap-3 rounded-2xl border border-white/10 bg-white/5 p-4 md:p-5 shadow-inner shadow-black/30 backdrop-blur">
                   <div className="inline-flex items-center gap-2 self-center rounded-full bg-emerald-500/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-emerald-200">
                     Traffic Management Upgrade
                   </div>
-                  <h2 className="text-center text-2xl font-semibold text-white">Traffic is now on Gateway API + NGINX Gateway Fabric</h2>
-                  <p className="text-center text-sm text-gray-200">
+                  <h2 className="text-center text-xl md:text-2xl font-semibold text-white">Traffic is now on Gateway API + NGINX Gateway Fabric</h2>
+                  <p className="text-center text-xs md:text-sm text-gray-200">
                     This site now uses Kubernetes Gateway API with NGINX Gateway Fabric for ingress traffic, replacing legacy Ingress-NGINX.
                   </p>
 
-                  <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
+                  <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
                     <div className="rounded-xl border border-white/10 bg-gradient-to-br from-emerald-500/10 via-white/5 to-transparent p-4 shadow-lg shadow-emerald-900/20">
                       <p className="text-xs uppercase tracking-[0.22em] text-emerald-100">What this means</p>
                       <p className="mt-2 text-sm text-gray-200">
@@ -207,7 +207,7 @@ const Projects = () => {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
+                  <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
                     <div className="rounded-xl border border-white/10 bg-gradient-to-br from-white/10 via-white/5 to-transparent p-4 shadow-inner shadow-black/40">
                       <p className="text-xs uppercase tracking-[0.22em] text-emerald-100">What changed from before</p>
                       <p className="mt-2 text-sm text-gray-200">
@@ -229,7 +229,7 @@ const Projects = () => {
                   </div>
                 </div>
 
-                <div className="flex items-center justify-center gap-3 pt-1">
+                <div className="sticky bottom-0 left-0 right-0 mt-1 flex flex-col items-stretch justify-center gap-2 bg-slate-900/95 pt-2 pb-1 sm:static sm:flex-row sm:items-center sm:gap-3 sm:bg-transparent">
                   <button
                     onClick={() => setModalView("flow")}
                     className="cursor-pointer rounded-full bg-emerald-500 px-4 py-2 text-xs font-semibold text-black shadow-lg shadow-emerald-500/40 transition-all hover:-translate-y-0.5 hover:bg-emerald-400"
@@ -245,8 +245,8 @@ const Projects = () => {
                 </div>
               </div>
             ) : (
-              <div className="flex h-full flex-col gap-3 p-5">
-                <div className="flex items-center justify-center gap-3">
+              <div className="flex h-full flex-col gap-3 p-4 md:p-5">
+                <div className="flex items-center justify-center gap-2 md:gap-3">
                   <button
                     onClick={() => {
                       setModalView("info");
@@ -257,7 +257,7 @@ const Projects = () => {
                   </button>
                 </div>
 
-                <div className="flex-1 overflow-hidden rounded-xl border border-white/10 bg-black/70">
+                <div className="flex-1 overflow-hidden rounded-xl border border-white/10 bg-black/70 min-h-[80vh] md:min-h-[75vh]">
                   <iframe
                     src="/images/flow.html"
                     title="Traffic flow comparison"

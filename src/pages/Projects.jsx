@@ -38,10 +38,46 @@ export const projects = [
   },
 ];
 
+const modalSteps = [
+  {
+    title: "What changed",
+    body: "Traffic that previously routed through Ingress-NGINX now uses Gateway API with NGINX Gateway Fabric for consistent, spec-driven HTTPRoutes.",
+  },
+  {
+    title: "Why it matters",
+    bullets: [
+      "Unified routing: shared Gateway + HTTPRoutes reduce annotation drift and misconfigurations.",
+      "Better policy surface: native support for retries, weights, and cross-namespace routing primitives.",
+      "Operational clarity: declarative CRDs replace ad-hoc ingress annotations.",
+    ],
+  },
+  {
+    title: "Security benefits",
+    bullets: [
+      "Isolated secrets: TLS material stays in namespace boundaries with ReferenceGrants instead of broad sharing.",
+      "Principle of least privilege: HTTPRoute attachment is explicit, preventing accidental exposure.",
+      "Defensible posture: consistent mTLS and policy controls lower the attack surface at the edge.",
+    ],
+  },
+  {
+    title: "Cutover path",
+    bullets: [
+      "Restructure to a single shared Gateway + HTTPRoutes across namespaces and handle TLS secrets/ReferenceGrants, then cut traffic over.",
+      "Stage traffic shifts with per-route weights and health checks to avoid surprises.",
+      "Watch telemetry during cutover: 4xx/5xx deltas, TLS errors, and latency SLOs.",
+    ],
+  },
+];
+
 const Projects = () => {
   const [isVisible, setIsVisible] = useState({});
+  const [showModal, setShowModal] = useState(false);
+  const [modalStep, setModalStep] = useState(0);
+  const [modalView, setModalView] = useState("info");
+  const [showBanner, setShowBanner] = useState(true);
   const sectionRefs = useRef([]);
   const navigate = useNavigate();
+  const totalModalSteps = modalSteps.length;
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
@@ -69,11 +105,201 @@ const Projects = () => {
     return () => observer.disconnect();
   }, []);
 
+  const goNextStep = () => {
+    setModalStep((prev) => {
+      if (prev >= totalModalSteps - 1) {
+        setShowModal(false);
+        return prev;
+      }
+      return prev + 1;
+    });
+  };
+
+  const goPrevStep = () => setModalStep((prev) => Math.max(0, prev - 1));
+  const restartWalkthrough = () => setModalStep(0);
+  const closeModal = () => {
+    setShowModal(false);
+    setModalStep(0);
+    setModalView("info");
+  };
+
   return (
     <div className="bg-gradient-to-b from-[#050914] via-[#070b16] to-black text-white min-h-screen">
       <StickyButtons />
+      {showBanner && (
+        <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/70 backdrop-blur-sm px-4">
+          <div className="w-full max-w-md rounded-2xl border border-emerald-400/40 bg-slate-900/95 p-5 text-white shadow-2xl shadow-emerald-900/30">
+            <div className="mb-3 text-center text-lg font-semibold">New traffic flow implemented site-wide</div>
+            <p className="text-sm text-gray-200 text-center mb-1">
+              Traffic now routes through Gateway API + NGINX Gateway Fabric for safer, consistent edge handling.
+            </p>
+            <p className="text-xs text-emerald-100 text-center mb-4">Replaces legacy Ingress-NGINX.</p>
+            <div className="flex items-center justify-center gap-3">
+              <button
+                onClick={() => {
+                  setShowModal(true);
+                  setModalView("info");
+                  setShowBanner(false);
+                }}
+                className="cursor-pointer rounded-full bg-emerald-500 px-4 py-2 text-xs font-semibold text-black shadow-lg shadow-emerald-500/30 transition-all hover:-translate-y-0.5 hover:bg-emerald-400"
+              >
+                Learn more
+              </button>
+              <button
+                onClick={() => setShowBanner(false)}
+                className="cursor-pointer rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-white/20"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm px-3 md:px-8">
+          <div className="relative w-full max-w-[55vw] h-[65vh] max-h-[75vh] overflow-hidden rounded-2xl border border-white/10 bg-slate-900/95 shadow-2xl shadow-cyan-900/50">
+            <div className="absolute right-3 top-3 flex gap-2">
+              <button
+                onClick={closeModal}
+                className="cursor-pointer rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-white/15"
+                aria-label="Close modal"
+              >
+                Close
+              </button>
+            </div>
+
+            {modalView === "info" ? (
+              <div className="relative flex h-full flex-col gap-4 overflow-hidden p-6">
+                <div className="pointer-events-none absolute inset-0 opacity-20">
+                  <div className="absolute left-10 top-10 h-32 w-32 rounded-full bg-emerald-400/30 blur-3xl"></div>
+                  <div className="absolute right-6 bottom-12 h-36 w-36 rounded-full bg-cyan-400/25 blur-3xl"></div>
+                  <div className="absolute left-1/2 top-1/3 h-16 w-16 -translate-x-1/2 rounded-full bg-blue-500/20 blur-2xl"></div>
+                </div>
+
+                <div className="flex flex-col gap-3 rounded-2xl border border-white/10 bg-white/5 p-5 shadow-inner shadow-black/30 backdrop-blur">
+                  <div className="inline-flex items-center gap-2 self-center rounded-full bg-emerald-500/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-emerald-200">
+                    Traffic Management Upgrade
+                  </div>
+                  <h2 className="text-center text-2xl font-semibold text-white">Traffic is now on Gateway API + NGINX Gateway Fabric</h2>
+                  <p className="text-center text-sm text-gray-200">
+                    This site now uses Kubernetes Gateway API with NGINX Gateway Fabric for ingress traffic, replacing legacy Ingress-NGINX.
+                  </p>
+
+                  <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
+                    <div className="rounded-xl border border-white/10 bg-gradient-to-br from-emerald-500/10 via-white/5 to-transparent p-4 shadow-lg shadow-emerald-900/20">
+                      <p className="text-xs uppercase tracking-[0.22em] text-emerald-100">What this means</p>
+                      <p className="mt-2 text-sm text-gray-200">
+                        Gateway API defines how traffic should flow into the cluster using modern, standardized Kubernetes resources.
+                      </p>
+                    </div>
+                    <div className="rounded-xl border border-white/10 bg-gradient-to-br from-cyan-500/10 via-white/5 to-transparent p-4 shadow-lg shadow-cyan-900/20">
+                      <p className="text-xs uppercase tracking-[0.22em] text-emerald-100">NGINX Gateway Fabric</p>
+                      <p className="mt-2 text-sm text-gray-200">
+                        It enforces those rules by running and managing NGINX instances that actually handle the traffic.
+                      </p>
+                    </div>
+                    <div className="rounded-xl border border-white/10 bg-gradient-to-br from-blue-500/10 via-white/5 to-transparent p-4 shadow-lg shadow-blue-900/20">
+                      <p className="text-xs uppercase tracking-[0.22em] text-emerald-100">How it works together</p>
+                      <p className="mt-2 text-sm text-gray-200">
+                        Gateway API describes the intent → NGINX Gateway Fabric translates it into NGINX configuration → traffic is routed securely and consistently.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
+                    <div className="rounded-xl border border-white/10 bg-gradient-to-br from-white/10 via-white/5 to-transparent p-4 shadow-inner shadow-black/40">
+                      <p className="text-xs uppercase tracking-[0.22em] text-emerald-100">What changed from before</p>
+                      <p className="mt-2 text-sm text-gray-200">
+                        Replaced ingress-nginx, which used a single, legacy Ingress model.
+                      </p>
+                    </div>
+                    <div className="rounded-xl border border-white/10 bg-gradient-to-br from-white/10 via-white/5 to-transparent p-4 shadow-inner shadow-black/40">
+                      <p className="text-xs uppercase tracking-[0.22em] text-emerald-100">Architecture</p>
+                      <p className="mt-2 text-sm text-gray-200">
+                        New design separates routing, infrastructure, and policy for better scalability and flexibility.
+                      </p>
+                    </div>
+                    <div className="rounded-xl border border-white/10 bg-gradient-to-br from-white/10 via-white/5 to-transparent p-4 shadow-inner shadow-black/40">
+                      <p className="text-xs uppercase tracking-[0.22em] text-emerald-100">Result</p>
+                      <p className="mt-2 text-sm text-gray-200">
+                        More reliable, scalable, and future-ready traffic management with no change to how you access the site.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-center gap-3 pt-1">
+                  <button
+                    onClick={() => setModalView("flow")}
+                    className="cursor-pointer rounded-full bg-emerald-500 px-4 py-2 text-xs font-semibold text-black shadow-lg shadow-emerald-500/40 transition-all hover:-translate-y-0.5 hover:bg-emerald-400"
+                  >
+                    Visual tour
+                  </button>
+                  <button
+                    onClick={closeModal}
+                    className="cursor-pointer rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-white/20"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="flex h-full flex-col gap-3 p-5">
+                <div className="flex items-center justify-center gap-3">
+                  <button
+                    onClick={() => {
+                      setModalView("info");
+                    }}
+                    className="cursor-pointer rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-white/20"
+                  >
+                    Back to summary
+                  </button>
+                </div>
+
+                <div className="flex-1 overflow-hidden rounded-xl border border-white/10 bg-black/70">
+                  <iframe
+                    src="/images/flow.html"
+                    title="Traffic flow comparison"
+                    className="h-full w-full"
+                    loading="lazy"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
       <PageWrapper>
         <div className="max-w-5xl mx-auto px-4 py-12">
+          {showBanner && (
+            <div className="mb-4 rounded-2xl border border-emerald-400/40 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-100 shadow-lg shadow-emerald-700/20 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+              <div className="font-semibold">
+                New traffic flow implemented site-wide — replacing legacy Ingress-NGINX with Gateway API + NGINX Gateway Fabric for safer, consistent edge handling.
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => {
+                    setShowModal(true);
+                    setModalView("info");
+                    setShowBanner(false);
+                  }}
+                  className="cursor-pointer rounded-full bg-emerald-500 px-3 py-1.5 text-xs font-semibold text-black shadow-lg shadow-emerald-500/30 transition-all hover:-translate-y-0.5 hover:bg-emerald-400"
+                >
+                  Learn more
+                </button>
+                <button
+                  onClick={() => setShowBanner(false)}
+                  className="cursor-pointer rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-white/20"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          )}
+
           <div
             ref={(el) => (sectionRefs.current[0] = el)}
             data-section="header"

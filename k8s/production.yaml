@@ -80,7 +80,7 @@ metadata:
   name: pub-site-gateway
   namespace: pub-site-prod
 spec:
-  gatewayClassName: nginx
+  gatewayClassName: nginx-gateway
   listeners:
   - name: https
     hostname: info.dremer10.com

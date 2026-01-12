@@ -47,12 +47,14 @@ echo "8. Checking service:"
 kubectl get svc -n pub-site 2>/dev/null
 
 echo ""
-echo "9. Checking ingress:"
-kubectl get ingress -n pub-site 2>/dev/null
+echo "9. Checking Gateway API resources:"
+kubectl get gateway -A 2>/dev/null
+kubectl get httproute -A 2>/dev/null
 
 echo ""
-echo "10. Describing ingress:"
-kubectl describe ingress pub-site -n pub-site 2>/dev/null
+echo "10. Describing pub-site Gateway and HTTPRoute:"
+kubectl describe gateway pub-site-gateway -n pub-site 2>/dev/null
+kubectl describe httproute pub-site -n pub-site 2>/dev/null
 
 echo ""
 echo "11. Testing if pod can be reached internally:"

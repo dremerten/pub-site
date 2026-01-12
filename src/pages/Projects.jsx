@@ -129,11 +129,11 @@ const Projects = () => {
       {showBanner && (
         <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/70 backdrop-blur-sm px-4">
           <div className="w-full max-w-md rounded-2xl border border-emerald-400/40 bg-slate-900/95 p-5 text-white shadow-2xl shadow-emerald-900/30">
-            <div className="mb-3 text-center text-lg font-semibold">New traffic flow implemented site-wide</div>
+            <div className="mb-3 text-center text-lg font-semibold">Gateway API + NGINX Gateway Fabric now live</div>
             <p className="text-sm text-gray-200 text-center mb-1">
-              Traffic now routes through Gateway API + NGINX Gateway Fabric for safer, consistent edge handling.
+              Traffic now routes through Gateway API with the nginx-gateway class on NGINX Gateway Fabric for safer, consistent edge handling.
             </p>
-            <p className="text-xs text-emerald-100 text-center mb-4">Replaces legacy Ingress-NGINX.</p>
+            <p className="text-xs text-emerald-100 text-center mb-4">Legacy Ingress-NGINX path is deprecated and being removed.</p>
             <div className="flex items-center justify-center gap-3">
               <button
                 onClick={() => {
@@ -158,7 +158,7 @@ const Projects = () => {
 
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm px-2 md:px-8">
-          <div className="relative w-[95vw] max-w-3xl md:max-w-[55vw] h-[88vh] md:h-[85vh] max-h-[95vh] overflow-y-auto md:overflow-hidden rounded-2xl border border-white/10 bg-slate-900/95 shadow-2xl shadow-cyan-900/50">
+          <div className="relative w-[95vw] max-w-3xl md:max-w-[55vw] h-[88vh] md:h-[85vh] max-h-[95vh] overflow-y-auto rounded-2xl border border-white/10 bg-slate-900/95 shadow-2xl shadow-cyan-900/50">
             <div className="absolute right-3 top-3 flex gap-2">
               <button
                 onClick={closeModal}
@@ -170,7 +170,7 @@ const Projects = () => {
             </div>
 
             {modalView === "info" ? (
-              <div className="relative flex h-full flex-col gap-4 overflow-hidden p-4 md:p-6">
+              <div className="relative flex h-full flex-col gap-4 overflow-y-auto p-4 md:p-6">
                 <div className="pointer-events-none absolute inset-0 opacity-20">
                   <div className="absolute left-10 top-10 h-32 w-32 rounded-full bg-emerald-400/30 blur-3xl"></div>
                   <div className="absolute right-6 bottom-12 h-36 w-36 rounded-full bg-cyan-400/25 blur-3xl"></div>
@@ -183,7 +183,7 @@ const Projects = () => {
                   </div>
                   <h2 className="text-center text-xl md:text-2xl font-semibold text-white">Traffic is now on Gateway API + NGINX Gateway Fabric</h2>
                   <p className="text-center text-xs md:text-sm text-gray-200">
-                    This site now uses Kubernetes Gateway API with NGINX Gateway Fabric for ingress traffic, replacing legacy Ingress-NGINX.
+                    This site now uses Kubernetes Gateway API with the nginx-gateway class on NGINX Gateway Fabric for ingress traffic; legacy ingress-nginx is deprecated and slated for removal.
                   </p>
 
                   <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
@@ -211,7 +211,7 @@ const Projects = () => {
                     <div className="rounded-xl border border-white/10 bg-gradient-to-br from-white/10 via-white/5 to-transparent p-4 shadow-inner shadow-black/40">
                       <p className="text-xs uppercase tracking-[0.22em] text-emerald-100">What changed from before</p>
                       <p className="mt-2 text-sm text-gray-200">
-                        Replaced ingress-nginx, which used a single, legacy Ingress model.
+                        Retiring ingress-nginx (legacy Ingress model) in favor of Gateway API resources bound to the nginx-gateway class.
                       </p>
                     </div>
                     <div className="rounded-xl border border-white/10 bg-gradient-to-br from-white/10 via-white/5 to-transparent p-4 shadow-inner shadow-black/40">
@@ -227,14 +227,21 @@ const Projects = () => {
                       </p>
                     </div>
                   </div>
+
                 </div>
 
                 <div className="sticky bottom-0 left-0 right-0 mt-1 flex flex-col items-stretch justify-center gap-2 bg-slate-900/95 pt-2 pb-1 sm:static sm:flex-row sm:items-center sm:gap-3 sm:bg-transparent">
                   <button
-                    onClick={() => setModalView("flow")}
+                    onClick={() => setModalView("gateway")}
                     className="cursor-pointer rounded-full bg-emerald-500 px-4 py-2 text-xs font-semibold text-black shadow-lg shadow-emerald-500/40 transition-all hover:-translate-y-0.5 hover:bg-emerald-400"
                   >
-                    Visual tour
+                    View current Gateway API flow
+                  </button>
+                  <button
+                    onClick={() => setModalView("flow")}
+                    className="cursor-pointer rounded-full border border-white/25 bg-white/10 px-4 py-2 text-xs font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-white/20"
+                  >
+                    Learn about legacy flow
                   </button>
                   <button
                     onClick={closeModal}
@@ -244,7 +251,7 @@ const Projects = () => {
                   </button>
                 </div>
               </div>
-            ) : (
+            ) : modalView === "gateway" ? (
               <div className="flex h-full flex-col gap-3 p-4 md:p-5">
                 <div className="flex items-center justify-center gap-2 md:gap-3">
                   <button
@@ -259,8 +266,31 @@ const Projects = () => {
 
                 <div className="flex-1 overflow-hidden rounded-xl border border-white/10 bg-black/70 min-h-[80vh] md:min-h-[75vh]">
                   <iframe
+                    src="/images/flow-gateway.html"
+                    title="Gateway API flow"
+                    className="h-full w-full"
+                    loading="lazy"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+              </div>
+            ) : (
+                <div className="flex h-full flex-col gap-3 p-4 md:p-5">
+                  <div className="flex items-center justify-center gap-2 md:gap-3">
+                    <button
+                      onClick={() => {
+                        setModalView("info");
+                      }}
+                    className="cursor-pointer rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-white/20"
+                  >
+                    Back to summary
+                  </button>
+                </div>
+
+                <div className="flex-1 overflow-hidden rounded-xl border border-white/10 bg-black/70 min-h-[80vh] md:min-h-[75vh]">
+                  <iframe
                     src="/images/flow.html"
-                    title="Traffic flow comparison"
+                    title="Legacy Ingress flow"
                     className="h-full w-full"
                     loading="lazy"
                     allowFullScreen
@@ -277,7 +307,7 @@ const Projects = () => {
           {showBanner && (
             <div className="mb-4 rounded-2xl border border-emerald-400/40 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-100 shadow-lg shadow-emerald-700/20 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
               <div className="font-semibold">
-                New traffic flow implemented site-wide — replacing legacy Ingress-NGINX with Gateway API + NGINX Gateway Fabric for safer, consistent edge handling.
+                Gateway API + NGINX Gateway Fabric now handle all traffic — legacy ingress-nginx is deprecated and being removed for safer, consistent edge handling.
               </div>
               <div className="flex items-center gap-2">
                 <button

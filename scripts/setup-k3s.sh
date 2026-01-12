@@ -2,7 +2,7 @@
 set -e
 
 echo "========================================="
-echo "k3s Installation Script with NGINX Ingress"
+echo "k3s Installation Script with NGINX Gateway Fabric"
 echo "========================================="
 
 echo "Updating system packages..."
@@ -29,14 +29,14 @@ echo "alias k=kubectl" >> ~/.bashrc
 echo "Waiting for node to be ready..."
 kubectl wait --for=condition=Ready nodes --all --timeout=60s
 
-echo "Installing NGINX Ingress Controller..."
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.11.1/deploy/static/provider/cloud/deploy.yaml
+echo "Installing NGINX Gateway Fabric (Gateway API implementation)..."
+NGF_VERSION=${NGF_VERSION:-v1.1.0}
+echo "Using NGINX Gateway Fabric release: ${NGF_VERSION}"
+kubectl apply -f https://raw.githubusercontent.com/nginxinc/nginx-gateway-fabric/${NGF_VERSION}/deploy/static/provider/cloud/deploy.yaml
 
-echo "Waiting for NGINX Ingress Controller to be ready..."
-kubectl wait --namespace ingress-nginx \
-  --for=condition=ready pod \
-  --selector=app.kubernetes.io/component=controller \
-  --timeout=120s
+echo "Waiting for NGINX Gateway Fabric to be ready..."
+kubectl rollout status deployment/nginx-gateway -n nginx-gateway --timeout=180s
+kubectl get pods -n nginx-gateway
 
 echo ""
 echo "========================================="
@@ -48,8 +48,8 @@ echo ""
 echo "Nodes:"
 kubectl get nodes -o wide
 echo ""
-echo "NGINX Ingress Controller Pods:"
-kubectl get pods -n ingress-nginx
+echo "NGINX Gateway Fabric Pods:"
+kubectl get pods -n nginx-gateway
 echo ""
 echo "========================================="
 echo "Next Steps:"

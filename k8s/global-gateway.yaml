@@ -4,7 +4,7 @@ metadata:
   name: global-gateway
   namespace: nginx-gateway
 spec:
-  gatewayClassName: nginx
+  gatewayClassName: nginx-gateway
   listeners:
   - name: devops-toolkit
     hostname: devops-toolkit.dremer10.com

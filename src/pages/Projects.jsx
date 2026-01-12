@@ -228,20 +228,53 @@ const Projects = () => {
                     </div>
                   </div>
 
+                  <div className="rounded-2xl border border-white/10 bg-white/5 p-4 shadow-inner shadow-black/30">
+                    <div className="mb-3 flex items-center justify-between gap-2 flex-wrap">
+                      <h3 className="text-sm font-semibold text-white">Ingress-NGINX vs Gateway API</h3>
+                      <p className="text-[11px] uppercase tracking-[0.18em] text-emerald-200">Traffic management comparison</p>
+                    </div>
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left text-xs text-gray-200">
+                        <thead className="text-[11px] uppercase tracking-[0.16em] text-gray-300 border-b border-white/10">
+                          <tr>
+                            <th className="py-2 pr-3">Category</th>
+                            <th className="py-2 pr-3">Ingress-NGINX</th>
+                            <th className="py-2 pr-3">Gateway API</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-white/5">
+                          <tr><td className="py-2 pr-3">Purpose</td><td className="py-2 pr-3">Traditional Kubernetes ingress controller using Ingress resources</td><td className="py-2 pr-3">Next-generation Kubernetes networking API designed to replace Ingress</td></tr>
+                          <tr><td className="py-2 pr-3">Maturity</td><td className="py-2 pr-3">Very mature, widely deployed, production proven</td><td className="py-2 pr-3">Newer, rapidly evolving, Kubernetes-native standard</td></tr>
+                          <tr><td className="py-2 pr-3">API Style</td><td className="py-2 pr-3">Single Ingress object does most routing</td><td className="py-2 pr-3">Multiple composable objects: GatewayClass, Gateway, HTTPRoute, TLSRoute, etc.</td></tr>
+                          <tr><td className="py-2 pr-3">Architecture</td><td className="py-2 pr-3">Controller-centric (NGINX manages everything)</td><td className="py-2 pr-3">Role-oriented and declarative (infra, platform, app teams separated)</td></tr>
+                          <tr><td className="py-2 pr-3">Extensibility</td><td className="py-2 pr-3">Relies heavily on annotations (controller specific)</td><td className="py-2 pr-3">Native extensibility via standardized CRDs</td></tr>
+                          <tr><td className="py-2 pr-3">Vendor Lock-in</td><td className="py-2 pr-3">Higher (annotations are NGINX-specific)</td><td className="py-2 pr-3">Lower (API is standardized, portable between implementations)</td></tr>
+                          <tr><td className="py-2 pr-3">TLS Termination</td><td className="py-2 pr-3">Handled at the Ingress Controller</td><td className="py-2 pr-3">Defined at the Gateway level with explicit TLS configuration</td></tr>
+                          <tr><td className="py-2 pr-3">Traffic Control</td><td className="py-2 pr-3">Basic routing, path and host rules</td><td className="py-2 pr-3">Advanced routing: header matching, traffic splitting, canary, blue/green</td></tr>
+                          <tr><td className="py-2 pr-3">Multi-Team Use</td><td className="py-2 pr-3">Harder to safely share between teams</td><td className="py-2 pr-3">Designed for multi-tenant clusters</td></tr>
+                          <tr><td className="py-2 pr-3">Configuration Clarity</td><td className="py-2 pr-3">Can become messy with many annotations</td><td className="py-2 pr-3">Strong object separation, clearer ownership boundaries</td></tr>
+                          <tr><td className="py-2 pr-3">Policy Enforcement</td><td className="py-2 pr-3">Limited, mostly controller specific</td><td className="py-2 pr-3">First-class support for policy attachment</td></tr>
+                          <tr><td className="py-2 pr-3">Observability</td><td className="py-2 pr-3">Depends on controller integrations</td><td className="py-2 pr-3">Designed for deep observability integration</td></tr>
+                          <tr><td className="py-2 pr-3">Load Balancer</td><td className="py-2 pr-3">Usually one LB per ingress controller</td><td className="py-2 pr-3">One or more Gateways can map to LBs explicitly</td></tr>
+                          <tr><td className="py-2 pr-3">Security Model</td><td className="py-2 pr-3">Flat permission model</td><td className="py-2 pr-3">Fine-grained RBAC across routes and gateways</td></tr>
+                          <tr><td className="py-2 pr-3">Ecosystem Support</td><td className="py-2 pr-3">Huge ecosystem and tutorials</td><td className="py-2 pr-3">Growing ecosystem, future Kubernetes standard</td></tr>
+                          <tr><td className="py-2 pr-3">Cloud Provider Support</td><td className="py-2 pr-3">Works everywhere</td><td className="py-2 pr-3">Natively supported by AWS, GCP, Azure implementations</td></tr>
+                          <tr><td className="py-2 pr-3">Learning Curve</td><td className="py-2 pr-3">Easier to start</td><td className="py-2 pr-3">Steeper but far more powerful</td></tr>
+                          <tr><td className="py-2 pr-3">Ideal Use Case</td><td className="py-2 pr-3">Simple apps, legacy clusters, quick setups</td><td className="py-2 pr-3">Large platforms, shared clusters, modern traffic management</td></tr>
+                          <tr><td className="py-2 pr-3">Future Direction</td><td className="py-2 pr-3">Maintenance mode long-term</td><td className="py-2 pr-3">Strategic direction of Kubernetes networking</td></tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
                 </div>
 
                 <div className="sticky bottom-0 left-0 right-0 mt-1 flex flex-col items-stretch justify-center gap-2 bg-slate-900/95 pt-2 pb-1 sm:static sm:flex-row sm:items-center sm:gap-3 sm:bg-transparent">
                   <button
-                    onClick={() => setModalView("gateway")}
+                    onClick={() => setModalView("flow")}
                     className="cursor-pointer rounded-full bg-emerald-500 px-4 py-2 text-xs font-semibold text-black shadow-lg shadow-emerald-500/40 transition-all hover:-translate-y-0.5 hover:bg-emerald-400"
                   >
-                    View current Gateway API flow
-                  </button>
-                  <button
-                    onClick={() => setModalView("flow")}
-                    className="cursor-pointer rounded-full border border-white/25 bg-white/10 px-4 py-2 text-xs font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-white/20"
-                  >
-                    Learn about legacy flow
+                    View traffic flows
                   </button>
                   <button
                     onClick={closeModal}
@@ -251,53 +284,30 @@ const Projects = () => {
                   </button>
                 </div>
               </div>
-            ) : modalView === "gateway" ? (
-              <div className="flex h-full flex-col gap-3 p-4 md:p-5">
-                <div className="flex items-center justify-center gap-2 md:gap-3">
-                  <button
-                    onClick={() => {
-                      setModalView("info");
-                    }}
-                    className="cursor-pointer rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-white/20"
-                  >
-                    Back to summary
-                  </button>
-                </div>
-
-                <div className="flex-1 overflow-hidden rounded-xl border border-white/10 bg-black/70 min-h-[80vh] md:min-h-[75vh]">
-                  <iframe
-                    src="/images/flow-gateway.html"
-                    title="Gateway API flow"
-                    className="h-full w-full"
-                    loading="lazy"
-                    allowFullScreen
-                  ></iframe>
-                </div>
-              </div>
             ) : (
-                <div className="flex h-full flex-col gap-3 p-4 md:p-5">
-                  <div className="flex items-center justify-center gap-2 md:gap-3">
-                    <button
-                      onClick={() => {
-                        setModalView("info");
-                      }}
-                    className="cursor-pointer rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-white/20"
-                  >
-                    Back to summary
-                  </button>
-                </div>
-
-                <div className="flex-1 overflow-hidden rounded-xl border border-white/10 bg-black/70 min-h-[80vh] md:min-h-[75vh]">
-                  <iframe
-                    src="/images/flow.html"
-                    title="Legacy Ingress flow"
-                    className="h-full w-full"
-                    loading="lazy"
-                    allowFullScreen
-                  ></iframe>
-                </div>
+            <div className="flex h-full flex-col gap-3 p-4 md:p-5">
+              <div className="flex items-center justify-center gap-2 md:gap-3">
+                <button
+                  onClick={() => {
+                    setModalView("info");
+                  }}
+                  className="cursor-pointer rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-white/20"
+                >
+                  Back to summary
+                </button>
               </div>
-            )}
+
+              <div className="flex-1 overflow-hidden rounded-xl border border-white/10 bg-black/70 min-h-[80vh] md:min-h-[75vh]">
+                <iframe
+                  src="/images/flow2.html"
+                  title="Traffic flows side by side"
+                  className="h-full w-full"
+                  loading="lazy"
+                  allowFullScreen
+                ></iframe>
+              </div>
+            </div>
+          )}
           </div>
         </div>
       )}

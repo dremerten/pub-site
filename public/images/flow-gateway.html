@@ -3,25 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Legacy Ingress-NGINX Flow</title>
+  <title>Gateway API + NGINX Gateway Fabric</title>
   <style>
-    :root { --bg:#0b1220; --panel:#0f172a; --panel-border:#1f2937; --text:#e5e7eb; --muted:#94a3b8; --accent-a:#38bdf8; }
+    :root { --bg:#050914; --panel:#0f172a; --panel-border:#1f2937; --text:#e5e7eb; --muted:#94a3b8; --accent-b:#22c55e; }
     * { box-sizing:border-box; }
-    body { margin:0; font-family:"Segoe UI",system-ui,-apple-system,sans-serif; background:radial-gradient(circle at 20% 20%, rgba(56,189,248,0.08), transparent 32%), radial-gradient(circle at 80% 10%, rgba(34,197,94,0.08), transparent 28%), var(--bg); color:var(--text); padding:10px; height:100vh; overflow:hidden; display:flex; align-items:stretch; justify-content:center; }
+    body { margin:0; font-family:"Segoe UI",system-ui,-apple-system,sans-serif; background:radial-gradient(circle at 20% 20%, rgba(34,197,94,0.1), transparent 34%), radial-gradient(circle at 80% 10%, rgba(59,130,246,0.08), transparent 30%), var(--bg); color:var(--text); padding:10px; height:100vh; overflow:hidden; display:flex; align-items:stretch; justify-content:center; }
     .shell { width:100%; max-width:1200px; display:flex; flex-direction:column; gap:8px; height:100%; }
     header h1 { margin:0; font-size:24px; }
     header p { margin:0; color:var(--muted); font-size:13px; }
-    .panel { position:relative; overflow:hidden; background:linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)); border:1px solid var(--panel-border); border-radius:12px; padding:8px; box-shadow:0 12px 28px rgba(0,0,0,0.32); display:grid; grid-template-columns:1.2fr 0.8fr; gap:8px; height:calc(100% - 32px); align-items:start; }
-    .panel::before { content:""; position:absolute; inset:10%; background:radial-gradient(circle at 20% 20%, rgba(56,189,248,0.1), transparent 40%); filter:blur(46px); z-index:0; }
+    .panel { position:relative; overflow:hidden; background:linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)); border:1px solid var(--panel-border); border-radius:12px; padding:8px; box-shadow:0 12px 28px rgba(0, 0, 0, 0.32); display:grid; grid-template-columns:1.2fr 0.8fr; gap:8px; height:calc(100% - 32px); align-items:start; }
+    .panel::before { content:""; position:absolute; inset:10%; background:radial-gradient(circle at 20% 20%, rgba(34,197,94,0.12), transparent 40%); filter:blur(46px); z-index:0; }
     .panel>* { position:relative; z-index:1; }
     .flow-visual { width:100%; height:100%; }
     .flow-info { display:flex; flex-direction:column; gap:6px; height:100%; }
-    svg.chart { width:100%; height:420px; display:block; background:rgba(15,23,42,0.94); border-radius:10px; }
-    .flow-line { stroke:var(--muted); stroke-width:5; fill:none; stroke-dasharray:20 16; animation:flow 2.4s linear infinite; opacity:0.8; }
-    .flow-line.ingress { stroke:var(--accent-a); }
-    .flow-line.active { opacity:1; stroke-width:7; filter:drop-shadow(0 0 12px rgba(56,189,248,0.5)); }
+    svg.chart { width:100%; height:360px; display:block; background:rgba(15,23,42,0.94); border-radius:10px; }
+    .flow-line { stroke:var(--accent-b); stroke-width:5; fill:none; stroke-dasharray:20 16; animation:flow 2.3s linear infinite; opacity:0.8; }
+    .flow-line.active { opacity:1; stroke-width:7; filter:drop-shadow(0 0 12px rgba(34,197,94,0.5)); }
     .node { fill:#0a1224; stroke:#1f2937; stroke-width:3; rx:18; filter:drop-shadow(0 16px 30px rgba(0,0,0,0.34)); transition:transform 0.2s ease, stroke 0.2s ease, box-shadow 0.2s ease; cursor:pointer; }
-    .node.ingress { stroke:var(--accent-a); }
+    .node.gateway { stroke:var(--accent-b); }
     .node.active { transform:translateY(-5px); box-shadow:0 14px 30px rgba(0,0,0,0.55); stroke:#ffffff; }
     .label { fill:var(--text); font-size:18px; text-anchor:middle; pointer-events:none; }
     .muted { fill:var(--muted); font-size:14px; text-anchor:middle; pointer-events:none; }
@@ -30,34 +29,34 @@
     .marker.active { stroke:#fff; fill:rgba(255,255,255,0.08); transform:translateY(-3px); }
     .chart-steps { background:rgba(255,255,255,0.04); border:1px dashed var(--panel-border); border-radius:10px; padding:10px; font-size:13px; color:var(--text); display:grid; gap:6px; }
     .chart-steps div { padding:6px 8px; border-radius:10px; transition:background 0.2s ease, color 0.2s ease, border 0.2s ease; border:1px solid transparent; cursor:pointer; }
-    .chart-steps div.active { background:rgba(56,189,248,0.18); border-color:rgba(56,189,248,0.38); color:#e0f2fe; }
+    .chart-steps div.active { background:rgba(34,197,94,0.2); border-color:rgba(34,197,94,0.4); color:#dcfce7; }
     .step-detail { padding:10px; border-radius:10px; border:1px solid var(--panel-border); background:rgba(255,255,255,0.03); min-height:52px; font-size:13px; color:var(--text); }
     @keyframes flow { to { stroke-dashoffset:-52; } }
-    @media (max-width:1100px) { .panel { grid-template-columns:1fr; height:auto; } .flow-info { order:-1; } svg.chart { height:360px; } }
+    @media (max-width:1100px) { .panel { grid-template-columns:1fr; height:auto; } .flow-info { order:-1; } svg.chart { height:320px; } }
   </style>
 </head>
 <body>
   <div class="shell">
     <header>
-      <h1>Legacy Flow: Ingress-NGINX</h1>
-      <p>Straight-line view with animated arrows. Click any step or node to highlight that hop.</p>
+      <h1>Current Flow: Gateway API + NGINX Gateway Fabric</h1>
+      <p>Straight-line view with animated arrows. Click any step or node to highlight and see details.</p>
     </header>
 
     <section class="panel">
       <div class="flow-visual">
-        <svg class="chart" viewBox="0 0 2600 520" xmlns="http://www.w3.org/2000/svg" data-flow="ingress">
+        <svg class="chart" viewBox="0 0 2600 520" xmlns="http://www.w3.org/2000/svg" data-flow="gateway">
           <defs>
-            <marker id="arrow" markerWidth="14" markerHeight="14" refX="11" refY="7" orient="auto">
+            <marker id="arrow-g" markerWidth="14" markerHeight="14" refX="11" refY="7" orient="auto">
               <path d="M0 0 L14 7 L0 14 Z" fill="currentColor"/>
             </marker>
           </defs>
 
-          <path d="M320 300 L340 300" class="flow-line ingress" data-step="2" marker-end="url(#arrow)" />
-          <path d="M640 300 L660 300" class="flow-line ingress" data-step="3" marker-end="url(#arrow)" />
-          <path d="M960 300 L980 300" class="flow-line ingress" data-step="4" marker-end="url(#arrow)" />
-          <path d="M1280 300 L1300 300" class="flow-line ingress" data-step="5" marker-end="url(#arrow)" />
-          <path d="M1600 300 L1620 300" class="flow-line ingress" data-step="6" marker-end="url(#arrow)" />
-          <path d="M1920 300 L1940 300" class="flow-line ingress" data-step="7" marker-end="url(#arrow)" />
+          <path d="M320 300 L340 300" class="flow-line" data-step="2" marker-end="url(#arrow-g)" />
+          <path d="M640 300 L660 300" class="flow-line" data-step="3" marker-end="url(#arrow-g)" />
+          <path d="M960 300 L980 300" class="flow-line" data-step="4" marker-end="url(#arrow-g)" />
+          <path d="M1280 300 L1300 300" class="flow-line" data-step="5" marker-end="url(#arrow-g)" />
+          <path d="M1600 300 L1620 300" class="flow-line" data-step="6" marker-end="url(#arrow-g)" />
+          <path d="M1920 300 L1940 300" class="flow-line" data-step="7" marker-end="url(#arrow-g)" />
 
           <g class="node-group" data-step="1" transform="translate(20 210)">
             <rect width="300" height="190" class="node" />
@@ -79,16 +78,16 @@
           </g>
 
           <g class="node-group" data-step="4" transform="translate(980 200)">
-            <rect width="300" height="200" class="node ingress" />
-            <text x="150" y="90" class="label">🧭 Ingress-NGINX</text>
-            <text x="150" y="118" class="muted">TLS termination</text>
+            <rect width="300" height="200" class="node gateway" />
+            <text x="150" y="90" class="label">🧭 NGF Gateway</text>
+            <text x="150" y="118" class="muted">nginx-gateway class</text>
             <g class="marker" transform="translate(104 -32)"><circle cx="18" cy="18" r="15"/><text x="18" y="18">4</text></g>
           </g>
 
           <g class="node-group" data-step="5" transform="translate(1300 200)">
             <rect width="300" height="200" class="node" />
-            <text x="150" y="94" class="label">📜 Ingress Rules</text>
-            <text x="150" y="122" class="muted">Annotations</text>
+            <text x="150" y="94" class="label">📐 HTTPRoutes</text>
+            <text x="150" y="122" class="muted">ReferenceGrants</text>
             <g class="marker" transform="translate(104 -32)"><circle cx="18" cy="18" r="15"/><text x="18" y="18">5</text></g>
           </g>
 
@@ -110,10 +109,10 @@
           <div data-step="1"><strong>Step 1.</strong> User sends the request.</div>
           <div data-step="2"><strong>Step 2.</strong> DNS resolves.</div>
           <div data-step="3"><strong>Step 3.</strong> Load balancer accepts traffic.</div>
-          <div data-step="4"><strong>Step 4.</strong> Ingress-NGINX terminates TLS.</div>
-          <div data-step="5"><strong>Step 5.</strong> Ingress annotations decide routing.</div>
+          <div data-step="4"><strong>Step 4.</strong> NGF Gateway (nginx-gateway class) terminates TLS.</div>
+          <div data-step="5"><strong>Step 5.</strong> HTTPRoutes + ReferenceGrants evaluate routing.</div>
           <div data-step="6"><strong>Step 6.</strong> Service fans out to backends.</div>
-          <div data-step="7"><strong>Step 7.</strong> Pods process the request.</div>
+          <div data-step="7"><strong>Step 7.</strong> Pods process the request with policy/mTLS support.</div>
         </div>
         <div class="step-detail" id="step-detail">Select a step to see what happens in detail.</div>
       </div>
@@ -133,11 +132,11 @@
       const detailCopy = {
         "1": "A user/browser initiates the request toward your public hostname.",
         "2": "DNS resolves the hostname to the cluster’s external address.",
-        "3": "The external load balancer accepts the connection.",
-        "4": "Ingress-NGINX terminates TLS and begins HTTP processing.",
-        "5": "Ingress annotations/rules decide which Service to target.",
+        "3": "The external load balancer accepts the connection and forwards to NGF.",
+        "4": "NGF Gateway (nginx-gateway class) terminates TLS and enforces listener policy.",
+        "5": "HTTPRoutes + ReferenceGrants evaluate host/path rules to choose the backend Service.",
         "6": "The Service load balances across matching pods/endpoints.",
-        "7": "Pods process the request and send the response back."
+        "7": "Pods process the request and respond, optionally with mTLS and policy enforcement."
       };
 
       const setActive = (step) => {
@@ -160,7 +159,7 @@
       setActive("1");
     }
 
-    wireFlow("ingress");
+    wireFlow("gateway");
   </script>
 </body>
 </html>

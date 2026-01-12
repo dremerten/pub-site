@@ -1,0 +1,74 @@
+<!DOCTYPE svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="420" viewBox="0 0 1600 420">
+  <style>
+    :root { --bg:#0b1220; --panel:#0f172a; --border:#1f2937; --text:#e5e7eb; --muted:#94a3b8; --accent:#38bdf8; }
+    .bg { fill: var(--bg); }
+    .panel { fill: var(--panel); stroke: var(--border); stroke-width: 2; rx: 18; }
+    .node { fill:#0a1224; stroke:var(--border); stroke-width:2.4; rx:14; }
+    .node.accent { stroke: var(--accent); }
+    .label { font-family:'Segoe UI',system-ui,sans-serif; fill:var(--text); font-size:18px; text-anchor:middle; dominant-baseline:middle; }
+    .muted { font-family:'Segoe UI',system-ui,sans-serif; fill:var(--muted); font-size:13px; text-anchor:middle; dominant-baseline:middle; }
+    .step { fill:var(--panel); stroke:var(--muted); stroke-width:1.5; }
+    .step text { fill:var(--text); font-weight:700; font-size:12px; text-anchor:middle; dominant-baseline:middle; }
+    .flow { fill:none; stroke:var(--muted); stroke-width:4.5; stroke-dasharray:14 12; marker-end:url(#arrow); animation: dash 2.2s linear infinite; opacity:0.8; }
+    .flow.accent { stroke: var(--accent); opacity:0.95; }
+    @keyframes dash { to { stroke-dashoffset: -60; } }
+  </style>
+  <defs>
+    <linearGradient id="panelGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f172a" /><stop offset="100%" stop-color="#0b1220" />
+    </linearGradient>
+    <marker id="arrow" markerWidth="14" markerHeight="14" refX="11" refY="7" orient="auto">
+      <path d="M0 0 L14 7 L0 14 Z" fill="currentColor" />
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1600" height="420" />
+  <rect x="15" y="15" width="1570" height="390" fill="url(#panelGrad)" stroke="var(--border)" stroke-width="2" rx="22" />
+
+  <!-- Flow arrows -->
+  <path class="flow" d="M170 210 L330 210" />
+  <path class="flow" d="M430 210 L590 210" />
+  <path class="flow" d="M690 210 L850 210" />
+  <path class="flow accent" d="M950 210 L1110 210" />
+  <path class="flow accent" d="M1210 210 L1370 210" />
+
+  <!-- Nodes -->
+  <g transform="translate(60 140)" class="node-group" data-step="1">
+    <rect width="180" height="140" class="node" />
+    <text x="90" y="70" class="label">👤 User</text>
+    <text x="90" y="94" class="muted">Browser</text>
+    <g class="step" transform="translate(74 -22)"><circle cx="14" cy="14" r="13"/><text x="14" y="14">1</text></g>
+  </g>
+
+  <g transform="translate(320 140)" class="node-group" data-step="2">
+    <rect width="180" height="140" class="node" />
+    <text x="90" y="70" class="label">🌐 DNS</text>
+    <g class="step" transform="translate(74 -22)"><circle cx="14" cy="14" r="13"/><text x="14" y="14">2</text></g>
+  </g>
+
+  <g transform="translate(580 140)" class="node-group" data-step="3">
+    <rect width="180" height="140" class="node" />
+    <text x="90" y="70" class="label">☁️ Load Balancer</text>
+    <g class="step" transform="translate(74 -22)"><circle cx="14" cy="14" r="13"/><text x="14" y="14">3</text></g>
+  </g>
+
+  <g transform="translate(840 140)" class="node-group" data-step="4">
+    <rect width="180" height="140" class="node accent" />
+    <text x="90" y="64" class="label">🧭 Gateway API</text>
+    <text x="90" y="92" class="muted">Ingress-NGINX</text>
+    <g class="step" transform="translate(74 -22)"><circle cx="14" cy="14" r="13"/><text x="14" y="14">4</text></g>
+  </g>
+
+  <g transform="translate(1100 140)" class="node-group" data-step="5">
+    <rect width="180" height="140" class="node" />
+    <text x="90" y="70" class="label">🔀 Service</text>
+    <g class="step" transform="translate(74 -22)"><circle cx="14" cy="14" r="13"/><text x="14" y="14">5</text></g>
+  </g>
+
+  <g transform="translate(1360 140)" class="node-group" data-step="6">
+    <rect width="180" height="140" class="node" />
+    <text x="90" y="74" class="label">📦 Pods</text>
+    <g class="step" transform="translate(74 -22)"><circle cx="14" cy="14" r="13"/><text x="14" y="14">6</text></g>
+  </g>
+</svg>

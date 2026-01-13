@@ -101,6 +101,10 @@ spec:
   parentRefs:
   - name: global-gateway
     namespace: nginx-gateway
+    sectionName: pub-site-dev
+  - name: global-gateway
+    namespace: nginx-gateway
+    sectionName: pub-site-dev-http
   hostnames:
   - info-dev.dremer10.com
   rules:

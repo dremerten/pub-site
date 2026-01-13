@@ -25,3 +25,17 @@ spec:
     name: letsencrypt-gateway
   dnsNames:
   - info-dev.dremer10.com
+
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: quiz-prod-cert
+  namespace: nginx-gateway
+spec:
+  secretName: quiz-production-tls
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-gateway
+  dnsNames:
+  - quiz.dremer10.com

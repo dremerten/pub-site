@@ -6,6 +6,20 @@ import { StickyButtons } from "@/components/StickyButtons";
 
 export const projects = [
   {
+    title: "DevOps Quiz Lab",
+    subtitle: "Browser terminal drills for core ops topics",
+    description:
+      "Interactive terminal that runs DevOps Interview Quiz with a custom frontend and ephemeral deployment backing each session.",
+    tags: ["Kubernetes", "Security", "CLI"],
+    image: "/images/devops_quiz.svg",
+    accent: "from-emerald-400/30 via-blue-500/10 to-sky-400/20",
+    detailPath: "/quiz",
+    ctas: [
+      { label: "View detail", to: "/quiz", type: "internal" },
+      { label: "Check it Out (Terminal)", to: "/quiz", type: "internal" },
+    ],
+  },
+  {
     title: "DevOps Toolkit",
     subtitle: "Multi-environment CI/CD with full observability",
     description:

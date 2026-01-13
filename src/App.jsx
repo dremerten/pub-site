@@ -9,6 +9,7 @@ import SolarSystem from "./pages/SolarSystem.jsx";
 import Resume from "./pages/Resume.jsx";
 import About from "./pages/About.jsx";
 import AboutShowcase from "./pages/AboutShowcase.jsx";
+import Quiz from "./pages/Quiz.jsx";
 import { ThemeProvider } from "./components/ThemeProvider.jsx";
 
 const AppContent = () => {
@@ -18,7 +19,8 @@ const AppContent = () => {
     {path: "/about/showcase", title: "About Showcase", component: AboutShowcase},
     {path: "/overview", title: "Dashboard", component: Overview},
     {path: "/projects", title: "Projects", component: Projects},
-    {path: "/resume", title: "Resume", component: Resume}
+    {path: "/resume", title: "Resume", component: Resume},
+    {path: "/quiz", title: "Quiz", component: Quiz}
   ];
 
   return (

@@ -131,8 +131,8 @@ const Quiz = () => {
             <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between mb-2">
               <div>
                 <p className="text-xs uppercase tracking-[0.2em] text-sky-200">Topic coverage</p>
-                <h2 className="text-xl md:text-2xl font-semibold text-white">Jukebox for drills</h2>
-                <p className="text-sm text-gray-300">Rotate the band, center a card, and drop into the matching terminal session.</p>
+                <h2 className="text-xl md:text-2xl font-semibold text-white">Select a DevOps topic to get Quized on.</h2>
+                <p className="text-sm text-gray-300">Rotate and select a topic to begin.</p>
               </div>
               <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-gray-100 border border-white/15">
                 12 topical tracks
@@ -159,7 +159,7 @@ const Quiz = () => {
                       </div>
                     </div>
                     <p className="text-xs text-gray-400 mt-2">
-                      Use the controls to rotate the band; the centered card launches a secure terminal tab.
+                      Use controls to rotate Topics. The Centered Topic may be selected to launch the terminal session.
                     </p>
                   </div>
                 </div>

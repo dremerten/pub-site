@@ -1,0 +1,86 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: quiz
+  labels:
+    name: quiz
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quiz
+  namespace: quiz
+  labels:
+    app: quiz
+    environment: production
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: quiz
+      environment: production
+  template:
+    metadata:
+      labels:
+        app: quiz
+        environment: production
+    spec:
+      containers:
+      - name: quiz
+        image: ${{ secrets.DOCKERHUB_USERNAME }}/quiz-terminal:latest
+        ports:
+        - containerPort: 7681
+          name: ws
+        env:
+        - name: DEFAULT_TOPIC
+          value: "aws"
+        resources:
+          requests:
+            cpu: "50m"
+            memory: "256Mi"
+          limits:
+            cpu: "50m"
+            memory: "256Mi"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: quiz
+  namespace: quiz
+  labels:
+    app: quiz
+    environment: production
+spec:
+  type: ClusterIP
+  selector:
+    app: quiz
+    environment: production
+  ports:
+  - port: 7681
+    targetPort: 7681
+    protocol: TCP
+    name: ws
+
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: quiz
+  namespace: quiz
+spec:
+  parentRefs:
+  - name: global-gateway
+    namespace: nginx-gateway
+  hostnames:
+  - quiz.dremer10.com
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: quiz
+      port: 7681

@@ -114,6 +114,18 @@ spec:
     allowedRoutes:
       namespaces:
         from: All
+  - name: quiz
+    hostname: quiz.dremer10.com
+    port: 443
+    protocol: HTTPS
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - name: quiz-production-tls
+        kind: Secret
+    allowedRoutes:
+      namespaces:
+        from: All
   - name: solar-dev
     hostname: solar-dev.dremer10.com
     port: 443

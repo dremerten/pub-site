@@ -1,6 +1,8 @@
 # ---- Build Stage ----
 FROM node:25.1.0-alpine AS build
 
+ARG VITE_QUIZ_TERMINAL_URL
+
 WORKDIR /app
 
 COPY package*.json ./
@@ -10,7 +12,7 @@ RUN npm install && \
 
 COPY . .
 
-RUN npm run build && \
+RUN VITE_QUIZ_TERMINAL_URL=${VITE_QUIZ_TERMINAL_URL} npm run build && \
     find dist -name "*.map" -delete && \
     apk add --no-cache brotli && \
     find dist -type f -name "*.js" -exec brotli -Z {} \; && \
@@ -24,4 +26,3 @@ COPY nginx-container.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
-

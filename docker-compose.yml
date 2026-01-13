@@ -5,6 +5,19 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        VITE_QUIZ_TERMINAL_URL: ${VITE_QUIZ_TERMINAL_URL:-https://quiz.dremer10.com}
     ports:
       - 127.0.0.1:3333:80
 
+  quiz-terminal:
+    container_name: Quiz-Terminal
+    build:
+      context: ./terminal
+      dockerfile: Dockerfile
+    environment:
+      - DEFAULT_TOPIC=aws
+    ports:
+      - 127.0.0.1:7681:7681
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock

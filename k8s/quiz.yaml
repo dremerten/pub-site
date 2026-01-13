@@ -29,7 +29,7 @@ spec:
     spec:
       containers:
       - name: quiz
-        image: dremer10/quiz-terminal:latest
+        image: dremer10/quiz-terminal:test
         ports:
         - containerPort: 7681
           name: ws
@@ -43,6 +43,15 @@ spec:
           limits:
             cpu: "50m"
             memory: "256Mi"
+        volumeMounts:
+        - name: docker-sock
+          mountPath: /var/run/docker.sock
+          readOnly: true
+      volumes:
+      - name: docker-sock
+        hostPath:
+          path: /var/run/docker.sock
+          type: Socket
 
 ---
 apiVersion: v1

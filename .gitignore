@@ -17,3 +17,4 @@ public/files/*-template.pdf
 project-info.md
 DESIGN_UPDATES_MEMORY.md
 markdown-files
+.env

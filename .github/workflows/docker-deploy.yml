@@ -12,6 +12,7 @@ on:
 env:
   IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/pub-site
   VITE_QUIZ_TERMINAL_URL: ${{ secrets.VITE_QUIZ_TERMINAL_URL }}
+  TERMINAL_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/quiz-terminal
 
 jobs:
   build:
@@ -171,6 +172,17 @@ jobs:
         build-args: |
           VITE_QUIZ_TERMINAL_URL=${{ env.VITE_QUIZ_TERMINAL_URL }}
 
+    - name: Build and push quiz terminal image
+      uses: docker/build-push-action@v5
+      with:
+        context: ./terminal
+        file: ./terminal/Dockerfile
+        push: true
+        tags: |
+          ${{ env.TERMINAL_IMAGE }}:latest
+        cache-from: type=registry,ref=${{ env.TERMINAL_IMAGE }}:latest
+        cache-to: type=inline
+
   push-testing:
     needs: build
     runs-on: ubuntu-latest
@@ -201,6 +213,17 @@ jobs:
         cache-to: type=inline
         build-args: |
           VITE_QUIZ_TERMINAL_URL=${{ env.VITE_QUIZ_TERMINAL_URL }}
+
+    - name: Build and push quiz terminal image (test tag)
+      uses: docker/build-push-action@v5
+      with:
+        context: ./terminal
+        file: ./terminal/Dockerfile
+        push: true
+        tags: |
+          ${{ env.TERMINAL_IMAGE }}:test
+        cache-from: type=registry,ref=${{ env.TERMINAL_IMAGE }}:latest
+        cache-to: type=inline
 
   deploy-production:
     needs: push-production

@@ -11,6 +11,7 @@ on:
 
 env:
   IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/pub-site
+  VITE_QUIZ_TERMINAL_URL: ${{ secrets.VITE_QUIZ_TERMINAL_URL }}
 
 jobs:
   build:
@@ -33,6 +34,8 @@ jobs:
         outputs: type=docker,dest=/tmp/image.tar
         cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:latest
         cache-to: type=inline
+        build-args: |
+          VITE_QUIZ_TERMINAL_URL=${{ env.VITE_QUIZ_TERMINAL_URL }}
 
     - name: Upload Docker image artifact
       uses: actions/upload-artifact@v4
@@ -165,6 +168,8 @@ jobs:
           ${{ env.IMAGE_NAME }}:latest
         cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:latest
         cache-to: type=inline
+        build-args: |
+          VITE_QUIZ_TERMINAL_URL=${{ env.VITE_QUIZ_TERMINAL_URL }}
 
   push-testing:
     needs: build
@@ -194,6 +199,8 @@ jobs:
           ${{ env.IMAGE_NAME }}:test
         cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:latest
         cache-to: type=inline
+        build-args: |
+          VITE_QUIZ_TERMINAL_URL=${{ env.VITE_QUIZ_TERMINAL_URL }}
 
   deploy-production:
     needs: push-production
@@ -218,6 +225,7 @@ jobs:
           kubectl apply -f "$RAW_BASE/k8s/global-gateway.yaml"
           kubectl apply -f "$RAW_BASE/k8s/certificates.yaml"
           kubectl apply -f "$RAW_BASE/k8s/production.yaml"
+          kubectl apply -f "$RAW_BASE/k8s/quiz.yaml"
           kubectl rollout restart deployment/pub-site -n pub-site-prod
           kubectl rollout status deployment/pub-site -n pub-site-prod --timeout=5m
 
@@ -244,6 +252,7 @@ jobs:
           kubectl apply -f "$RAW_BASE/k8s/global-gateway.yaml"
           kubectl apply -f "$RAW_BASE/k8s/certificates.yaml"
           kubectl apply -f "$RAW_BASE/k8s/testing.yaml"
+          kubectl apply -f "$RAW_BASE/k8s/quiz.yaml"
           kubectl rollout restart deployment/pub-site -n pub-site-dev
           kubectl rollout status deployment/pub-site -n pub-site-dev --timeout=5m
 

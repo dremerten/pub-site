@@ -249,6 +249,8 @@ jobs:
           kubectl apply -f "$RAW_BASE/k8s/certificates.yaml"
           kubectl apply -f "$RAW_BASE/k8s/production.yaml"
           kubectl apply -f "$RAW_BASE/k8s/quiz.yaml"
+          kubectl rollout restart deployment/quiz -n quiz
+          kubectl rollout status deployment/quiz -n quiz --timeout=5m
           kubectl rollout restart deployment/pub-site -n pub-site-prod
           kubectl rollout status deployment/pub-site -n pub-site-prod --timeout=5m
 
@@ -276,6 +278,8 @@ jobs:
           kubectl apply -f "$RAW_BASE/k8s/certificates.yaml"
           kubectl apply -f "$RAW_BASE/k8s/testing.yaml"
           kubectl apply -f "$RAW_BASE/k8s/quiz.yaml"
+          kubectl rollout restart deployment/quiz -n quiz
+          kubectl rollout status deployment/quiz -n quiz --timeout=5m
           kubectl rollout restart deployment/pub-site -n pub-site-dev
           kubectl rollout status deployment/pub-site -n pub-site-dev --timeout=5m
 

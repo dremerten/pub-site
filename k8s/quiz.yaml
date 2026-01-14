@@ -30,6 +30,7 @@ spec:
       containers:
       - name: quiz
         image: dremer10/quiz-terminal:test
+        imagePullPolicy: Always
         ports:
         - containerPort: 7681
           name: ws

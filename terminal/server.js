@@ -23,7 +23,8 @@ wss.on("connection", (ws, req) => {
   const runId = `quiz-${topic}-${Date.now().toString(36)}`;
   const command = `docker rm -f ${runId} >/dev/null 2>&1; docker run --name ${runId} --rm -it moabukar/devops-interview-prep practice ${topic}`;
   const shellCmd = process.env.SHELL || "/bin/sh";
-  const shell = pty.spawn(shellCmd, ["-lc", `${command}; exec ${shellCmd}`], {
+  // Append exit so when the quiz container ends, the session closes instead of dropping to a shell
+  const shell = pty.spawn(shellCmd, ["-lc", `${command}; exit`], {
     name: "xterm-color",
     cols: 80,
     rows: 24,
@@ -48,6 +49,7 @@ wss.on("connection", (ws, req) => {
 
   ws.on("close", () => shell.kill());
   ws.on("error", () => shell.kill());
+  shell.onExit(() => ws.close());
 
   const cleanup = () => exec(`docker rm -f ${runId}`, () => {});
   ws.on("close", cleanup);

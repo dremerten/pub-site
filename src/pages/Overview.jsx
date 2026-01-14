@@ -122,8 +122,26 @@ const Overview = () => {
 
             <div className="h-px w-24 mx-auto bg-gradient-to-r from-transparent via-gray-600 to-transparent mb-3"></div>
             <p className="text-sm sm:text-base md:text-lg text-gray-300 max-w-2xl mx-auto font-normal leading-relaxed">
-              Actively seeking opportunities as a <span className="text-white font-medium">Platform Engineer</span> or <span className="text-white font-medium">(Infrastructure-Focused) DevOps Engineer</span>
+              Seeking opportunities as a <span className="text-white font-medium">Platform Engineer</span>, <span className="text-white font-medium">(Infrastructure-Focused) DevOps Engineer</span>, or <span className="text-white font-medium">IAM Engineer</span>
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Certifications Focus */}
+      <section className="px-4 sm:px-6 max-w-6xl mx-auto pb-6">
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div className="relative rounded-2xl border border-emerald-400/30 bg-emerald-500/10 p-4 shadow-lg shadow-emerald-900/30 overflow-hidden pt-6 flex flex-col items-center text-center">
+            <div className="text-[11px] sm:text-xs uppercase tracking-[0.22em] text-emerald-100/80 bg-emerald-500/10 px-2 py-1 rounded-full border border-emerald-300/30 mb-2">
+              In Progress
+            </div>
+            <h3 className="text-lg sm:text-xl font-semibold text-white mb-1">CKA — Certified Kubernetes Administrator</h3>
+          </div>
+          <div className="relative rounded-2xl border border-cyan-400/30 bg-cyan-500/10 p-4 shadow-lg shadow-cyan-900/30 overflow-hidden pt-6 flex flex-col items-center text-center">
+            <div className="text-[11px] sm:text-xs uppercase tracking-[0.22em] text-cyan-100/80 bg-cyan-500/10 px-2 py-1 rounded-full border border-cyan-300/30 mb-2">
+              In Progress
+            </div>
+            <h3 className="text-lg sm:text-xl font-semibold text-white mb-1">CISSP — Certified Information Systems Security Professional</h3>
           </div>
         </div>
       </section>
@@ -150,11 +168,6 @@ const Overview = () => {
                           <div className="absolute -left-[5px] top-1 w-2 h-2 bg-blue-500 rounded-full"></div>
                           <div className="flex items-start justify-between mb-1">
                             <span className="text-xs sm:text-sm font-medium text-white">{exp.position}</span>
-                            {exp.status && (
-                              <span className="bg-green-900 text-green-300 text-[10px] px-1.5 py-0.5 rounded-full border border-green-700 font-normal">
-                                {exp.status}
-                              </span>
-                            )}
                           </div>
                           <div className="text-[10px] sm:text-xs text-gray-300 mb-0.5 font-normal">{exp.company}</div>
                           <div className="text-[10px] text-gray-400 font-normal">{exp.years}</div>

@@ -43,12 +43,11 @@ const Home = () => {
             </h1>
             <div className="h-px w-24 mx-auto bg-gradient-to-r from-transparent via-gray-400 to-transparent mb-5"></div>
           </div>
-          <p className="text-lg sm:text-xl md:text-2xl font-normal mb-4 text-gray-200 leading-relaxed max-w-3xl mx-auto">
-            I'm looking for my next opportunity as a <span className="text-white font-medium">Platform Engineer</span> or <span className="text-white font-medium">(Infrastructure-Focused) DevOps Engineer</span>.
+          <p className="text-lg sm:text-xl md:text-2xl font-normal mb-4 text-gray-200 leading-relaxed max-w-4xl mx-auto">
+            I’m seeking my next opportunity as a <span className="text-white font-medium">Platform Engineer</span>, <span className="text-white font-medium">Infrastructure-Focused DevOps Engineer</span>, or <span className="text-white font-medium">IAM Engineer</span>.
           </p>
-          <p className="text-sm sm:text-base md:text-lg text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed font-normal">
-            I build and maintain the internal tools, systems, and infrastructure that development teams rely on to build, test, and deploy software efficiently.
-            My focus is on enabling teams through stable, scalable, and automated platforms—from CI/CD pipelines and container orchestration to cloud infrastructure and developer tooling.
+          <p className="text-sm sm:text-base md:text-lg text-gray-300 mb-6 max-w-4xl mx-auto leading-relaxed font-normal">
+            I design and operate the core platforms, infrastructure, and identity systems that development teams depend on to build, test, and deploy software securely and efficiently. My focus is on creating stable, scalable, and automated environments through cloud infrastructure, CI/CD pipelines, container orchestration, and identity-driven access controls. I build internal platforms that reduce operational friction, strengthen security, and empower teams to move fast with confidence.
           </p>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3 justify-center items-center max-w-3xl mx-auto">

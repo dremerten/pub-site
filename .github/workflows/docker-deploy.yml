@@ -25,6 +25,8 @@ jobs:
       create_tag: ${{ steps.version.outputs.create_tag }}
       short_sha: ${{ steps.meta.outputs.short_sha }}
       ref_name: ${{ github.ref_name }}
+      display_version: ${{ steps.version.outputs.display_version }}
+      commit_tag: ${{ steps.meta.outputs.commit_tag }}
 
     steps:
     - name: Checkout code
@@ -37,7 +39,10 @@ jobs:
 
     - name: Derive short SHA
       id: meta
-      run: echo "short_sha=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+      run: |
+        short="${GITHUB_SHA::7}"
+        echo "short_sha=${short}" >> "$GITHUB_OUTPUT"
+        echo "commit_tag=commit-${short}" >> "$GITHUB_OUTPUT"
 
     - name: Determine build version
       id: version
@@ -48,8 +53,8 @@ jobs:
         git fetch --tags
 
         if [ "${GITHUB_REF_NAME}" != "main" ]; then
-          sanitized_branch="${GITHUB_REF_NAME//\//-}"
-          version="dev-${sanitized_branch}-${SHORT_SHA}"
+          version="commit-${SHORT_SHA}"
+          display_version="${version}"
           create_tag="false"
         else
           current_tag="$(git tag --points-at HEAD "v*" | sort -V | tail -n1 || true)"
@@ -74,10 +79,12 @@ jobs:
             version="$next"
             create_tag="true"
           fi
+          display_version="$version"
         fi
 
         echo "version=$version" >> "$GITHUB_OUTPUT"
         echo "create_tag=$create_tag" >> "$GITHUB_OUTPUT"
+        echo "display_version=$display_version" >> "$GITHUB_OUTPUT"
 
     - name: Build Docker image (pub-site)
       uses: docker/build-push-action@v5
@@ -85,14 +92,13 @@ jobs:
         context: .
         file: ./Dockerfile
         tags: |
-          ${{ env.IMAGE_NAME }}:test
-          ${{ env.IMAGE_NAME }}:commit-${{ steps.meta.outputs.short_sha }}
+          ${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.commit_tag }}
         outputs: type=docker,dest=/tmp/image.tar
         cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:latest
         cache-to: type=inline
         build-args: |
           VITE_QUIZ_TERMINAL_URL=${{ env.VITE_QUIZ_TERMINAL_URL }}
-          VITE_APP_VERSION=${{ steps.version.outputs.version }}
+          VITE_APP_VERSION=${{ steps.version.outputs.display_version }}
 
     - name: Build Docker image (quiz terminal)
       uses: docker/build-push-action@v5
@@ -100,8 +106,7 @@ jobs:
         context: ./terminal
         file: ./terminal/Dockerfile
         tags: |
-          ${{ env.TERMINAL_IMAGE }}:test
-          ${{ env.TERMINAL_IMAGE }}:commit-${{ steps.meta.outputs.short_sha }}
+          ${{ env.TERMINAL_IMAGE }}:${{ steps.meta.outputs.commit_tag }}
         outputs: type=docker,dest=/tmp/terminal-image.tar
         cache-from: type=registry,ref=${{ env.TERMINAL_IMAGE }}:latest
         cache-to: type=inline
@@ -270,29 +275,31 @@ jobs:
       env:
         VERSION: ${{ needs.build.outputs.version }}
         SHORT_SHA: ${{ needs.build.outputs.short_sha }}
+        COMMIT_TAG: ${{ needs.build.outputs.commit_tag }}
       run: |
         set -euo pipefail
         IMG="${IMAGE_NAME}"
-        docker tag "$IMG:test" "$IMG:latest"
-        docker tag "$IMG:test" "$IMG:${VERSION}"
-        docker tag "$IMG:test" "$IMG:commit-${SHORT_SHA}"
-        docker push "$IMG:latest"
+        docker tag "$IMG:${COMMIT_TAG}" "$IMG:latest"
+        docker tag "$IMG:${COMMIT_TAG}" "$IMG:${VERSION}"
+        docker tag "$IMG:${COMMIT_TAG}" "$IMG:${COMMIT_TAG}"
+        docker push "$IMG:${COMMIT_TAG}"
         docker push "$IMG:${VERSION}"
-        docker push "$IMG:commit-${SHORT_SHA}"
+        docker push "$IMG:latest"
 
     - name: Tag and push quiz terminal image
       env:
         VERSION: ${{ needs.build.outputs.version }}
         SHORT_SHA: ${{ needs.build.outputs.short_sha }}
+        COMMIT_TAG: ${{ needs.build.outputs.commit_tag }}
       run: |
         set -euo pipefail
         IMG="${TERMINAL_IMAGE}"
-        docker tag "$IMG:test" "$IMG:latest"
-        docker tag "$IMG:test" "$IMG:${VERSION}"
-        docker tag "$IMG:test" "$IMG:commit-${SHORT_SHA}"
-        docker push "$IMG:latest"
+        docker tag "$IMG:${COMMIT_TAG}" "$IMG:latest"
+        docker tag "$IMG:${COMMIT_TAG}" "$IMG:${VERSION}"
+        docker tag "$IMG:${COMMIT_TAG}" "$IMG:${COMMIT_TAG}"
+        docker push "$IMG:${COMMIT_TAG}"
         docker push "$IMG:${VERSION}"
-        docker push "$IMG:commit-${SHORT_SHA}"
+        docker push "$IMG:latest"
 
   push-testing:
     needs: build
@@ -326,34 +333,26 @@ jobs:
         docker load --input /tmp/image.tar
         docker load --input /tmp/terminal-image.tar
 
-    - name: Push pub-site image (test + commit tag)
+    - name: Push pub-site image (commit tag)
       env:
-        SHORT_SHA: ${{ needs.build.outputs.short_sha }}
-        VERSION: ${{ needs.build.outputs.version }}
+        COMMIT_TAG: ${{ needs.build.outputs.commit_tag }}
       run: |
         set -euo pipefail
         IMG="${IMAGE_NAME}"
-        docker tag "$IMG:test" "$IMG:commit-${SHORT_SHA}"
-        docker tag "$IMG:test" "$IMG:${VERSION}"
-        docker push "$IMG:test"
-        docker push "$IMG:commit-${SHORT_SHA}"
-        docker push "$IMG:${VERSION}"
+        docker tag "$IMG:${COMMIT_TAG}" "$IMG:${COMMIT_TAG}"
+        docker push "$IMG:${COMMIT_TAG}"
 
-    - name: Push quiz terminal image (test + commit tag)
+    - name: Push quiz terminal image (commit tag)
       env:
-        SHORT_SHA: ${{ needs.build.outputs.short_sha }}
-        VERSION: ${{ needs.build.outputs.version }}
+        COMMIT_TAG: ${{ needs.build.outputs.commit_tag }}
       run: |
         set -euo pipefail
         IMG="${TERMINAL_IMAGE}"
-        docker tag "$IMG:test" "$IMG:commit-${SHORT_SHA}"
-        docker push "$IMG:test"
-        docker push "$IMG:commit-${SHORT_SHA}"
-        docker tag "$IMG:test" "$IMG:${VERSION}"
-        docker push "$IMG:${VERSION}"
+        docker tag "$IMG:${COMMIT_TAG}" "$IMG:${COMMIT_TAG}"
+        docker push "$IMG:${COMMIT_TAG}"
 
   deploy-production:
-    needs: push-production
+    needs: [push-production, build]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
 
@@ -376,13 +375,13 @@ jobs:
           kubectl apply -f "$RAW_BASE/k8s/certificates.yaml"
           kubectl apply -f "$RAW_BASE/k8s/production.yaml"
           kubectl apply -f "$RAW_BASE/k8s/quiz.yaml"
-          kubectl rollout restart deployment/quiz -n quiz
-          kubectl rollout status deployment/quiz -n quiz --timeout=5m
-          kubectl rollout restart deployment/pub-site -n pub-site-prod
-          kubectl rollout status deployment/pub-site -n pub-site-prod --timeout=5m
+          kubectl -n quiz set image deployment/quiz quiz=${{ env.TERMINAL_IMAGE }}:${{ needs.build.outputs.version }}
+          kubectl -n quiz rollout status deployment/quiz --timeout=5m
+          kubectl -n pub-site-prod set image deployment/pub-site pub-site=${{ env.IMAGE_NAME }}:${{ needs.build.outputs.version }}
+          kubectl -n pub-site-prod rollout status deployment/pub-site --timeout=5m
 
   deploy-testing:
-    needs: push-testing
+    needs: [push-testing, build]
     runs-on: ubuntu-latest
     if: github.ref != 'refs/heads/main' && github.event_name == 'push'
 
@@ -405,10 +404,10 @@ jobs:
           kubectl apply -f "$RAW_BASE/k8s/certificates.yaml"
           kubectl apply -f "$RAW_BASE/k8s/testing.yaml"
           kubectl apply -f "$RAW_BASE/k8s/quiz.yaml"
-          kubectl rollout restart deployment/quiz -n quiz
-          kubectl rollout status deployment/quiz -n quiz --timeout=5m
-          kubectl rollout restart deployment/pub-site -n pub-site-dev
-          kubectl rollout status deployment/pub-site -n pub-site-dev --timeout=5m
+          kubectl -n quiz set image deployment/quiz quiz=${{ env.TERMINAL_IMAGE }}:${{ needs.build.outputs.commit_tag }}
+          kubectl -n quiz rollout status deployment/quiz --timeout=5m
+          kubectl -n pub-site-dev set image deployment/pub-site pub-site=${{ env.IMAGE_NAME }}:${{ needs.build.outputs.commit_tag }}
+          kubectl -n pub-site-dev rollout status deployment/pub-site --timeout=5m
 
     - name: Comment PR with testing URL
       uses: actions/github-script@v7

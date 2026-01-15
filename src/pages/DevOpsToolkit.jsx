@@ -61,7 +61,7 @@ const DevOpsToolkit = () => {
   ];
 
   const galleryImages = [
-    { src: "/images/main-push.png", alt: "Production CI/CD Pipeline", caption: "Production Branch Pipeline - Main deployment workflow" },
+    { src: "/images/release-push.png", alt: "Production CI/CD Pipeline", caption: "Production Branch Pipeline - Main deployment workflow" },
     { src: "/images/dev-push.png", alt: "Development CI/CD Pipeline", caption: "Development Branch Pipeline - Rapid iteration workflow" },
     { src: "/images/grafana.png", alt: "Grafana Monitoring Dashboard", caption: "Live Grafana Dashboard - Real-time cluster monitoring" }
   ];
@@ -104,10 +104,15 @@ const DevOpsToolkit = () => {
             </div>
           </div>
 
+          <div className="text-center mb-6">
+            <p className="text-sm text-gray-300">A demonstration of modern DevOps engineering practices</p>
+            <p className="text-xs text-gray-400">Built from the ground up to showcase production-ready DevOps engineering, this toolkit represents a complete journey from source code to deployed infrastructure, with security, monitoring, and automation at every step.</p>
+          </div>
+
           <div
             ref={(el) => (sectionRefs.current[1] = el)}
             data-section="environments"
-            className={`mb-12 flex flex-col items-center gap-5 transition-all duration-1000 delay-200 ${
+            className={`mb-10 flex flex-col items-center gap-4 transition-all duration-1000 delay-200 ${
               isVisible.environments ? "opacity-100 scale-100" : "opacity-0 scale-95"
             }`}
           >
@@ -169,6 +174,67 @@ const DevOpsToolkit = () => {
             </a>
           </div>
 
+          <section
+            ref={(el) => (sectionRefs.current[6] = el)}
+            data-section="achievements"
+            className={`mb-10 transition-all duration-800 delay-150 ${
+              isVisible.achievements ? "opacity-100 scale-100" : "opacity-0 scale-97"
+            }`}
+          >
+            <h3
+              className="text-2xl font-semibold tracking-tight text-white mb-4"
+              style={{
+                animation: isVisible.achievements ? "fadeInUp 0.6s ease-out 0.1s both" : "none"
+              }}
+            >
+              Technical Achievements
+            </h3>
+
+            <div className="space-y-8">
+              <div
+                className="border-l-2 border-gray-700 pl-4 hover:border-gray-500 transition-all duration-300 hover:pl-6"
+                style={{
+                  animation: isVisible.achievements ? "slideInLeft 0.6s ease-out 0.3s both" : "none"
+                }}
+              >
+                <h4 className="text-lg font-semibold text-white mb-2">Production-Ready Architecture</h4>
+                <p className="text-sm text-gray-200 leading-relaxed font-normal">
+                  A fully automated deployment pipeline spanning four environments, from development through
+                  production. Each environment operates independently with environment-specific configurations,
+                  demonstrating proper separation of concerns and progressive delivery practices.
+                </p>
+              </div>
+
+              <div
+                className="border-l-2 border-gray-700 pl-4 hover:border-gray-500 transition-all duration-300 hover:pl-6"
+                style={{
+                  animation: isVisible.achievements ? "slideInLeft 0.6s ease-out 0.5s both" : "none"
+                }}
+              >
+                <h4 className="text-lg font-semibold text-white mb-2">Security-First Approach</h4>
+                <p className="text-sm text-gray-200 leading-relaxed font-normal">
+                  Integrated security scanning with Trivy catches vulnerabilities at build time. Automated
+                  TLS certificate management ensures all traffic is encrypted. Kubernetes RBAC and network
+                  policies provide defense in depth.
+                </p>
+              </div>
+
+              <div
+                className="border-l-2 border-gray-700 pl-4 hover:border-gray-500 transition-all duration-300 hover:pl-6"
+                style={{
+                  animation: isVisible.achievements ? "slideInLeft 0.6s ease-out 0.7s both" : "none"
+                }}
+              >
+                <h4 className="text-lg font-semibold text-white mb-2">Modern Development Workflow</h4>
+                <p className="text-sm text-gray-200 leading-relaxed font-normal">
+                  GitOps principles govern all changes, with infrastructure and application code living in
+                  version control. Automated testing, linting, and quality gates ensure code quality.
+                  Zero-downtime rolling updates maintain service availability during deployments.
+                </p>
+              </div>
+            </div>
+          </section>
+
           <div className="mb-12">
             <div className="h-px w-full bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
           </div>
@@ -181,35 +247,6 @@ const DevOpsToolkit = () => {
                 isVisible.intro ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10"
               }`}
             >
-              <h2
-                className="text-4xl md:text-5xl font-normal tracking-tight text-white mb-8"
-                style={{
-                  animation: isVisible.intro ? "fadeInUp 0.6s ease-out 0.1s both" : "none"
-                }}
-              >
-                DevOps Toolkit
-              </h2>
-              <p
-                className="text-xl text-gray-200 leading-relaxed font-normal mb-6"
-                style={{
-                  animation: isVisible.intro ? "fadeInUp 0.6s ease-out 0.2s both" : "none"
-                }}
-              >
-                A comprehensive full-stack DevOps platform demonstrating modern cloud-native development practices.
-                This project embodies the principles of infrastructure as code, continuous integration and deployment,
-                and complete observability.
-              </p>
-              <p
-                className="text-lg text-gray-300 leading-loose font-normal mb-8"
-                style={{
-                  animation: isVisible.intro ? "fadeInUp 0.6s ease-out 0.3s both" : "none"
-                }}
-              >
-                Built from the ground up to showcase production-ready DevOps engineering, this toolkit represents
-                a complete journey from source code to deployed infrastructure, with security, monitoring, and
-                automation at every step.
-              </p>
-
               <div className="flex flex-wrap gap-3 mb-12">
                 {["Kubernetes", "Docker", "CI/CD", "Prometheus", "Grafana", "GitHub Actions", "Vue.js", "TypeScript"].map((tech, index) => (
                   <span
@@ -314,6 +351,14 @@ const DevOpsToolkit = () => {
                 isVisible.pipeline ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10"
               }`}
             >
+              <p
+                className="text-sm text-gray-300 mb-4"
+                style={{
+                  animation: isVisible.pipeline ? "fadeInUp 0.6s ease-out 0.08s both" : "none"
+                }}
+              >
+                How does it work? There are 2 distinct flows.
+              </p>
               <h3
                 className="text-4xl font-normal tracking-tight text-white mb-8"
                 style={{
@@ -322,9 +367,12 @@ const DevOpsToolkit = () => {
               >
                 The Automated Pipeline
               </h3>
+              <p className="text-sm text-gray-300 mb-4" style={{ animation: isVisible.pipeline ? "fadeInUp 0.5s ease-out 0.12s both" : "none" }}>
+                Development Flow
+              </p>
 
               <div
-                className="mb-16 group"
+                className="mb-20 group"
                 style={{
                   animation: isVisible.pipeline ? "slideInLeft 0.8s ease-out 0.3s both" : "none"
                 }}
@@ -334,88 +382,30 @@ const DevOpsToolkit = () => {
                     <div className="bg-white/5 border border-white/10 rounded-lg p-4 hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-300">
                       <div className="flex items-center gap-2 mb-2">
                         <div className="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs font-bold">1</div>
-                        <span className="text-sm font-semibold text-white">Code Commit</span>
+                        <span className="text-sm font-semibold text-white">Dev Branch Push</span>
                       </div>
-                      <p className="text-xs text-gray-200 font-normal">Developer pushes to main branch, triggering automated workflow</p>
+                      <p className="text-xs text-gray-200 font-normal">Developer pushes to a development branch, triggering the workflow.</p>
                     </div>
                     <div className="bg-white/5 border border-white/10 rounded-lg p-4 hover:shadow-lg hover:shadow-green-500/20 transition-all duration-300">
                       <div className="flex items-center gap-2 mb-2">
                         <div className="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center text-white text-xs font-bold">2</div>
                         <span className="text-sm font-semibold text-white">Build & Scan</span>
                       </div>
-                      <p className="text-xs text-gray-200 font-normal">Docker image built and scanned for vulnerabilities with Trivy</p>
+                      <p className="text-xs text-gray-200 font-normal">Docker image built, tagged <code className="text-amber-200">test</code>, and scanned with Trivy.</p>
                     </div>
                     <div className="bg-white/5 border border-white/10 rounded-lg p-4 hover:shadow-lg hover:shadow-purple-500/20 transition-all duration-300">
                       <div className="flex items-center gap-2 mb-2">
                         <div className="w-6 h-6 rounded-full bg-purple-500 flex items-center justify-center text-white text-xs font-bold">3</div>
-                        <span className="text-sm font-semibold text-white">Deploy</span>
+                        <span className="text-sm font-semibold text-white">Push Image</span>
                       </div>
-                      <p className="text-xs text-gray-200 font-normal">Rolling update to Kubernetes cluster with zero downtime</p>
+                      <p className="text-xs text-gray-200 font-normal">Image is pushed to a secure Docker registry for promotion.</p>
                     </div>
-                  </div>
-
-                  <div
-                    className="overflow-hidden rounded-lg relative cursor-zoom-in group"
-                    onClick={() => setActiveImageIndex(0)}
-                    onMouseEnter={() => setActiveImageIndex(0)}
-                  >
-                    <img
-                      src="/images/main-push.png"
-                      alt="Production CI/CD Pipeline"
-                      className="w-full max-w-6xl mx-auto rounded-lg shadow-2xl transition-transform duration-500 ease-out group-hover:scale-105"
-                      style={{ maxWidth: "100%", height: "auto" }}
-                    />
-                  </div>
-                </div>
-                <p
-                  className="text-sm text-gray-400 text-center mt-4 font-normal italic transition-all duration-300"
-                  style={{
-                    animation: isVisible.pipeline ? "fadeInUp 0.6s ease-out 0.5s both" : "none"
-                  }}
-                >
-                  Production Branch Pipeline - Main deployment workflow
-                </p>
-              </div>
-
-              <p
-                className="text-lg text-gray-200 leading-loose font-normal mb-6"
-                style={{
-                  animation: isVisible.pipeline ? "fadeInUp 0.6s ease-out 0.6s both" : "none"
-                }}
-              >
-                Every commit triggers a sophisticated pipeline that builds, tests, scans, and deploys the application
-                across multiple environments. The workflow demonstrates industry best practices in continuous integration
-                and deployment, with automated security scanning, quality gates, and approval processes.
-              </p>
-
-              <div
-                className="mb-16 group"
-                style={{
-                  animation: isVisible.pipeline ? "slideInRight 0.8s ease-out 0.7s both" : "none"
-                }}
-              >
-                <div className="relative">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                    <div className="bg-white/5 border border-white/10 rounded-lg p-4 hover:shadow-lg hover:shadow-orange-500/20 transition-all duration-300">
+                    <div className="bg-white/5 border border-white/10 rounded-lg p-4 hover:shadow-lg hover:shadow-emerald-500/20 transition-all duration-300">
                       <div className="flex items-center gap-2 mb-2">
-                        <div className="w-6 h-6 rounded-full bg-orange-500 flex items-center justify-center text-white text-xs font-bold">1</div>
-                        <span className="text-sm font-semibold text-white">Rapid Testing</span>
+                        <div className="w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center text-white text-xs font-bold">4</div>
+                        <span className="text-sm font-semibold text-white">Deploy to Dev</span>
                       </div>
-                      <p className="text-xs text-gray-200 font-normal">Fast iteration cycle for development and QA environments</p>
-                    </div>
-                    <div className="bg-white/5 border border-white/10 rounded-lg p-4 hover:shadow-lg hover:shadow-cyan-500/20 transition-all duration-300">
-                      <div className="flex items-center gap-2 mb-2">
-                        <div className="w-6 h-6 rounded-full bg-cyan-500 flex items-center justify-center text-white text-xs font-bold">2</div>
-                        <span className="text-sm font-semibold text-white">Quality Gates</span>
-                      </div>
-                      <p className="text-xs text-gray-200 font-normal">Automated checks before promoting to staging</p>
-                    </div>
-                    <div className="bg-white/5 border border-white/10 rounded-lg p-4 hover:shadow-lg hover:shadow-pink-500/20 transition-all duration-300">
-                      <div className="flex items-center gap-2 mb-2">
-                        <div className="w-6 h-6 rounded-full bg-pink-500 flex items-center justify-center text-white text-xs font-bold">3</div>
-                        <span className="text-sm font-semibold text-white">Progressive Deploy</span>
-                      </div>
-                      <p className="text-xs text-gray-200 font-normal">Gradual rollout across environments before production</p>
+                      <p className="text-xs text-gray-200 font-normal">The test image is deployed to Development and QA for preliminary testing.</p>
                     </div>
                   </div>
 
@@ -435,10 +425,67 @@ const DevOpsToolkit = () => {
                 <p
                   className="text-sm text-gray-400 text-center mt-4 font-normal italic transition-all duration-300"
                   style={{
-                    animation: isVisible.pipeline ? "fadeInUp 0.6s ease-out 0.9s both" : "none"
+                    animation: isVisible.pipeline ? "fadeInUp 0.6s ease-out 0.5s both" : "none"
                   }}
                 >
                   Development Branch Pipeline - Rapid iteration workflow
+                </p>
+              </div>
+
+              <div
+                className="mb-16 group"
+                style={{
+                  animation: isVisible.pipeline ? "slideInRight 0.8s ease-out 0.7s both" : "none"
+                }}
+              >
+                <p className="text-sm text-gray-300 mb-3" style={{ animation: isVisible.pipeline ? "fadeInUp 0.5s ease-out 0.65s both" : "none" }}>
+                  Production Release Cycle
+                </p>
+                <div className="relative">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <div className="bg-white/5 border border-white/10 rounded-lg p-4 hover:shadow-lg hover:shadow-orange-500/20 transition-all duration-300">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="w-6 h-6 rounded-full bg-orange-500 flex items-center justify-center text-white text-xs font-bold">1</div>
+                        <span className="text-sm font-semibold text-white">Main Merge</span>
+                      </div>
+                      <p className="text-xs text-gray-200 font-normal">Merge to the main branch triggers the production release workflow.</p>
+                    </div>
+                    <div className="bg-white/5 border border-white/10 rounded-lg p-4 hover:shadow-lg hover:shadow-cyan-500/20 transition-all duration-300">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="w-6 h-6 rounded-full bg-cyan-500 flex items-center justify-center text-white text-xs font-bold">2</div>
+                        <span className="text-sm font-semibold text-white">Build, Tag, Scan</span>
+                      </div>
+                      <p className="text-xs text-gray-200 font-normal">Image rebuilt, tagged <code className="text-amber-200">latest</code>, and scanned with Trivy before release.</p>
+                    </div>
+                    <div className="bg-white/5 border border-white/10 rounded-lg p-4 hover:shadow-lg hover:shadow-pink-500/20 transition-all duration-300">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="w-6 h-6 rounded-full bg-pink-500 flex items-center justify-center text-white text-xs font-bold">3</div>
+                        <span className="text-sm font-semibold text-white">Promote & Deploy</span>
+                      </div>
+                      <p className="text-xs text-gray-200 font-normal">Rolling deployment through staging (E2E/regression) and then production after checks.</p>
+                    </div>
+                  </div>
+
+                  <div
+                    className="overflow-hidden rounded-lg relative cursor-zoom-in group"
+                    onClick={() => setActiveImageIndex(0)}
+                    onMouseEnter={() => setActiveImageIndex(0)}
+                  >
+                    <img
+                      src="/images/release-push.png"
+                      alt="Production CI/CD Pipeline"
+                      className="w-full max-w-6xl mx-auto rounded-lg shadow-2xl transition-transform duration-500 ease-out group-hover:scale-105"
+                      style={{ maxWidth: "100%", height: "auto" }}
+                    />
+                  </div>
+                </div>
+                <p
+                  className="text-sm text-gray-400 text-center mt-4 font-normal italic transition-all duration-300"
+                  style={{
+                    animation: isVisible.pipeline ? "fadeInUp 0.6s ease-out 0.9s both" : "none"
+                  }}
+                >
+                  Production Branch Pipeline - Main deployment workflow
                 </p>
               </div>
 
@@ -494,10 +541,10 @@ const DevOpsToolkit = () => {
                       animation: isVisible.infrastructure ? "slideInLeft 0.6s ease-out 0.6s both" : "none"
                     }}
                   >
-                    <p className="text-base font-normal text-white mb-2">NGINX Ingress Controller</p>
+                    <p className="text-base font-normal text-white mb-2">Gateway API + NGINX Gateway Fabric</p>
                     <p className="text-sm text-gray-300 font-normal leading-relaxed">
-                      Handles external traffic routing with automatic SSL/TLS termination. Configured with
-                      NodePort services for HTTP and HTTPS traffic with host-based routing.
+                      Handles external traffic routing via Gateway API and the nginx-gateway class on NGINX Gateway Fabric,
+                      providing TLS termination and HTTPRoute-based routing instead of legacy Ingress/NodePort.
                     </p>
                   </div>
 
@@ -667,67 +714,6 @@ const DevOpsToolkit = () => {
             <div className="mb-24">
               <div className="h-px w-full bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
             </div>
-
-            <section
-              ref={(el) => (sectionRefs.current[6] = el)}
-              data-section="achievements"
-              className={`mb-24 transition-all duration-1000 delay-400 ${
-                isVisible.achievements ? "opacity-100 scale-100" : "opacity-0 scale-95"
-              }`}
-            >
-              <h3
-                className="text-4xl font-normal tracking-tight text-white mb-8"
-                style={{
-                  animation: isVisible.achievements ? "fadeInUp 0.6s ease-out 0.1s both" : "none"
-                }}
-              >
-                Technical Achievements
-              </h3>
-
-              <div className="space-y-8">
-                <div
-                  className="border-l-2 border-gray-300 pl-6 hover:border-gray-900 transition-all duration-300 hover:pl-8"
-                  style={{
-                    animation: isVisible.achievements ? "slideInLeft 0.6s ease-out 0.3s both" : "none"
-                  }}
-                >
-                  <h4 className="text-2xl font-normal text-white mb-3">Production-Ready Architecture</h4>
-                  <p className="text-lg text-gray-200 leading-loose font-normal">
-                    A fully automated deployment pipeline spanning four environments, from development through
-                    production. Each environment operates independently with environment-specific configurations,
-                    demonstrating proper separation of concerns and progressive delivery practices.
-                  </p>
-                </div>
-
-                <div
-                  className="border-l-2 border-gray-300 pl-6 hover:border-gray-900 transition-all duration-300 hover:pl-8"
-                  style={{
-                    animation: isVisible.achievements ? "slideInLeft 0.6s ease-out 0.5s both" : "none"
-                  }}
-                >
-                  <h4 className="text-2xl font-normal text-white mb-3">Security-First Approach</h4>
-                  <p className="text-lg text-gray-200 leading-loose font-normal">
-                    Integrated security scanning with Trivy catches vulnerabilities at build time. Automated
-                    TLS certificate management ensures all traffic is encrypted. Kubernetes RBAC and network
-                    policies provide defense in depth.
-                  </p>
-                </div>
-
-                <div
-                  className="border-l-2 border-gray-300 pl-6 hover:border-gray-900 transition-all duration-300 hover:pl-8"
-                  style={{
-                    animation: isVisible.achievements ? "slideInLeft 0.6s ease-out 0.7s both" : "none"
-                  }}
-                >
-                  <h4 className="text-2xl font-normal text-white mb-3">Modern Development Workflow</h4>
-                  <p className="text-lg text-gray-200 leading-loose font-normal">
-                    GitOps principles govern all changes, with infrastructure and application code living in
-                    version control. Automated testing, linting, and quality gates ensure code quality.
-                    Zero-downtime rolling updates maintain service availability during deployments.
-                  </p>
-                </div>
-              </div>
-            </section>
 
             <div
               ref={(el) => (sectionRefs.current[7] = el)}

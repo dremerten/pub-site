@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { ChevronLeft, ChevronRight, ExternalLink, Lock, ShieldCheck, TerminalSquare, Zap } from "lucide-react";
+import { ChevronLeft, ChevronRight, Lock, ShieldCheck, TerminalSquare, Zap } from "lucide-react";
 import PageWrapper from "@/components/PageWrapper";
 import { StickyButtons } from "@/components/StickyButtons";
 
@@ -32,6 +32,7 @@ const Quiz = () => {
   const selectedIndex = useMemo(() => topics.findIndex((t) => t.id === selectedTopic), [selectedTopic]);
   const stepAngle = 360 / topics.length;
   const radius = 480;
+  const animatedTitle = "Select a DevOps topic to get Quized on.";
 
   const handleTopicSelect = (topicId) => {
     setSelectedTopic(topicId);
@@ -65,6 +66,19 @@ const Quiz = () => {
     <div className="min-h-screen bg-gradient-to-b from-[#050814] via-[#0c1324] to-black text-white">
       <StickyButtons />
       <PageWrapper>
+        <style>{`
+          @keyframes letterBounce {
+            0%, 100% { transform: translateY(0); }
+            25% { transform: translateY(-9px); }
+            50% { transform: translateY(0); }
+          }
+          h2.neon-title {
+            text-shadow:
+              0 0 8px rgba(56,189,248,0.6),
+              0 0 16px rgba(56,189,248,0.45),
+              0 0 26px rgba(56,189,248,0.35);
+          }
+        `}</style>
         <div className="w-full mx-auto py-8 md:py-12 space-y-8 md:space-y-10">
           <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-2xl shadow-blue-500/10 px-5 md:px-8 py-6 md:py-8">
             <div className="absolute inset-0 opacity-20">
@@ -86,18 +100,6 @@ const Quiz = () => {
                   Launch an isolated terminal, pick a topic, and run the curated DevOps practice container without installing anything locally. Every
                   session is ephemeral and scoped to a single topic so you can focus on the reps.
                 </p>
-
-                <div className="flex flex-wrap gap-3 pt-2">
-                  <a
-                    href={terminalUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-2 rounded-full bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-600/30 transition-all hover:-translate-y-0.5 hover:bg-blue-700"
-                  >
-                    Launch secure terminal
-                    <ExternalLink className="w-4 h-4" />
-                  </a>
-                </div>
 
                 <div className="mt-4 grid gap-3 sm:grid-cols-3">
                   <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
@@ -131,7 +133,22 @@ const Quiz = () => {
             <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between mb-2">
               <div>
                 <p className="text-xs uppercase tracking-[0.2em] text-sky-200">Topic coverage</p>
-                <h2 className="text-xl md:text-2xl font-semibold text-white">Select a DevOps topic to get Quized on.</h2>
+                <h2 className="text-xl md:text-2xl font-semibold text-white neon-title">
+                  {animatedTitle.split("").map((char, idx) => (
+                    <span
+                      key={idx}
+                      style={{
+                        display: "inline-block",
+                        color: "#7dd3fc",
+                        textShadow: "0 0 8px rgba(56,189,248,0.6), 0 0 16px rgba(56,189,248,0.45)",
+                        animation: "letterBounce 0.85s ease-in-out infinite",
+                        animationDelay: `${idx * 45}ms`,
+                      }}
+                    >
+                      {char === " " ? "\u00A0" : char}
+                    </span>
+                  ))}
+                </h2>
                 <p className="text-sm text-gray-300">Rotate and select a topic to begin.</p>
               </div>
               <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-gray-100 border border-white/15">

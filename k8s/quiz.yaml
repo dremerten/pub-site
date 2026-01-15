@@ -28,9 +28,9 @@ spec:
         environment: production
     spec:
       containers:
-        - name: quiz
-          image: dremer10/quiz-terminal:commit-latest
-          imagePullPolicy: Always
+      - name: quiz
+        image: dremer10/quiz-terminal:commit-latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 7681
           name: ws

@@ -2,6 +2,7 @@
 FROM node:25.1.0-alpine AS build
 
 ARG VITE_QUIZ_TERMINAL_URL
+ARG VITE_APP_VERSION
 
 WORKDIR /app
 
@@ -12,7 +13,7 @@ RUN npm install && \
 
 COPY . .
 
-RUN VITE_QUIZ_TERMINAL_URL=${VITE_QUIZ_TERMINAL_URL} npm run build && \
+RUN VITE_QUIZ_TERMINAL_URL=${VITE_QUIZ_TERMINAL_URL} VITE_APP_VERSION=${VITE_APP_VERSION} npm run build && \
     find dist -name "*.map" -delete && \
     apk add --no-cache brotli && \
     find dist -type f -name "*.js" -exec brotli -Z {} \; && \

@@ -129,6 +129,8 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
+    env:
+      IMAGE_TAG: ${{ needs.build.outputs.commit_tag }}
 
     steps:
     - name: Download Docker image artifact
@@ -145,7 +147,7 @@ jobs:
     - name: Test Docker image
       run: |
         # Start the container
-        docker run -d -p 8080:80 --name test-container ${{ env.IMAGE_NAME }}:test
+        docker run -d -p 8080:80 --name test-container ${{ env.IMAGE_NAME }}:${IMAGE_TAG}
 
         # Wait for container to be ready
         sleep 5
@@ -185,6 +187,8 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
+    env:
+      IMAGE_TAG: ${{ needs.build.outputs.commit_tag }}
 
     steps:
     - name: Download Docker image artifact
@@ -201,7 +205,7 @@ jobs:
     - name: Run Trivy vulnerability scanner
       uses: aquasecurity/trivy-action@master
       with:
-        image-ref: ${{ env.IMAGE_NAME }}:test
+        image-ref: ${{ env.IMAGE_NAME }}:${IMAGE_TAG}
         format: 'sarif'
         output: 'trivy-results.sarif'
         severity: 'CRITICAL,HIGH'
@@ -215,7 +219,7 @@ jobs:
     - name: Run Trivy vulnerability scanner (table output)
       uses: aquasecurity/trivy-action@master
       with:
-        image-ref: ${{ env.IMAGE_NAME }}:test
+        image-ref: ${{ env.IMAGE_NAME }}:${IMAGE_TAG}
         format: 'table'
         exit-code: '0'
         ignore-unfixed: true

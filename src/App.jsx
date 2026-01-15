@@ -13,6 +13,7 @@ import Quiz from "./pages/Quiz.jsx";
 import { ThemeProvider } from "./components/ThemeProvider.jsx";
 
 const AppContent = () => {
+  const appVersion = import.meta.env.VITE_APP_VERSION || "dev-local";
   const appRoutes = [
     {path: "/home", title: "Home", component: Home},
     {path: "/about", title: "About", component: About},
@@ -38,6 +39,9 @@ const AppContent = () => {
           <Route path="/projects/solar-system-simulator" element={<SolarSystem />} />
         </Routes>
       </main>
+      <div className="fixed left-1/2 bottom-4 -translate-x-1/2 z-40 text-[11px] sm:text-xs text-gray-300 pointer-events-none">
+        Running version: {appVersion}
+      </div>
     </div>
   );
 };

@@ -22,7 +22,6 @@ const Overview = () => {
 • Enhanced overall product performance and customer satisfaction by contributing to Faspex 5 releases (5.0.0–5.0.14), improving reliability and readiness for production workloads.
 
 • Validated Faspex 5's high-availability architecture using Keepalived multi-proxy failover, MaxScale, and MariaDB Galera Cluster, successfully demonstrating the removal of single points of failure present in Faspex 4.`;
-  const appVersion = import.meta.env.VITE_APP_VERSION || "dev-local";
   const scrollContainerRef = useRef(null);
 
   const scrollPanels = (direction) => {
@@ -263,7 +262,6 @@ const Overview = () => {
         <div className="flex justify-center gap-8 text-xs">
           <a href="https://github.com/dremerten" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors font-normal">GitHub</a>
         </div>
-        <p className="mt-4 text-[11px] text-gray-500">Running version: {appVersion}</p>
       </footer>
     </div>
   );

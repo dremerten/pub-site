@@ -6,6 +6,7 @@ on:
 
 env:
   IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/pub-site
+  IMAGE_TAG: commit-latest
 
 jobs:
   build-test-scan:
@@ -15,12 +16,12 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Pull published test image
-      run: docker pull ${{ env.IMAGE_NAME }}:test
+    - name: Pull dev image (from branch push)
+      run: docker pull ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
     - name: Run tests against test image
       run: |
-        docker run -d -p 8080:80 --name test-container ${{ env.IMAGE_NAME }}:test
+        docker run -d -p 8080:80 --name test-container ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
         sleep 5
         docker ps | grep test-container
         curl -f -s http://localhost:8080 | grep -q "Andreas Merten" || exit 1
@@ -37,7 +38,7 @@ jobs:
     - name: Run Trivy vulnerability scanner
       uses: aquasecurity/trivy-action@master
       with:
-        image-ref: ${{ env.IMAGE_NAME }}:test
+        image-ref: ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
         format: 'table'
         exit-code: '0'
         ignore-unfixed: true

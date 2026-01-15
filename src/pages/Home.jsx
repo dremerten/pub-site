@@ -47,7 +47,7 @@ const Home = () => {
             I’m seeking my next opportunity as a <span className="text-white font-medium">Platform Engineer</span>, <span className="text-white font-medium">Infrastructure-Focused DevOps Engineer</span>, or <span className="text-white font-medium">IAM Engineer</span>.
           </p>
           <p className="text-sm sm:text-base md:text-lg text-gray-300 mb-6 max-w-4xl mx-auto leading-relaxed font-normal">
-            I design and operate the core platforms, infrastructure, and identity systems that development teams depend on to build, test, and deploy software securely and efficiently. My focus is on creating stable, scalable, and automated environments through cloud infrastructure, CI/CD pipelines, container orchestration, and identity-driven access controls. I build internal platforms that reduce operational friction, strengthen security, and empower teams to move fast with confidence.
+            I assist in designing, building, and operating core platforms, infrastructure, and identity systems that development teams rely on for secure and efficient software delivery. My focus is on building stable, scalable, and automated platforms using cloud infrastructure, CI/CD pipelines, container orchestration, and identity-driven access controls. I help create internal systems that reduce operational friction, strengthen security, and empower engineering teams to deliver software quickly, reliably, and with confidence.
           </p>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3 justify-center items-center max-w-3xl mx-auto">

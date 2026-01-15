@@ -9,6 +9,9 @@ on:
   push:
     branches: [ "**" ]  # Trigger on push to any branch
 
+permissions:
+  contents: write  # needed to push git tags
+
 env:
   IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/pub-site
   VITE_QUIZ_TERMINAL_URL: ${{ secrets.VITE_QUIZ_TERMINAL_URL }}
@@ -25,24 +28,48 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
 
-    - name: Build Docker image
+    - name: Derive short SHA
+      id: meta
+      run: echo "short_sha=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+
+    - name: Build Docker image (pub-site)
       uses: docker/build-push-action@v5
       with:
         context: .
         file: ./Dockerfile
         tags: |
           ${{ env.IMAGE_NAME }}:test
+          ${{ env.IMAGE_NAME }}:commit-${{ steps.meta.outputs.short_sha }}
         outputs: type=docker,dest=/tmp/image.tar
         cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:latest
         cache-to: type=inline
         build-args: |
           VITE_QUIZ_TERMINAL_URL=${{ env.VITE_QUIZ_TERMINAL_URL }}
 
-    - name: Upload Docker image artifact
+    - name: Build Docker image (quiz terminal)
+      uses: docker/build-push-action@v5
+      with:
+        context: ./terminal
+        file: ./terminal/Dockerfile
+        tags: |
+          ${{ env.TERMINAL_IMAGE }}:test
+          ${{ env.TERMINAL_IMAGE }}:commit-${{ steps.meta.outputs.short_sha }}
+        outputs: type=docker,dest=/tmp/terminal-image.tar
+        cache-from: type=registry,ref=${{ env.TERMINAL_IMAGE }}:latest
+        cache-to: type=inline
+
+    - name: Upload Docker image artifact (pub-site)
       uses: actions/upload-artifact@v4
       with:
-        name: docker-image
+        name: pub-site-image
         path: /tmp/image.tar
+        retention-days: 1
+
+    - name: Upload Docker image artifact (quiz terminal)
+      uses: actions/upload-artifact@v4
+      with:
+        name: quiz-terminal-image
+        path: /tmp/terminal-image.tar
         retention-days: 1
 
   test:
@@ -54,7 +81,7 @@ jobs:
     - name: Download Docker image artifact
       uses: actions/download-artifact@v4
       with:
-        name: docker-image
+        name: pub-site-image
         path: /tmp
 
     - name: Load Docker image
@@ -110,7 +137,7 @@ jobs:
     - name: Download Docker image artifact
       uses: actions/download-artifact@v4
       with:
-        name: docker-image
+        name: pub-site-image
         path: /tmp
 
     - name: Load Docker image
@@ -149,9 +176,12 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # need full history for tags
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
+    - name: Derive short SHA
+      id: meta
+      run: echo "short_sha=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
 
     - name: Log in to Docker Hub
       uses: docker/login-action@v3
@@ -159,29 +189,98 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    - name: Build and push Docker image
-      uses: docker/build-push-action@v5
-      with:
-        context: .
-        file: ./Dockerfile
-        push: true
-        tags: |
-          ${{ env.IMAGE_NAME }}:latest
-        cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:latest
-        cache-to: type=inline
-        build-args: |
-          VITE_QUIZ_TERMINAL_URL=${{ env.VITE_QUIZ_TERMINAL_URL }}
+    - name: Determine next version tag
+      id: version
+      run: |
+        set -euo pipefail
+        git fetch --tags
+        current_tag="$(git tag --points-at HEAD "v*" | sort -V | tail -n1 || true)"
 
-    - name: Build and push quiz terminal image
-      uses: docker/build-push-action@v5
+        if [ -n "$current_tag" ]; then
+          version="${current_tag#v}"
+          create_tag="false"
+        else
+          latest_tag="$(git tag -l "v*" | sort -V | tail -n1)"
+          if [ -z "$latest_tag" ]; then
+            next="1.0"
+          else
+            current="${latest_tag#v}"
+            IFS='.' read -r major minor <<<"$current"
+            if [ "$minor" -lt 9 ]; then
+              minor=$((minor + 1))
+            else
+              major=$((major + 1))
+              minor=0
+            fi
+            next="${major}.${minor}"
+          fi
+          version="$next"
+          create_tag="true"
+        fi
+
+        echo "version=$version" >> "$GITHUB_OUTPUT"
+        echo "create_tag=$create_tag" >> "$GITHUB_OUTPUT"
+
+    - name: Create git tag for release
+      if: steps.version.outputs.create_tag == 'true'
+      env:
+        VERSION: ${{ steps.version.outputs.version }}
+      run: |
+        set -euo pipefail
+        git fetch --tags
+        if git rev-parse "v${VERSION}" >/dev/null 2>&1; then
+          echo "Tag v${VERSION} already exists, skipping creation."
+        else
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -a "v${VERSION}" -m "Release v${VERSION}"
+          git push origin "v${VERSION}"
+        fi
+
+    - name: Download Docker image artifact (pub-site)
+      uses: actions/download-artifact@v4
       with:
-        context: ./terminal
-        file: ./terminal/Dockerfile
-        push: true
-        tags: |
-          ${{ env.TERMINAL_IMAGE }}:latest
-        cache-from: type=registry,ref=${{ env.TERMINAL_IMAGE }}:latest
-        cache-to: type=inline
+        name: pub-site-image
+        path: /tmp
+
+    - name: Download Docker image artifact (quiz terminal)
+      uses: actions/download-artifact@v4
+      with:
+        name: quiz-terminal-image
+        path: /tmp
+
+    - name: Load Docker images
+      run: |
+        docker load --input /tmp/image.tar
+        docker load --input /tmp/terminal-image.tar
+
+    - name: Tag and push pub-site image
+      env:
+        VERSION: ${{ steps.version.outputs.version }}
+        SHORT_SHA: ${{ steps.meta.outputs.short_sha }}
+      run: |
+        set -euo pipefail
+        IMG="${IMAGE_NAME}"
+        docker tag "$IMG:test" "$IMG:latest"
+        docker tag "$IMG:test" "$IMG:${VERSION}"
+        docker tag "$IMG:test" "$IMG:commit-${SHORT_SHA}"
+        docker push "$IMG:latest"
+        docker push "$IMG:${VERSION}"
+        docker push "$IMG:commit-${SHORT_SHA}"
+
+    - name: Tag and push quiz terminal image
+      env:
+        VERSION: ${{ steps.version.outputs.version }}
+        SHORT_SHA: ${{ steps.meta.outputs.short_sha }}
+      run: |
+        set -euo pipefail
+        IMG="${TERMINAL_IMAGE}"
+        docker tag "$IMG:test" "$IMG:latest"
+        docker tag "$IMG:test" "$IMG:${VERSION}"
+        docker tag "$IMG:test" "$IMG:commit-${SHORT_SHA}"
+        docker push "$IMG:latest"
+        docker push "$IMG:${VERSION}"
+        docker push "$IMG:commit-${SHORT_SHA}"
 
   push-testing:
     needs: build
@@ -192,8 +291,9 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
+    - name: Derive short SHA
+      id: meta
+      run: echo "short_sha=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
 
     - name: Log in to Docker Hub
       uses: docker/login-action@v3
@@ -201,29 +301,42 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    - name: Build and push Docker image with test tag
-      uses: docker/build-push-action@v5
+    - name: Download Docker image artifact (pub-site)
+      uses: actions/download-artifact@v4
       with:
-        context: .
-        file: ./Dockerfile
-        push: true
-        tags: |
-          ${{ env.IMAGE_NAME }}:test
-        cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:latest
-        cache-to: type=inline
-        build-args: |
-          VITE_QUIZ_TERMINAL_URL=${{ env.VITE_QUIZ_TERMINAL_URL }}
+        name: pub-site-image
+        path: /tmp
 
-    - name: Build and push quiz terminal image (test tag)
-      uses: docker/build-push-action@v5
+    - name: Download Docker image artifact (quiz terminal)
+      uses: actions/download-artifact@v4
       with:
-        context: ./terminal
-        file: ./terminal/Dockerfile
-        push: true
-        tags: |
-          ${{ env.TERMINAL_IMAGE }}:test
-        cache-from: type=registry,ref=${{ env.TERMINAL_IMAGE }}:latest
-        cache-to: type=inline
+        name: quiz-terminal-image
+        path: /tmp
+
+    - name: Load Docker images
+      run: |
+        docker load --input /tmp/image.tar
+        docker load --input /tmp/terminal-image.tar
+
+    - name: Push pub-site image (test + commit tag)
+      env:
+        SHORT_SHA: ${{ steps.meta.outputs.short_sha }}
+      run: |
+        set -euo pipefail
+        IMG="${IMAGE_NAME}"
+        docker tag "$IMG:test" "$IMG:commit-${SHORT_SHA}"
+        docker push "$IMG:test"
+        docker push "$IMG:commit-${SHORT_SHA}"
+
+    - name: Push quiz terminal image (test + commit tag)
+      env:
+        SHORT_SHA: ${{ steps.meta.outputs.short_sha }}
+      run: |
+        set -euo pipefail
+        IMG="${TERMINAL_IMAGE}"
+        docker tag "$IMG:test" "$IMG:commit-${SHORT_SHA}"
+        docker push "$IMG:test"
+        docker push "$IMG:commit-${SHORT_SHA}"
 
   deploy-production:
     needs: push-production

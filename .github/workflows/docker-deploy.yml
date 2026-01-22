@@ -3,7 +3,7 @@ name: Build and Deploy
 # Workflow Behavior:
 # - Feature branch push: Fast deploy to info-dev (no tests)
 # - PR to main: Test + Scan gate (no deployment)
-# - Main push: Deploy to production (no tests, already passed in PR)
+# - Main push: Scan gate + deploy to production (no tests)
 
 on:
   push:
@@ -226,7 +226,7 @@ jobs:
         severity: 'CRITICAL,HIGH'
 
   push-production:
-    needs: build
+    needs: [build, scan]
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 

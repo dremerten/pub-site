@@ -161,7 +161,7 @@ const DevOpsToolkit = () => {
             </div>
 
             <a
-              href="https://grafana.devops-toolkit.dremer10.com/public-dashboards/f0c7dc746ec24ce3be08a7e74fdbd4f0"
+              href="https://grafana.devops-toolkit.dremer10.com/public-dashboards/fbf8859540614caaa979db376e079e07"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold text-xs rounded-full shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 transition-all duration-300 hover:scale-105 cursor-pointer"

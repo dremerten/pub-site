@@ -18,3 +18,8 @@ project-info.md
 DESIGN_UPDATES_MEMORY.md
 markdown-files
 .env
+cluster-1-28-backups
+k8s-1.28-manifests
+how_to_deploy.md
+k8s-1.35-manifests/nginx-gateway__server-tls.yaml
+k8s-1.35-manifests/nginx-gateway__agent-tls.yaml

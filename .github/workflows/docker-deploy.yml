@@ -186,7 +186,7 @@ jobs:
   scan:
     needs: build
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
     env:
       IMAGE_TAG: ${{ needs.build.outputs.commit_tag }}
 
@@ -221,7 +221,7 @@ jobs:
       with:
         image-ref: ${{ env.IMAGE_NAME }}:${IMAGE_TAG}
         format: 'table'
-        exit-code: '0'
+        exit-code: '1'
         ignore-unfixed: true
         severity: 'CRITICAL,HIGH'
 

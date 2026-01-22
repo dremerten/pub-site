@@ -376,11 +376,11 @@ jobs:
         script: |
           set -euo pipefail
           RAW_BASE="https://raw.githubusercontent.com/${{ github.repository }}/${{ github.ref_name }}"
-          kubectl apply -f "$RAW_BASE/k8s/clusterissuer-gateway.yaml"
-          kubectl apply -f "$RAW_BASE/k8s/global-gateway.yaml"
-          kubectl apply -f "$RAW_BASE/k8s/certificates.yaml"
-          kubectl apply -f "$RAW_BASE/k8s/production.yaml"
-          kubectl apply -f "$RAW_BASE/k8s/quiz.yaml"
+          MANIFEST_BASE="$RAW_BASE/k8s-1.35-manifests"
+          kubectl apply -f "$MANIFEST_BASE/global-gateway.yaml"
+          kubectl apply -f "$MANIFEST_BASE/certificates.yaml"
+          kubectl apply -f "$MANIFEST_BASE/production.yaml"
+          kubectl apply -f "$MANIFEST_BASE/quiz.yaml"
           kubectl -n quiz set image deployment/quiz quiz=${{ env.TERMINAL_IMAGE }}:${{ needs.build.outputs.version }}
           kubectl -n quiz rollout status deployment/quiz --timeout=5m
           kubectl -n pub-site-prod set image deployment/pub-site pub-site=${{ env.IMAGE_NAME }}:${{ needs.build.outputs.version }}
@@ -405,11 +405,11 @@ jobs:
         script: |
           set -euo pipefail
           RAW_BASE="https://raw.githubusercontent.com/${{ github.repository }}/${{ github.ref_name }}"
-          kubectl apply -f "$RAW_BASE/k8s/clusterissuer-gateway.yaml"
-          kubectl apply -f "$RAW_BASE/k8s/global-gateway.yaml"
-          kubectl apply -f "$RAW_BASE/k8s/certificates.yaml"
-          kubectl apply -f "$RAW_BASE/k8s/testing.yaml"
-          kubectl apply -f "$RAW_BASE/k8s/quiz.yaml"
+          MANIFEST_BASE="$RAW_BASE/k8s-1.35-manifests"
+          kubectl apply -f "$MANIFEST_BASE/global-gateway.yaml"
+          kubectl apply -f "$MANIFEST_BASE/certificates.yaml"
+          kubectl apply -f "$MANIFEST_BASE/testing.yaml"
+          kubectl apply -f "$MANIFEST_BASE/quiz.yaml"
           kubectl -n quiz set image deployment/quiz quiz=${{ env.TERMINAL_IMAGE }}:${{ needs.build.outputs.commit_tag }}
           kubectl -n quiz rollout status deployment/quiz --timeout=5m
           kubectl -n pub-site-dev set image deployment/pub-site pub-site=${{ env.IMAGE_NAME }}:${{ needs.build.outputs.commit_tag }}

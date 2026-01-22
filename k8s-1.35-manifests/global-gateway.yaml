@@ -4,7 +4,7 @@ metadata:
   name: global-gateway
   namespace: nginx-gateway
 spec:
-  gatewayClassName: nginx-gateway
+  gatewayClassName: nginx
   listeners:
   - name: acme-http
     hostname: "*.dremer10.com"
@@ -69,30 +69,6 @@ spec:
       mode: Terminate
       certificateRefs:
       - name: grafana-tls
-        kind: Secret
-    allowedRoutes:
-      namespaces:
-        from: All
-  - name: prometheus
-    hostname: prometheus.devops-toolkit.dremer10.com
-    port: 443
-    protocol: HTTPS
-    tls:
-      mode: Terminate
-      certificateRefs:
-      - name: prometheus-tls
-        kind: Secret
-    allowedRoutes:
-      namespaces:
-        from: All
-  - name: n8n
-    hostname: n8n.dremer10.com
-    port: 443
-    protocol: HTTPS
-    tls:
-      mode: Terminate
-      certificateRefs:
-      - name: n8n-tls
         kind: Secret
     allowedRoutes:
       namespaces:

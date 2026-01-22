@@ -21,8 +21,23 @@ jobs:
         pr_sha="${{ github.event.pull_request.head.sha }}"
         echo "IMAGE_TAG=commit-${pr_sha:0:7}" >> "$GITHUB_ENV"
 
-    - name: Pull dev image (from branch push)
-      run: docker pull ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+    - name: Pull dev image (from branch push) or build locally
+      env:
+        VITE_QUIZ_TERMINAL_URL: ${{ secrets.VITE_QUIZ_TERMINAL_URL }}
+      run: |
+        set -euo pipefail
+        if docker pull "${IMAGE_NAME}:${IMAGE_TAG}"; then
+          echo "IMAGE_SOURCE=pulled" >> "$GITHUB_ENV"
+          exit 0
+        fi
+
+        echo "Image not found in registry, building locally for PR tests..."
+        docker build \
+          --build-arg "VITE_QUIZ_TERMINAL_URL=${VITE_QUIZ_TERMINAL_URL}" \
+          --build-arg "VITE_APP_VERSION=${IMAGE_TAG}" \
+          -t "${IMAGE_NAME}:${IMAGE_TAG}" \
+          .
+        echo "IMAGE_SOURCE=built" >> "$GITHUB_ENV"
 
     - name: Run tests against test image
       run: |

@@ -27,6 +27,7 @@ jobs:
       ref_name: ${{ github.ref_name }}
       display_version: ${{ steps.version.outputs.display_version }}
       commit_tag: ${{ steps.meta.outputs.commit_tag }}
+      source_commit_tag: ${{ steps.source.outputs.source_commit_tag }}
 
     steps:
     - name: Checkout code
@@ -43,6 +44,19 @@ jobs:
         short="${GITHUB_SHA::7}"
         echo "short_sha=${short}" >> "$GITHUB_OUTPUT"
         echo "commit_tag=commit-${short}" >> "$GITHUB_OUTPUT"
+
+    - name: Determine source commit tag for promotion
+      id: source
+      run: |
+        set -euo pipefail
+        source_sha="${GITHUB_SHA}"
+        if [ "${GITHUB_REF_NAME}" = "main" ]; then
+          if git rev-parse HEAD^2 >/dev/null 2>&1; then
+            source_sha="$(git rev-parse HEAD^2)"
+          fi
+        fi
+        short="${source_sha::7}"
+        echo "source_commit_tag=commit-${short}" >> "$GITHUB_OUTPUT"
 
     - name: Determine build version
       id: version
@@ -188,19 +202,15 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
     env:
-      IMAGE_TAG: ${{ needs.build.outputs.commit_tag }}
+      IMAGE_TAG: ${{ needs.build.outputs.source_commit_tag }}
 
     steps:
-    - name: Download Docker image artifact
-      uses: actions/download-artifact@v4
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v3
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
       with:
-        name: pub-site-image
-        path: /tmp
-
-    - name: Load Docker image
-      run: |
-        docker load --input /tmp/image.tar
-        docker image ls -a
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
 
     - name: Run Trivy vulnerability scanner
       uses: aquasecurity/trivy-action@master
@@ -258,50 +268,35 @@ jobs:
           git push origin "v${VERSION}"
         fi
 
-    - name: Download Docker image artifact (pub-site)
-      uses: actions/download-artifact@v4
-      with:
-        name: pub-site-image
-        path: /tmp
-
-    - name: Download Docker image artifact (quiz terminal)
-      uses: actions/download-artifact@v4
-      with:
-        name: quiz-terminal-image
-        path: /tmp
-
-    - name: Load Docker images
+    - name: Pull source images to promote
+      env:
+        SOURCE_COMMIT_TAG: ${{ needs.build.outputs.source_commit_tag }}
       run: |
-        docker load --input /tmp/image.tar
-        docker load --input /tmp/terminal-image.tar
+        set -euo pipefail
+        docker pull "${IMAGE_NAME}:${SOURCE_COMMIT_TAG}"
+        docker pull "${TERMINAL_IMAGE}:${SOURCE_COMMIT_TAG}"
 
     - name: Tag and push pub-site image
       env:
         VERSION: ${{ needs.build.outputs.version }}
-        SHORT_SHA: ${{ needs.build.outputs.short_sha }}
-        COMMIT_TAG: ${{ needs.build.outputs.commit_tag }}
+        SOURCE_COMMIT_TAG: ${{ needs.build.outputs.source_commit_tag }}
       run: |
         set -euo pipefail
         IMG="${IMAGE_NAME}"
-        docker tag "$IMG:${COMMIT_TAG}" "$IMG:latest"
-        docker tag "$IMG:${COMMIT_TAG}" "$IMG:${VERSION}"
-        docker tag "$IMG:${COMMIT_TAG}" "$IMG:${COMMIT_TAG}"
-        docker push "$IMG:${COMMIT_TAG}"
+        docker tag "$IMG:${SOURCE_COMMIT_TAG}" "$IMG:latest"
+        docker tag "$IMG:${SOURCE_COMMIT_TAG}" "$IMG:${VERSION}"
         docker push "$IMG:${VERSION}"
         docker push "$IMG:latest"
 
     - name: Tag and push quiz terminal image
       env:
         VERSION: ${{ needs.build.outputs.version }}
-        SHORT_SHA: ${{ needs.build.outputs.short_sha }}
-        COMMIT_TAG: ${{ needs.build.outputs.commit_tag }}
+        SOURCE_COMMIT_TAG: ${{ needs.build.outputs.source_commit_tag }}
       run: |
         set -euo pipefail
         IMG="${TERMINAL_IMAGE}"
-        docker tag "$IMG:${COMMIT_TAG}" "$IMG:latest"
-        docker tag "$IMG:${COMMIT_TAG}" "$IMG:${VERSION}"
-        docker tag "$IMG:${COMMIT_TAG}" "$IMG:${COMMIT_TAG}"
-        docker push "$IMG:${COMMIT_TAG}"
+        docker tag "$IMG:${SOURCE_COMMIT_TAG}" "$IMG:latest"
+        docker tag "$IMG:${SOURCE_COMMIT_TAG}" "$IMG:${VERSION}"
         docker push "$IMG:${VERSION}"
         docker push "$IMG:latest"
 

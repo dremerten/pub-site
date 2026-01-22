@@ -6,7 +6,6 @@ on:
 
 env:
   IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/pub-site
-  IMAGE_TAG: commit-latest
 
 jobs:
   build-test-scan:
@@ -15,6 +14,12 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+
+    - name: Derive image tag from PR head
+      run: |
+        set -euo pipefail
+        pr_sha="${{ github.event.pull_request.head.sha }}"
+        echo "IMAGE_TAG=commit-${pr_sha:0:7}" >> "$GITHUB_ENV"
 
     - name: Pull dev image (from branch push)
       run: docker pull ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}

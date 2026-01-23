@@ -21,6 +21,13 @@ jobs:
         pr_sha="${{ github.event.pull_request.head.sha }}"
         echo "IMAGE_TAG=commit-${pr_sha:0:7}" >> "$GITHUB_ENV"
 
+    - name: Log in to Docker Hub (same-repo PRs)
+      if: github.event.pull_request.head.repo.full_name == github.repository
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
     - name: Pull dev image (from branch push) or build locally
       env:
         VITE_QUIZ_TERMINAL_URL: ${{ secrets.VITE_QUIZ_TERMINAL_URL }}
@@ -38,6 +45,13 @@ jobs:
           -t "${IMAGE_NAME}:${IMAGE_TAG}" \
           .
         echo "IMAGE_SOURCE=built" >> "$GITHUB_ENV"
+
+        if [ "${{ github.event.pull_request.head.repo.full_name }}" = "${{ github.repository }}" ]; then
+          echo "Pushing locally-built image to registry for promotion..."
+          docker push "${IMAGE_NAME}:${IMAGE_TAG}"
+        else
+          echo "Fork PR detected; skipping image push."
+        fi
 
     - name: Run tests against test image
       run: |

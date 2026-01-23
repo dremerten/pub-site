@@ -3,7 +3,7 @@ name: Build and Deploy
 # Workflow Behavior:
 # - Feature branch push: Fast deploy to info-dev (no tests)
 # - PR to main: Test + Scan gate (no deployment)
-# - Main push: Scan gate + deploy to production (no tests)
+# - Main push: Deploy to production (tests/scans already passed in PR)
 
 on:
   push:
@@ -245,7 +245,7 @@ jobs:
   scan:
     needs: build
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
+    if: github.event_name == 'pull_request'
     env:
       IMAGE_TAG: ${{ needs.build.outputs.source_commit_tag }}
 
@@ -281,7 +281,7 @@ jobs:
         severity: 'CRITICAL,HIGH'
 
   push-production:
-    needs: [build, scan]
+    needs: build
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 

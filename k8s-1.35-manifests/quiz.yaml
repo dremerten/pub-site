@@ -29,7 +29,7 @@ spec:
     spec:
       containers:
       - name: quiz
-        image: dremer10/quiz-terminal:latest
+        image: dremer10/quiz-terminal:${QUIZ_IMAGE_TAG}
         imagePullPolicy: Always
         ports:
         - containerPort: 7681

@@ -386,12 +386,12 @@ jobs:
           MANIFEST_BASE="$RAW_BASE/k8s-1.35-manifests"
           kubectl apply -f "$MANIFEST_BASE/global-gateway.yaml"
           kubectl apply -f "$MANIFEST_BASE/certificates.yaml"
-          kubectl apply -f "$MANIFEST_BASE/production.yaml"
-          kubectl apply -f "$MANIFEST_BASE/quiz.yaml"
+          export PUB_SITE_IMAGE_TAG="${{ needs.build.outputs.version }}"
+          export QUIZ_IMAGE_TAG="${{ needs.build.outputs.version }}"
+          envsubst < "$MANIFEST_BASE/production.yaml" | kubectl apply -f -
+          envsubst < "$MANIFEST_BASE/quiz.yaml" | kubectl apply -f -
           kubectl -n pub-site-prod set env deployment/pub-site APP_VERSION=${{ needs.build.outputs.version }}
-          kubectl -n quiz set image deployment/quiz quiz=${{ env.TERMINAL_IMAGE }}:${{ needs.build.outputs.version }}
           kubectl -n quiz rollout status deployment/quiz --timeout=5m
-          kubectl -n pub-site-prod set image deployment/pub-site pub-site=${{ env.IMAGE_NAME }}:${{ needs.build.outputs.version }}
           kubectl -n pub-site-prod rollout status deployment/pub-site --timeout=5m
 
   deploy-testing:
@@ -416,12 +416,12 @@ jobs:
           MANIFEST_BASE="$RAW_BASE/k8s-1.35-manifests"
           kubectl apply -f "$MANIFEST_BASE/global-gateway.yaml"
           kubectl apply -f "$MANIFEST_BASE/certificates.yaml"
-          kubectl apply -f "$MANIFEST_BASE/testing.yaml"
-          kubectl apply -f "$MANIFEST_BASE/quiz.yaml"
+          export PUB_SITE_IMAGE_TAG="${{ needs.build.outputs.commit_tag }}"
+          export QUIZ_IMAGE_TAG="${{ needs.build.outputs.commit_tag }}"
+          envsubst < "$MANIFEST_BASE/testing.yaml" | kubectl apply -f -
+          envsubst < "$MANIFEST_BASE/quiz.yaml" | kubectl apply -f -
           kubectl -n pub-site-dev set env deployment/pub-site APP_VERSION=${{ needs.build.outputs.commit_tag }}
-          kubectl -n quiz set image deployment/quiz quiz=${{ env.TERMINAL_IMAGE }}:${{ needs.build.outputs.commit_tag }}
           kubectl -n quiz rollout status deployment/quiz --timeout=5m
-          kubectl -n pub-site-dev set image deployment/pub-site pub-site=${{ env.IMAGE_NAME }}:${{ needs.build.outputs.commit_tag }}
           kubectl -n pub-site-dev rollout status deployment/pub-site --timeout=5m
 
     - name: Comment PR with testing URL

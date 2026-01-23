@@ -29,7 +29,7 @@ spec:
     spec:
       containers:
       - name: pub-site
-        image: dremer10/pub-site:latest
+        image: dremer10/pub-site:${PUB_SITE_IMAGE_TAG}
         imagePullPolicy: Always
         ports:
         - containerPort: 80

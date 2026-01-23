@@ -388,8 +388,13 @@ jobs:
           kubectl apply -f "$MANIFEST_BASE/certificates.yaml"
           export PUB_SITE_IMAGE_TAG="${{ needs.build.outputs.version }}"
           export QUIZ_IMAGE_TAG="${{ needs.build.outputs.version }}"
-          envsubst < "$MANIFEST_BASE/production.yaml" | kubectl apply -f -
-          envsubst < "$MANIFEST_BASE/quiz.yaml" | kubectl apply -f -
+          tmp_prod="$(mktemp)"
+          tmp_quiz="$(mktemp)"
+          curl -fsSL "$MANIFEST_BASE/production.yaml" -o "$tmp_prod"
+          curl -fsSL "$MANIFEST_BASE/quiz.yaml" -o "$tmp_quiz"
+          envsubst < "$tmp_prod" | kubectl apply -f -
+          envsubst < "$tmp_quiz" | kubectl apply -f -
+          rm -f "$tmp_prod" "$tmp_quiz"
           kubectl -n pub-site-prod set env deployment/pub-site APP_VERSION=${{ needs.build.outputs.version }}
           kubectl -n quiz rollout status deployment/quiz --timeout=5m
           kubectl -n pub-site-prod rollout status deployment/pub-site --timeout=5m
@@ -418,8 +423,13 @@ jobs:
           kubectl apply -f "$MANIFEST_BASE/certificates.yaml"
           export PUB_SITE_IMAGE_TAG="${{ needs.build.outputs.commit_tag }}"
           export QUIZ_IMAGE_TAG="${{ needs.build.outputs.commit_tag }}"
-          envsubst < "$MANIFEST_BASE/testing.yaml" | kubectl apply -f -
-          envsubst < "$MANIFEST_BASE/quiz.yaml" | kubectl apply -f -
+          tmp_test="$(mktemp)"
+          tmp_quiz="$(mktemp)"
+          curl -fsSL "$MANIFEST_BASE/testing.yaml" -o "$tmp_test"
+          curl -fsSL "$MANIFEST_BASE/quiz.yaml" -o "$tmp_quiz"
+          envsubst < "$tmp_test" | kubectl apply -f -
+          envsubst < "$tmp_quiz" | kubectl apply -f -
+          rm -f "$tmp_test" "$tmp_quiz"
           kubectl -n pub-site-dev set env deployment/pub-site APP_VERSION=${{ needs.build.outputs.commit_tag }}
           kubectl -n quiz rollout status deployment/quiz --timeout=5m
           kubectl -n pub-site-dev rollout status deployment/pub-site --timeout=5m

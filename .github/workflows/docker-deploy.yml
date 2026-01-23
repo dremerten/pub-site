@@ -2,14 +2,12 @@ name: Build and Deploy
 
 # Workflow Behavior:
 # - Feature branch push: Fast deploy to info-dev (no tests)
-# - PR to main: Test + Scan gate (no deployment)
+# - PR to main: Test + Scan gate via pr-tests.yml (no deployment)
 # - Main push: Deploy to production (tests/scans already passed in PR)
 
 on:
   push:
     branches: [ "**" ]  # Trigger on push to any branch
-  pull_request:
-    branches: [ "main" ]
 
 permissions:
   contents: write  # needed to push git tags

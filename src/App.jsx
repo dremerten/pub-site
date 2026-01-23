@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation} from "react-router-dom";
 
 import Navbar from "./components/Navbar.jsx";
@@ -13,7 +14,20 @@ import Quiz from "./pages/Quiz.jsx";
 import { ThemeProvider } from "./components/ThemeProvider.jsx";
 
 const AppContent = () => {
-  const appVersion = import.meta.env.VITE_APP_VERSION || "dev-local";
+  const [appVersion, setAppVersion] = useState(
+    import.meta.env.VITE_APP_VERSION || "dev-local"
+  );
+
+  useEffect(() => {
+    fetch("/version.json", { cache: "no-store" })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data?.version) {
+          setAppVersion(data.version);
+        }
+      })
+      .catch(() => {});
+  }, []);
   const appRoutes = [
     {path: "/home", title: "Home", component: Home},
     {path: "/about", title: "About", component: About},

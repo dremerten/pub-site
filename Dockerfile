@@ -24,6 +24,7 @@ FROM nginx:1.27-alpine-slim
 
 COPY --from=build /app/dist /usr/share/nginx/html
 COPY nginx-container.conf /etc/nginx/conf.d/default.conf
+COPY --chmod=0755 docker-entrypoint.d/10-version.sh /docker-entrypoint.d/10-version.sh
 
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]

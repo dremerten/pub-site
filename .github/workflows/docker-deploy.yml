@@ -354,8 +354,6 @@ jobs:
       run: |
         set -euo pipefail
         IMG="${IMAGE_NAME}"
-        docker tag "$IMG:${COMMIT_TAG}" "$IMG:commit-latest"
-        docker push "$IMG:commit-latest"
         docker push "$IMG:${COMMIT_TAG}"
 
     - name: Push quiz terminal image (commit tag)
@@ -364,8 +362,6 @@ jobs:
       run: |
         set -euo pipefail
         IMG="${TERMINAL_IMAGE}"
-        docker tag "$IMG:${COMMIT_TAG}" "$IMG:commit-latest"
-        docker push "$IMG:commit-latest"
         docker push "$IMG:${COMMIT_TAG}"
 
   deploy-production:

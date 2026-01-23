@@ -29,6 +29,7 @@ jobs:
       display_version: ${{ steps.version.outputs.display_version }}
       commit_tag: ${{ steps.meta.outputs.commit_tag }}
       source_commit_tag: ${{ steps.source.outputs.source_commit_tag }}
+      quiz_changed: ${{ steps.quiz.outputs.quiz_changed }}
 
     steps:
     - name: Checkout code
@@ -45,6 +46,31 @@ jobs:
         short="${GITHUB_SHA::7}"
         echo "short_sha=${short}" >> "$GITHUB_OUTPUT"
         echo "commit_tag=commit-${short}" >> "$GITHUB_OUTPUT"
+
+    - name: Detect quiz changes
+      id: quiz
+      run: |
+        set -euo pipefail
+        before="${{ github.event.before }}"
+        if [ -z "$before" ] || [ "$before" = "0000000000000000000000000000000000000000" ]; then
+          if git rev-parse HEAD^ >/dev/null 2>&1; then
+            before="$(git rev-parse HEAD^)"
+          else
+            before=""
+          fi
+        fi
+
+        if [ -n "$before" ]; then
+          changed="$(git diff --name-only "$before" "$GITHUB_SHA" -- terminal/ k8s-1.35-manifests/quiz.yaml | wc -l | tr -d ' ')"
+        else
+          changed="1"
+        fi
+
+        if [ "${changed}" -gt 0 ]; then
+          echo "quiz_changed=true" >> "$GITHUB_OUTPUT"
+        else
+          echo "quiz_changed=false" >> "$GITHUB_OUTPUT"
+        fi
 
     - name: Determine source commit tag for promotion
       id: source
@@ -132,6 +158,7 @@ jobs:
 
     - name: Build Docker image (quiz terminal)
       uses: docker/build-push-action@v5
+      if: steps.quiz.outputs.quiz_changed == 'true'
       with:
         context: ./terminal
         file: ./terminal/Dockerfile
@@ -150,6 +177,7 @@ jobs:
 
     - name: Upload Docker image artifact (quiz terminal)
       uses: actions/upload-artifact@v4
+      if: steps.quiz.outputs.quiz_changed == 'true'
       with:
         name: quiz-terminal-image
         path: /tmp/terminal-image.tar
@@ -290,7 +318,9 @@ jobs:
       run: |
         set -euo pipefail
         docker pull "${IMAGE_NAME}:${SOURCE_COMMIT_TAG}"
-        docker pull "${TERMINAL_IMAGE}:${SOURCE_COMMIT_TAG}"
+        if [ "${{ needs.build.outputs.quiz_changed }}" = "true" ]; then
+          docker pull "${TERMINAL_IMAGE}:${SOURCE_COMMIT_TAG}"
+        fi
 
     - name: Tag and push pub-site image
       env:
@@ -305,6 +335,7 @@ jobs:
         docker push "$IMG:latest"
 
     - name: Tag and push quiz terminal image
+      if: needs.build.outputs.quiz_changed == 'true'
       env:
         VERSION: ${{ needs.build.outputs.version }}
         SOURCE_COMMIT_TAG: ${{ needs.build.outputs.source_commit_tag }}
@@ -339,6 +370,7 @@ jobs:
 
     - name: Download Docker image artifact (quiz terminal)
       uses: actions/download-artifact@v4
+      if: needs.build.outputs.quiz_changed == 'true'
       with:
         name: quiz-terminal-image
         path: /tmp
@@ -346,7 +378,9 @@ jobs:
     - name: Load Docker images
       run: |
         docker load --input /tmp/image.tar
-        docker load --input /tmp/terminal-image.tar
+        if [ "${{ needs.build.outputs.quiz_changed }}" = "true" ]; then
+          docker load --input /tmp/terminal-image.tar
+        fi
 
     - name: Push pub-site image (commit tag)
       env:
@@ -357,6 +391,7 @@ jobs:
         docker push "$IMG:${COMMIT_TAG}"
 
     - name: Push quiz terminal image (commit tag)
+      if: needs.build.outputs.quiz_changed == 'true'
       env:
         COMMIT_TAG: ${{ needs.build.outputs.commit_tag }}
       run: |
@@ -387,16 +422,21 @@ jobs:
           kubectl apply -f "$MANIFEST_BASE/global-gateway.yaml"
           kubectl apply -f "$MANIFEST_BASE/certificates.yaml"
           export PUB_SITE_IMAGE_TAG="${{ needs.build.outputs.version }}"
-          export QUIZ_IMAGE_TAG="${{ needs.build.outputs.version }}"
           tmp_prod="$(mktemp)"
-          tmp_quiz="$(mktemp)"
           curl -fsSL "$MANIFEST_BASE/production.yaml" -o "$tmp_prod"
-          curl -fsSL "$MANIFEST_BASE/quiz.yaml" -o "$tmp_quiz"
           envsubst < "$tmp_prod" | kubectl apply -f -
-          envsubst < "$tmp_quiz" | kubectl apply -f -
-          rm -f "$tmp_prod" "$tmp_quiz"
+          rm -f "$tmp_prod"
+          if [ "${{ needs.build.outputs.quiz_changed }}" = "true" ]; then
+            export QUIZ_IMAGE_TAG="${{ needs.build.outputs.version }}"
+            tmp_quiz="$(mktemp)"
+            curl -fsSL "$MANIFEST_BASE/quiz.yaml" -o "$tmp_quiz"
+            envsubst < "$tmp_quiz" | kubectl apply -f -
+            rm -f "$tmp_quiz"
+          fi
           kubectl -n pub-site-prod set env deployment/pub-site APP_VERSION=${{ needs.build.outputs.version }}
-          kubectl -n quiz rollout status deployment/quiz --timeout=5m
+          if [ "${{ needs.build.outputs.quiz_changed }}" = "true" ]; then
+            kubectl -n quiz rollout status deployment/quiz --timeout=5m
+          fi
           kubectl -n pub-site-prod rollout status deployment/pub-site --timeout=5m
 
   deploy-testing:
@@ -422,16 +462,21 @@ jobs:
           kubectl apply -f "$MANIFEST_BASE/global-gateway.yaml"
           kubectl apply -f "$MANIFEST_BASE/certificates.yaml"
           export PUB_SITE_IMAGE_TAG="${{ needs.build.outputs.commit_tag }}"
-          export QUIZ_IMAGE_TAG="${{ needs.build.outputs.commit_tag }}"
           tmp_test="$(mktemp)"
-          tmp_quiz="$(mktemp)"
           curl -fsSL "$MANIFEST_BASE/testing.yaml" -o "$tmp_test"
-          curl -fsSL "$MANIFEST_BASE/quiz.yaml" -o "$tmp_quiz"
           envsubst < "$tmp_test" | kubectl apply -f -
-          envsubst < "$tmp_quiz" | kubectl apply -f -
-          rm -f "$tmp_test" "$tmp_quiz"
+          rm -f "$tmp_test"
+          if [ "${{ needs.build.outputs.quiz_changed }}" = "true" ]; then
+            export QUIZ_IMAGE_TAG="${{ needs.build.outputs.commit_tag }}"
+            tmp_quiz="$(mktemp)"
+            curl -fsSL "$MANIFEST_BASE/quiz.yaml" -o "$tmp_quiz"
+            envsubst < "$tmp_quiz" | kubectl apply -f -
+            rm -f "$tmp_quiz"
+          fi
           kubectl -n pub-site-dev set env deployment/pub-site APP_VERSION=${{ needs.build.outputs.commit_tag }}
-          kubectl -n quiz rollout status deployment/quiz --timeout=5m
+          if [ "${{ needs.build.outputs.quiz_changed }}" = "true" ]; then
+            kubectl -n quiz rollout status deployment/quiz --timeout=5m
+          fi
           kubectl -n pub-site-dev rollout status deployment/pub-site --timeout=5m
 
     - name: Comment PR with testing URL

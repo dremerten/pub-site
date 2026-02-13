@@ -30,7 +30,7 @@ jobs:
       ref_name: ${{ github.ref_name }}
       display_version: ${{ steps.version.outputs.display_version }}
       commit_tag: ${{ steps.meta.outputs.commit_tag }}
-      source_commit_tag: ${{ steps.source.outputs.source_commit_tag }}
+      source_commit_tag: ${{ steps.meta.outputs.commit_tag }}
       quiz_changed: ${{ steps.quiz.outputs.quiz_changed }}
 
     steps:
@@ -73,34 +73,6 @@ jobs:
         else
           echo "quiz_changed=false" >> "$GITHUB_OUTPUT"
         fi
-
-    - name: Determine source commit tag for promotion
-      id: source
-      uses: actions/github-script@v7
-      with:
-        script: |
-          const sha = process.env.GITHUB_SHA;
-          let sourceSha = sha;
-
-          if (process.env.GITHUB_REF_NAME === 'main' && process.env.GITHUB_EVENT_NAME === 'push') {
-            try {
-              const { data: prs } = await github.rest.repos.listPullRequestsAssociatedWithCommit({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                commit_sha: sha,
-                per_page: 10,
-              });
-              const match = prs.find(pr => pr.merge_commit_sha === sha) || prs[0];
-              if (match?.head?.sha) {
-                sourceSha = match.head.sha;
-              }
-            } catch (error) {
-              core.warning(`PR lookup failed, falling back to ${sha}: ${error.message}`);
-            }
-          }
-
-          const short = sourceSha.substring(0, 7);
-          core.setOutput('source_commit_tag', `commit-${short}`);
 
     - name: Determine build version
       id: version
@@ -169,6 +141,25 @@ jobs:
         outputs: type=docker,dest=/tmp/terminal-image.tar
         cache-from: type=registry,ref=${{ env.TERMINAL_IMAGE }}:latest
         cache-to: type=inline
+
+    - name: Log in to Docker Hub (main only)
+      if: github.ref == 'refs/heads/main'
+      uses: docker/login-action@v3
+      with:
+        username: ${{ vars.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Push pub-site image (commit tag, main only)
+      if: github.ref == 'refs/heads/main'
+      run: |
+        set -euo pipefail
+        docker push "${IMAGE_NAME}:${{ steps.meta.outputs.commit_tag }}"
+
+    - name: Push quiz terminal image (commit tag, main only)
+      if: github.ref == 'refs/heads/main' && steps.quiz.outputs.quiz_changed == 'true'
+      run: |
+        set -euo pipefail
+        docker push "${TERMINAL_IMAGE}:${{ steps.meta.outputs.commit_tag }}"
 
     - name: Upload Docker image artifact (pub-site)
       uses: actions/upload-artifact@v4

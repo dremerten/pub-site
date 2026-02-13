@@ -6,12 +6,25 @@ import { StickyButtons } from "@/components/StickyButtons";
 
 export const projects = [
   {
+    title: "Infrastructure as Code Sandbox",
+    description:
+      "A hands-on playground for learning and testing IaC tools with a mock AWS environment, featuring Terraform, Ansible, LocalStack, and Pulumi (Python3) for real-world infrastructure scenarios without cloud costs. This environment is a safe, isolated practice lab for cloud and infrastructure workflows. It gives you a real Linux terminal in the browser and a LocalStack-backed AWS API so you can experiment without touching real AWS or exposing the host.",
+    tags: ["Terraform", "Ansible", "LocalStack", "Pulumi(Python3)", "AWS API"],
+    image: "/images/colorful-playground.jpg",
+    accent: "from-amber-500/25 via-sky-500/10 to-emerald-400/20",
+    detailPath: "/projects/iac-sandbox",
+    ctas: [
+      { label: "View detail", to: "/projects/iac-sandbox", type: "internal" },
+      { label: "Check it Out Live", href: "https://iac-sandbox.dremer10.com", type: "external" },
+    ],
+  },
+  {
     title: "DevOps Toolkit",
     subtitle: "Multi-environment CI/CD with full observability",
     description:
       "A production-grade DevSecOps toolkit spanning development through production, featuring automated pipelines, Kubernetes workloads, and live Grafana dashboards.",
-    tags: ["Kubernetes", "CI/CD", "Observability"],
-    image: "/images/devopstoolkit.png",
+    tags: ["Kubernetes", "Multi-Environment Deployments", "CI/CD", "Github Workflows", "Observability"],
+    image: "/images/digi-toolkit2.jpg",
     accent: "from-sky-400/30 via-blue-500/10 to-emerald-400/20",
     detailPath: "/projects/devops-toolkit",
     ctas: [
@@ -27,8 +40,8 @@ export const projects = [
     subtitle: "Immersive, browser-based exploration",
     description:
       "An interactive 3D solar system built for the web. Explore realistic planetary motion with smooth camera controls, tuned for desktop and mobile.",
-    tags: ["3D Web", "Vite", "Responsive"],
-    image: "/images/solar_system1.png",
+    tags: ["Kubernetes", "3D Web", "Vite", "Responsive", "Simulation"],
+    image: "/images/solar16bit.jpg",
     accent: "from-amber-400/30 via-indigo-500/10 to-purple-500/20",
     detailPath: "/projects/solar-system-simulator",
     ctas: [
@@ -38,11 +51,11 @@ export const projects = [
   },
   {
     title: "DevOps Quiz Lab",
-    subtitle: "Browser terminal drills for core ops topics",
+    subtitle: "Browser terminal drills for core DevOps topics",
     description:
-      "Interactive terminal that runs DevOps Interview Quiz with a custom frontend and ephemeral deployment backing each session.",
-    tags: ["Kubernetes", "Security", "CLI"],
-    image: "/images/devops_quiz.svg",
+      "Interactive terminal based that runs DevOps Interview Quiz with a custom frontend and ephemeral deployment backing each session.",
+    tags: ["Kubernetes", "Isolated Sandbox", "Security", "CLI"],
+    image: "/images/quiz-terminal.jpg",
     accent: "from-emerald-400/30 via-blue-500/10 to-sky-400/20",
     detailPath: "/quiz",
     ctas: [
@@ -88,13 +101,27 @@ const Projects = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalStep, setModalStep] = useState(0);
   const [modalView, setModalView] = useState("info");
-  const [showBanner, setShowBanner] = useState(true);
+  const [showBanner, setShowBanner] = useState(false);
   const sectionRefs = useRef([]);
   const navigate = useNavigate();
   const totalModalSteps = modalSteps.length;
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
+  }, []);
+
+  useEffect(() => {
+    try {
+      const hasSeen = localStorage.getItem("projectsGatewayModalSeen") === "true";
+      if (!hasSeen) {
+        setShowBanner(true);
+        localStorage.setItem("projectsGatewayModalSeen", "true");
+      } else {
+        setShowBanner(false);
+      }
+    } catch {
+      setShowBanner(true);
+    }
   }, []);
 
   useEffect(() => {
@@ -131,6 +158,14 @@ const Projects = () => {
 
   const goPrevStep = () => setModalStep((prev) => Math.max(0, prev - 1));
   const restartWalkthrough = () => setModalStep(0);
+  const markGatewaySeen = () => {
+    try {
+      localStorage.setItem("projectsGatewayModalSeen", "true");
+    } catch {
+      // Ignore storage errors.
+    }
+  };
+
   const closeModal = () => {
     setShowModal(false);
     setModalStep(0);
@@ -139,10 +174,30 @@ const Projects = () => {
 
   return (
     <div className="bg-gradient-to-b from-[#050914] via-[#070b16] to-black text-white min-h-screen">
-      <StickyButtons />
+      <StickyButtons
+        onProjectsCta={() => {
+          setShowModal(true);
+          setModalView("info");
+          markGatewaySeen();
+          setShowBanner(false);
+        }}
+        projectsCtaLabel="Learn About Recent Upgrades"
+      />
       {showBanner && (
-        <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/70 backdrop-blur-sm px-4">
-          <div className="w-full max-w-md rounded-2xl border border-emerald-400/40 bg-slate-900/95 p-5 text-white shadow-2xl shadow-emerald-900/30">
+        <div
+          className="fixed inset-0 z-40 flex items-center justify-center bg-black/70 backdrop-blur-sm px-4"
+          onClick={() => {
+            markGatewaySeen();
+            setShowBanner(false);
+          }}
+          role="presentation"
+        >
+          <div
+            className="w-full max-w-md rounded-2xl border border-emerald-400/40 bg-slate-900/95 p-5 text-white shadow-2xl shadow-emerald-900/30"
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+          >
             <div className="mb-3 text-center text-lg font-semibold">Gateway API + NGINX Gateway Fabric now live</div>
             <p className="text-sm text-gray-200 text-center mb-1">
               Traffic now routes through Gateway API with the nginx-gateway class on NGINX Gateway Fabric for safer, consistent edge handling.
@@ -171,8 +226,17 @@ const Projects = () => {
       )}
 
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm px-2 md:px-8">
-          <div className="relative w-[95vw] max-w-3xl md:max-w-[55vw] h-[88vh] md:h-[85vh] max-h-[95vh] overflow-y-auto rounded-2xl border border-white/10 bg-slate-900/95 shadow-2xl shadow-cyan-900/50">
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm px-2 md:px-8"
+          onClick={closeModal}
+          role="presentation"
+        >
+          <div
+            className="relative w-[95vw] max-w-3xl md:max-w-[55vw] h-[88vh] md:h-[85vh] max-h-[95vh] overflow-y-auto rounded-2xl border border-white/10 bg-slate-900/95 shadow-2xl shadow-cyan-900/50"
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+          >
             <div className="absolute right-3 top-3 flex gap-2">
               <button
                 onClick={closeModal}
@@ -266,16 +330,6 @@ const Projects = () => {
                           <tr><td className="py-2 pr-3">TLS Termination</td><td className="py-2 pr-3">Handled at the Ingress Controller</td><td className="py-2 pr-3">Defined at the Gateway level with explicit TLS configuration</td></tr>
                           <tr><td className="py-2 pr-3">Traffic Control</td><td className="py-2 pr-3">Basic routing, path and host rules</td><td className="py-2 pr-3">Advanced routing: header matching, traffic splitting, canary, blue/green</td></tr>
                           <tr><td className="py-2 pr-3">Multi-Team Use</td><td className="py-2 pr-3">Harder to safely share between teams</td><td className="py-2 pr-3">Designed for multi-tenant clusters</td></tr>
-                          <tr><td className="py-2 pr-3">Configuration Clarity</td><td className="py-2 pr-3">Can become messy with many annotations</td><td className="py-2 pr-3">Strong object separation, clearer ownership boundaries</td></tr>
-                          <tr><td className="py-2 pr-3">Policy Enforcement</td><td className="py-2 pr-3">Limited, mostly controller specific</td><td className="py-2 pr-3">First-class support for policy attachment</td></tr>
-                          <tr><td className="py-2 pr-3">Observability</td><td className="py-2 pr-3">Depends on controller integrations</td><td className="py-2 pr-3">Designed for deep observability integration</td></tr>
-                          <tr><td className="py-2 pr-3">Load Balancer</td><td className="py-2 pr-3">Usually one LB per ingress controller</td><td className="py-2 pr-3">One or more Gateways can map to LBs explicitly</td></tr>
-                          <tr><td className="py-2 pr-3">Security Model</td><td className="py-2 pr-3">Flat permission model</td><td className="py-2 pr-3">Fine-grained RBAC across routes and gateways</td></tr>
-                          <tr><td className="py-2 pr-3">Ecosystem Support</td><td className="py-2 pr-3">Huge ecosystem and tutorials</td><td className="py-2 pr-3">Growing ecosystem, future Kubernetes standard</td></tr>
-                          <tr><td className="py-2 pr-3">Cloud Provider Support</td><td className="py-2 pr-3">Works everywhere</td><td className="py-2 pr-3">Natively supported by AWS, GCP, Azure implementations</td></tr>
-                          <tr><td className="py-2 pr-3">Learning Curve</td><td className="py-2 pr-3">Easier to start</td><td className="py-2 pr-3">Steeper but far more powerful</td></tr>
-                          <tr><td className="py-2 pr-3">Ideal Use Case</td><td className="py-2 pr-3">Simple apps, legacy clusters, quick setups</td><td className="py-2 pr-3">Large platforms, shared clusters, modern traffic management</td></tr>
-                          <tr><td className="py-2 pr-3">Future Direction</td><td className="py-2 pr-3">Maintenance mode long-term</td><td className="py-2 pr-3">Strategic direction of Kubernetes networking</td></tr>
                         </tbody>
                       </table>
                     </div>
@@ -299,29 +353,29 @@ const Projects = () => {
                 </div>
               </div>
             ) : (
-            <div className="flex h-full flex-col gap-3 p-4 md:p-5">
-              <div className="flex items-center justify-center gap-2 md:gap-3">
-                <button
-                  onClick={() => {
-                    setModalView("info");
-                  }}
-                  className="cursor-pointer rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-white/20"
-                >
-                  Back to summary
-                </button>
-              </div>
+              <div className="flex h-full flex-col gap-3 p-4 md:p-5">
+                <div className="flex items-center justify-center gap-2 md:gap-3">
+                  <button
+                    onClick={() => {
+                      setModalView("info");
+                    }}
+                    className="cursor-pointer rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-white/20"
+                  >
+                    Back to summary
+                  </button>
+                </div>
 
-              <div className="flex-1 overflow-hidden rounded-xl border border-white/10 bg-black/70 min-h-[80vh] md:min-h-[75vh]">
-                <iframe
-                  src="/images/flow2.html"
-                  title="Traffic flows side by side"
-                  className="h-full w-full"
-                  loading="lazy"
-                  allowFullScreen
-                ></iframe>
+                <div className="flex-1 overflow-hidden rounded-xl border border-white/10 bg-black/70 min-h-[80vh] md:min-h-[75vh]">
+                  <iframe
+                    src="/images/flow2.html"
+                    title="Traffic flows side by side"
+                    className="h-full w-full"
+                    loading="lazy"
+                    allowFullScreen
+                  ></iframe>
+                </div>
               </div>
-            </div>
-          )}
+            )}
           </div>
         </div>
       )}
@@ -338,6 +392,7 @@ const Projects = () => {
                   onClick={() => {
                     setShowModal(true);
                     setModalView("info");
+                    markGatewaySeen();
                     setShowBanner(false);
                   }}
                   className="cursor-pointer rounded-full bg-emerald-500 px-3 py-1.5 text-xs font-semibold text-black shadow-lg shadow-emerald-500/30 transition-all hover:-translate-y-0.5 hover:bg-emerald-400"
@@ -345,7 +400,10 @@ const Projects = () => {
                   Learn more
                 </button>
                 <button
-                  onClick={() => setShowBanner(false)}
+                  onClick={() => {
+                    markGatewaySeen();
+                    setShowBanner(false);
+                  }}
                   className="cursor-pointer rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-white/20"
                 >
                   Close
@@ -357,9 +415,8 @@ const Projects = () => {
           <div
             ref={(el) => (sectionRefs.current[0] = el)}
             data-section="header"
-            className={`mb-8 text-center transition-all duration-700 ${
-              isVisible.header ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-            }`}
+            className={`mb-8 text-center transition-all duration-700 ${isVisible.header ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+              }`}
           >
             <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 text-white shadow-lg shadow-blue-500/20 text-[10px] tracking-[0.2em] uppercase mb-3">
               <Sparkles className="w-3 h-3" />
@@ -377,9 +434,8 @@ const Projects = () => {
                 key={project.title}
                 ref={(el) => (sectionRefs.current[idx + 1] = el)}
                 data-section={`project-${idx}`}
-                className={`transition-all duration-700 cursor-pointer ${
-                  isVisible[`project-${idx}`] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-                }`}
+                className={`transition-all duration-700 cursor-pointer ${isVisible[`project-${idx}`] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                  }`}
                 style={{ transitionDelay: `${150 + idx * 50}ms` }}
                 role="button"
                 tabIndex={0}

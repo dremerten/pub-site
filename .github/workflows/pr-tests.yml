@@ -5,11 +5,12 @@ on:
     branches: [ "main" ]
 
 env:
-  IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/pub-site
+  IMAGE_NAME: ${{ vars.DOCKERHUB_USERNAME }}/pub-site
 
 jobs:
   build-test-scan:
     runs-on: ubuntu-latest
+    environment: staging
 
     steps:
     - name: Checkout code
@@ -25,12 +26,12 @@ jobs:
       if: github.event.pull_request.head.repo.full_name == github.repository
       uses: docker/login-action@v3
       with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        username: ${{ vars.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
     - name: Pull dev image (from branch push) or build locally
       env:
-        VITE_QUIZ_TERMINAL_URL: ${{ secrets.VITE_QUIZ_TERMINAL_URL }}
+        VITE_QUIZ_TERMINAL_URL: ${{ vars.VITE_QUIZ_TERMINAL_URL }}
       run: |
         set -euo pipefail
         if docker pull "${IMAGE_NAME}:${IMAGE_TAG}"; then

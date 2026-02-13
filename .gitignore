@@ -23,3 +23,8 @@ k8s-1.28-manifests
 how_to_deploy.md
 k8s-1.35-manifests/nginx-gateway__server-tls.yaml
 k8s-1.35-manifests/nginx-gateway__agent-tls.yaml
+docker-bkup
+public/images/digital-toolkit.jpeg
+public/images/iac-sandbox.svg
+public/images/purp-sandbox.jpg
+public/images/solar8bit.jpeg

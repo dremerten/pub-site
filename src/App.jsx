@@ -7,6 +7,7 @@ import Overview from "./pages/Overview.jsx";
 import Projects from "./pages/Projects.jsx";
 import DevOpsToolkit from "./pages/DevOpsToolkit.jsx";
 import SolarSystem from "./pages/SolarSystem.jsx";
+import IacSandbox from "./pages/IacSandbox.jsx";
 import Resume from "./pages/Resume.jsx";
 import About from "./pages/About.jsx";
 import AboutShowcase from "./pages/AboutShowcase.jsx";
@@ -51,6 +52,7 @@ const AppContent = () => {
           }
           <Route path="/projects/devops-toolkit" element={<DevOpsToolkit />} />
           <Route path="/projects/solar-system-simulator" element={<SolarSystem />} />
+          <Route path="/projects/iac-sandbox" element={<IacSandbox />} />
         </Routes>
       </main>
       <div className="fixed left-1/2 bottom-4 -translate-x-1/2 z-40 text-[11px] sm:text-xs text-gray-300 pointer-events-none">

@@ -22,7 +22,7 @@ The site is deployed to Kubernetes with automated CI/CD via GitHub Actions.
 ### Testing
 - **Environment**: `pub-site-dev` namespace
 - **Trigger**: Pull request to `main` branch
-```
+
 
 ## CI/CD Pipeline
 

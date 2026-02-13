@@ -16,20 +16,6 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: pub-site-staging-cert
-  namespace: nginx-gateway
-spec:
-  secretName: pub-site-staging-tls
-  issuerRef:
-    kind: ClusterIssuer
-    name: letsencrypt-gateway
-  dnsNames:
-  - info-staging.dremer10.com
-
----
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
   name: quiz-prod-cert
   namespace: nginx-gateway
 spec:

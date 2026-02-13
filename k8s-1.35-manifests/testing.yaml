@@ -85,9 +85,6 @@ spec:
   - name: global-gateway
     namespace: nginx-gateway
     sectionName: pub-site-staging
-  - name: global-gateway
-    namespace: nginx-gateway
-    sectionName: pub-site-staging-http
   hostnames:
   - info-staging.dremer10.com
   rules:

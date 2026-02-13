@@ -110,13 +110,6 @@ spec:
     allowedRoutes:
       namespaces:
         from: All
-  - name: pub-site-staging-http
-    hostname: info-staging.dremer10.com
-    port: 80
-    protocol: HTTP
-    allowedRoutes:
-      namespaces:
-        from: All
   - name: quiz
     hostname: quiz.dremer10.com
     port: 443

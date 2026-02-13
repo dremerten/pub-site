@@ -429,8 +429,13 @@ jobs:
         set -euo pipefail
         RAW_BASE="https://raw.githubusercontent.com/${{ github.repository }}/${{ github.ref_name }}"
         MANIFEST_BASE="$RAW_BASE/k8s-1.35-manifests"
-        kubectl apply -f "$MANIFEST_BASE/global-gateway.yaml"
-        kubectl apply -f "$MANIFEST_BASE/certificates.yaml"
+          kubectl apply -f "$MANIFEST_BASE/global-gateway.yaml"
+          export GATEWAY_EXTERNAL_IP="${{ vars.GATEWAY_EXTERNAL_IP }}"
+          tmp_gateway_svc="$(mktemp)"
+          curl -fsSL "$MANIFEST_BASE/gateway-service.yaml" -o "$tmp_gateway_svc"
+          envsubst < "$tmp_gateway_svc" | kubectl apply -f -
+          rm -f "$tmp_gateway_svc"
+          kubectl apply -f "$MANIFEST_BASE/certificates-production.yaml"
         export PUB_SITE_IMAGE_TAG="${{ needs.build.outputs.version }}"
         tmp_prod="$(mktemp)"
         curl -fsSL "$MANIFEST_BASE/production.yaml" -o "$tmp_prod"
@@ -475,8 +480,13 @@ jobs:
         set -euo pipefail
         RAW_BASE="https://raw.githubusercontent.com/${{ github.repository }}/${{ github.ref_name }}"
         MANIFEST_BASE="$RAW_BASE/k8s-1.35-manifests"
-        kubectl apply -f "$MANIFEST_BASE/global-gateway.yaml"
-        kubectl apply -f "$MANIFEST_BASE/certificates.yaml"
+          kubectl apply -f "$MANIFEST_BASE/global-gateway.yaml"
+          export GATEWAY_EXTERNAL_IP="${{ vars.GATEWAY_EXTERNAL_IP }}"
+          tmp_gateway_svc="$(mktemp)"
+          curl -fsSL "$MANIFEST_BASE/gateway-service.yaml" -o "$tmp_gateway_svc"
+          envsubst < "$tmp_gateway_svc" | kubectl apply -f -
+          rm -f "$tmp_gateway_svc"
+          kubectl apply -f "$MANIFEST_BASE/certificates-staging.yaml"
         export PUB_SITE_IMAGE_TAG="${{ needs.build.outputs.commit_tag }}"
         tmp_test="$(mktemp)"
         curl -fsSL "$MANIFEST_BASE/testing.yaml" -o "$tmp_test"

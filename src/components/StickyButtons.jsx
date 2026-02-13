@@ -1,19 +1,35 @@
 import { Github } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { LinkedInIcon } from "@/components/icons";
 
-export function StickyButtons() {
+export function StickyButtons({ onProjectsCta, projectsCtaLabel = "Learn how this site is deployed" }) {
+  const location = useLocation();
+  const isProjectsIndex = location.pathname === "/projects";
+
   return (
     <div className="fixed bottom-6 right-6 flex flex-col items-end gap-3 z-40">
-      <Link
-        to="/projects"
-        className="group flex items-center gap-2 px-4 py-2 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold shadow-lg shadow-blue-500/30 hover:shadow-blue-500/40 transition-all duration-300 hover:translate-y-[-2px] attention-bounce"
-      >
-        My Featured Projects
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-        </svg>
-      </Link>
+      {isProjectsIndex && onProjectsCta ? (
+        <button
+          type="button"
+          onClick={onProjectsCta}
+          className="group flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-semibold shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/40 transition-all duration-300 hover:translate-y-[-2px] attention-bounce cursor-pointer"
+        >
+          {projectsCtaLabel}
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      ) : (
+        <Link
+          to="/projects"
+          className="group flex items-center gap-2 px-4 py-2 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold shadow-lg shadow-blue-500/30 hover:shadow-blue-500/40 transition-all duration-300 hover:translate-y-[-2px] attention-bounce"
+        >
+          My Featured Projects
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </Link>
+      )}
       {/* LinkedIn Button */}
       <a
         href="https://www.linkedin.com/in/dremer10"

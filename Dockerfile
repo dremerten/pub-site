@@ -8,6 +8,8 @@ WORKDIR /app
 
 COPY package*.json ./
 
+RUN apk upgrade --no-cache
+
 RUN npm install && \
     npm cache clean --force
 
@@ -21,6 +23,8 @@ RUN VITE_QUIZ_TERMINAL_URL=${VITE_QUIZ_TERMINAL_URL} VITE_APP_VERSION=${VITE_APP
 
 # ---- Runtime Stage ----
 FROM nginx:1.27-alpine-slim
+
+RUN apk upgrade --no-cache
 
 COPY --from=build /app/dist /usr/share/nginx/html
 COPY nginx-container.conf /etc/nginx/conf.d/default.conf

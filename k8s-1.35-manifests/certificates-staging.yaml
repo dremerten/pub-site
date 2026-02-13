@@ -11,3 +11,17 @@ spec:
     name: letsencrypt-gateway
   dnsNames:
   - info-staging.dremer10.com
+
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: quiz-staging-cert
+  namespace: nginx-gateway
+spec:
+  secretName: quiz-staging-tls
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-gateway
+  dnsNames:
+  - quiz-staging.dremer10.com

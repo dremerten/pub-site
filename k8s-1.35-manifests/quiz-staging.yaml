@@ -1,0 +1,97 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: quiz-staging
+  labels:
+    name: quiz-staging
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quiz
+  namespace: quiz-staging
+  labels:
+    app: quiz
+    environment: staging
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: quiz
+      environment: staging
+  template:
+    metadata:
+      labels:
+        app: quiz
+        environment: staging
+    spec:
+      containers:
+      - name: quiz
+        image: dremer10/quiz-terminal:${QUIZ_IMAGE_TAG}
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 7681
+          name: ws
+        env:
+        - name: DEFAULT_TOPIC
+          value: "aws"
+        resources:
+          requests:
+            cpu: "50m"
+            memory: "256Mi"
+          limits:
+            cpu: "50m"
+            memory: "256Mi"
+        volumeMounts:
+        - name: docker-sock
+          mountPath: /var/run/docker.sock
+          readOnly: true
+      volumes:
+      - name: docker-sock
+        hostPath:
+          path: /var/run/docker.sock
+          type: Socket
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: quiz
+  namespace: quiz-staging
+  labels:
+    app: quiz
+    environment: staging
+spec:
+  type: ClusterIP
+  selector:
+    app: quiz
+    environment: staging
+  ports:
+  - port: 7681
+    targetPort: 7681
+    protocol: TCP
+    name: ws
+
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: quiz
+  namespace: quiz-staging
+spec:
+  parentRefs:
+  - name: global-gateway
+    namespace: nginx-gateway
+    sectionName: quiz-staging
+  hostnames:
+  - quiz-staging.dremer10.com
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: quiz
+      port: 7681

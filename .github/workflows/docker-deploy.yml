@@ -441,7 +441,7 @@ jobs:
         fi
         kubectl -n pub-site-prod set env deployment/pub-site APP_VERSION=${{ needs.build.outputs.version }}
         if [ "${{ needs.build.outputs.quiz_changed }}" = "true" ]; then
-          kubectl -n quiz rollout status deployment/quiz --timeout=5m
+          kubectl -n quiz-prod rollout status deployment/quiz --timeout=5m
         fi
         kubectl -n pub-site-prod rollout status deployment/pub-site --timeout=5m
 
@@ -492,7 +492,7 @@ jobs:
         fi
         kubectl -n pub-site-staging set env deployment/pub-site APP_VERSION=${{ needs.build.outputs.commit_tag }}
         if [ "${{ needs.build.outputs.quiz_changed }}" = "true" ]; then
-          kubectl -n quiz rollout status deployment/quiz --timeout=5m
+          kubectl -n quiz-prod rollout status deployment/quiz --timeout=5m
         fi
         kubectl -n pub-site-staging rollout status deployment/pub-site --timeout=5m
 

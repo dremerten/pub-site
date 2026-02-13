@@ -85,6 +85,7 @@ spec:
     allowedRoutes:
       namespaces:
         from: All
+
   - name: pub-site-dev
     hostname: info-dev.dremer10.com
     port: 443
@@ -93,6 +94,18 @@ spec:
       mode: Terminate
       certificateRefs:
       - name: pub-site-testing-tls
+        kind: Secret
+    allowedRoutes:
+      namespaces:
+        from: All
+  - name: iac-sandbox-prod
+    hostname: iac-sandbox.dremer10.com
+    port: 443
+    protocol: HTTPS
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - name: iac-sandbox-prod-tls
         kind: Secret
     allowedRoutes:
       namespaces:

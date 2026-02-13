@@ -142,6 +142,18 @@ jobs:
         cache-from: type=registry,ref=${{ env.TERMINAL_IMAGE }}:latest
         cache-to: type=inline
 
+    - name: Load pub-site image (main only)
+      if: github.ref == 'refs/heads/main'
+      run: |
+        set -euo pipefail
+        docker load --input /tmp/image.tar
+
+    - name: Load quiz terminal image (main only)
+      if: github.ref == 'refs/heads/main' && steps.quiz.outputs.quiz_changed == 'true'
+      run: |
+        set -euo pipefail
+        docker load --input /tmp/terminal-image.tar
+
     - name: Log in to Docker Hub (main only)
       if: github.ref == 'refs/heads/main'
       uses: docker/login-action@v3

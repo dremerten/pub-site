@@ -486,13 +486,13 @@ jobs:
         if [ "${{ needs.build.outputs.quiz_changed }}" = "true" ]; then
           export QUIZ_IMAGE_TAG="${{ needs.build.outputs.commit_tag }}"
           tmp_quiz="$(mktemp)"
-          curl -fsSL "$MANIFEST_BASE/quiz.yaml" -o "$tmp_quiz"
+          curl -fsSL "$MANIFEST_BASE/quiz-staging.yaml" -o "$tmp_quiz"
           envsubst < "$tmp_quiz" | kubectl apply -f -
           rm -f "$tmp_quiz"
         fi
         kubectl -n pub-site-staging set env deployment/pub-site APP_VERSION=${{ needs.build.outputs.commit_tag }}
         if [ "${{ needs.build.outputs.quiz_changed }}" = "true" ]; then
-          kubectl -n quiz-prod rollout status deployment/quiz --timeout=5m
+          kubectl -n quiz-staging rollout status deployment/quiz --timeout=5m
         fi
         kubectl -n pub-site-staging rollout status deployment/pub-site --timeout=5m
 

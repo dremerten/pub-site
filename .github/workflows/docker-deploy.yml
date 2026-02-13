@@ -489,11 +489,11 @@ jobs:
           envsubst < "$tmp_quiz" | kubectl apply -f -
           rm -f "$tmp_quiz"
         fi
-        kubectl -n pub-site-dev set env deployment/pub-site APP_VERSION=${{ needs.build.outputs.commit_tag }}
+        kubectl -n pub-site-staging set env deployment/pub-site APP_VERSION=${{ needs.build.outputs.commit_tag }}
         if [ "${{ needs.build.outputs.quiz_changed }}" = "true" ]; then
           kubectl -n quiz rollout status deployment/quiz --timeout=5m
         fi
-        kubectl -n pub-site-dev rollout status deployment/pub-site --timeout=5m
+        kubectl -n pub-site-staging rollout status deployment/pub-site --timeout=5m
 
     - name: Comment PR with staging URL
       uses: actions/github-script@v7
@@ -504,5 +504,5 @@ jobs:
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-            body: '✅ Staging deployment successful!\n\n🔗 Preview your changes at: https://info-dev.dremer10.com\n\nThe staging environment will remain active until this PR is merged or closed.'
+            body: '✅ Staging deployment successful!\n\n🔗 Preview your changes at: https://info-staging.dremer10.com\n\nThe staging environment will remain active until this PR is merged or closed.'
           })

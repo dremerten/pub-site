@@ -19,9 +19,9 @@ The site is deployed to Kubernetes with automated CI/CD via GitHub Actions.
 - **Environment**: `pub-site-prod` namespace
 - **Trigger**: Push to `main` branch
 
-### Testing
-- **Environment**: `pub-site-dev` namespace
-- **Trigger**: Pull request to `main` branch
+### Staging
+- **Environment**: `pub-site-staging` namespace
+- **Trigger**: Push to any non-`main` branch
 
 
 ## CI/CD Pipeline
@@ -47,4 +47,3 @@ The GitHub Actions workflow automatically:
 ├── Dockerfile           # Multi-stage Docker build
 └── nginx-container.conf # Nginx configuration
 ```
-

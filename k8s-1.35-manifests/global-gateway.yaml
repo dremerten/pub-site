@@ -86,14 +86,14 @@ spec:
       namespaces:
         from: All
 
-  - name: pub-site-dev
-    hostname: info-dev.dremer10.com
+  - name: pub-site-staging
+    hostname: info-staging.dremer10.com
     port: 443
     protocol: HTTPS
     tls:
       mode: Terminate
       certificateRefs:
-      - name: pub-site-testing-tls
+      - name: pub-site-staging-tls
         kind: Secret
     allowedRoutes:
       namespaces:
@@ -110,8 +110,8 @@ spec:
     allowedRoutes:
       namespaces:
         from: All
-  - name: pub-site-dev-http
-    hostname: info-dev.dremer10.com
+  - name: pub-site-staging-http
+    hostname: info-staging.dremer10.com
     port: 80
     protocol: HTTP
     allowedRoutes:

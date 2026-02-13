@@ -110,6 +110,18 @@ spec:
     allowedRoutes:
       namespaces:
         from: All
+  - name: iac-sandbox-staging
+    hostname: iac-sandbox-staging.dremer10.com
+    port: 443
+    protocol: HTTPS
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - name: iac-sandbox-staging-tls
+        kind: Secret
+    allowedRoutes:
+      namespaces:
+        from: All
   - name: quiz
     hostname: quiz.dremer10.com
     port: 443

@@ -118,7 +118,13 @@ const SolarSystem = () => {
     },
   ];
 
-  const envLinks = [];
+  const envLinks = [
+    {
+      href: "https://solar.dremer10.com",
+      label: "Check it Out Live",
+      tone: "from-amber-400/80 via-orange-500/70 to-rose-500/70",
+    },
+  ];
 
   return (
     <div className="bg-gradient-to-b from-[#030712] via-[#050c1d] to-[#0b1229] text-white min-h-screen">
@@ -179,7 +185,7 @@ const SolarSystem = () => {
                       href={link.href}
                       target="_blank"
                       rel="noreferrer"
-                      className="group relative inline-flex items-center gap-2 px-5 py-3 rounded-full overflow-hidden border border-white/15 hover:border-white/30 transition-all"
+                      className="group relative inline-flex items-center gap-2 px-5 py-3 rounded-full overflow-hidden border border-white/15 hover:border-white/30 transition-all hover:cursor-pointer"
                     >
                       <div className={`absolute inset-0 bg-gradient-to-r ${link.tone} opacity-80 group-hover:opacity-100 transition-opacity`}></div>
                       <span className="relative z-10 text-sm font-semibold flex items-center gap-2">
@@ -320,16 +326,6 @@ const SolarSystem = () => {
           </section>
         </div>
       </PageWrapper>
-
-      <a
-        href="https://solar.dremer10.com"
-        target="_blank"
-        rel="noreferrer"
-        className="fixed right-20 bottom-3 sm:right-28 sm:bottom-6 z-40 inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-3 py-2 sm:px-5 sm:py-3 rounded-full shadow-lg sm:shadow-xl shadow-indigo-500/25 transition-all attention-bounce text-xs sm:text-base"
-      >
-        Check it out Live
-        <ExternalLink className="w-4 h-4" />
-      </a>
 
       {activeIndex !== null && (
         <div

@@ -60,7 +60,7 @@ export const projects = [
     detailPath: "/quiz",
     ctas: [
       { label: "View detail", to: "/quiz", type: "internal" },
-      { label: "Check it Out (Terminal)", to: "/quiz", type: "internal" },
+      { label: "Check it Out Live", to: "/quiz", type: "internal" },
     ],
   },
 ];
@@ -481,13 +481,18 @@ const Projects = () => {
                       <div className="flex flex-wrap gap-1.5 md:gap-2 pt-1 md:pt-1.5">
                         {project.ctas
                           .filter((cta) => cta.type === "internal" || cta.label.toLowerCase().includes("check it out"))
-                          .map((cta) =>
-                            cta.type === "internal" ? (
+                          .map((cta) => {
+                            const isLiveCta = cta.label.toLowerCase().includes("check it out");
+                            return cta.type === "internal" ? (
                               <Link
                                 key={cta.label}
                                 to={cta.to}
                                 onClick={(e) => e.stopPropagation()}
-                                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-white/10 text-white text-xs font-semibold hover:bg-white/20 hover:translate-y-[-1px] hover:shadow-lg hover:shadow-black/40 transition-all cursor-pointer"
+                                className={
+                                  isLiveCta
+                                    ? "inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-blue-600 text-white border border-blue-600 text-xs font-semibold hover:bg-blue-700 hover:border-blue-700 hover:-translate-y-0.5 transition-all cursor-pointer"
+                                    : "inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-white/10 text-white text-xs font-semibold hover:bg-white/20 hover:translate-y-[-1px] hover:shadow-lg hover:shadow-black/40 transition-all cursor-pointer"
+                                }
                               >
                                 {cta.label}
                                 <ArrowRight className="w-3 h-3" />
@@ -504,8 +509,8 @@ const Projects = () => {
                                 {cta.label}
                                 <ExternalLink className="w-3 h-3" />
                               </a>
-                            )
-                          )}
+                            );
+                          })}
                       </div>
                     </div>
                   </div>

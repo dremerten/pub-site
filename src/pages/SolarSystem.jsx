@@ -122,7 +122,7 @@ const SolarSystem = () => {
     {
       href: "https://solar.dremer10.com",
       label: "Check it Out Live",
-      tone: "from-amber-400/80 via-orange-500/70 to-rose-500/70",
+      tone: "from-indigo-500/90 via-blue-500/85 to-sky-400/85",
     },
   ];
 
@@ -185,9 +185,10 @@ const SolarSystem = () => {
                       href={link.href}
                       target="_blank"
                       rel="noreferrer"
-                      className="group relative inline-flex items-center gap-2 px-5 py-3 rounded-full overflow-hidden border border-white/15 hover:border-white/30 transition-all hover:cursor-pointer"
+                      className="live-pill group relative inline-flex items-center gap-2 px-5 py-3 rounded-full overflow-hidden border border-white/15 hover:border-white/30 transition-all hover:cursor-pointer"
                     >
-                      <div className={`absolute inset-0 bg-gradient-to-r ${link.tone} opacity-80 group-hover:opacity-100 transition-opacity`}></div>
+                      <div className={`absolute inset-0 live-pill__bg bg-gradient-to-r ${link.tone} opacity-90 group-hover:opacity-100 transition-opacity`}></div>
+                      <div className="absolute inset-0 live-pill__shimmer"></div>
                       <span className="relative z-10 text-sm font-semibold flex items-center gap-2">
                         <ExternalLink className="w-4 h-4" />
                         {link.label}
@@ -388,6 +389,28 @@ const SolarSystem = () => {
         }
         .attention-bounce {
           animation: attentionBounce 2.4s ease-in-out infinite, glowPulse 2.4s ease-in-out infinite;
+        }
+        @keyframes livePillPop {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.03); }
+        }
+        @keyframes livePillShimmer {
+          0% { transform: translateX(-120%); }
+          100% { transform: translateX(120%); }
+        }
+        .live-pill {
+          box-shadow: 0 10px 30px -18px rgba(56,189,248,0.8), 0 6px 18px -10px rgba(99,102,241,0.9);
+          animation: livePillPop 2.8s ease-in-out infinite;
+        }
+        .live-pill__bg {
+          filter: saturate(1.15);
+        }
+        .live-pill__shimmer {
+          background: linear-gradient(120deg, transparent 15%, rgba(255,255,255,0.6) 45%, transparent 70%);
+          mix-blend-mode: screen;
+          opacity: 0.75;
+          transform: translateX(-120%);
+          animation: livePillShimmer 2.2s ease-in-out infinite;
         }
       `}</style>
     </div>

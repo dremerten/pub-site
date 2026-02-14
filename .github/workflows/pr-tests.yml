@@ -4,6 +4,10 @@ on:
   pull_request:
     branches: [ "main" ]
 
+concurrency:
+  group: pub-site-${{ github.event.pull_request.head.ref || github.ref_name }}
+  cancel-in-progress: false
+
 env:
   IMAGE_NAME: ${{ vars.DOCKERHUB_USERNAME }}/pub-site
 

@@ -9,6 +9,10 @@ on:
   push:
     branches: [ "**" ]  # Trigger on push to any branch
 
+concurrency:
+  group: pub-site-${{ github.event.pull_request.head.ref || github.ref_name }}
+  cancel-in-progress: false
+
 permissions:
   contents: write  # needed to push git tags
   pull-requests: read  # needed to resolve PR head for image promotion

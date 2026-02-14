@@ -62,6 +62,10 @@ jobs:
           fi
         fi
 
+        if [ -n "$before" ] && ! git cat-file -e "${before}^{commit}" 2>/dev/null; then
+          before=""
+        fi
+
         if [ -n "$before" ]; then
           changed="$(git diff --name-only "$before" "$GITHUB_SHA" -- terminal/ k8s-1.35-manifests/quiz.yaml | wc -l | tr -d ' ')"
         else

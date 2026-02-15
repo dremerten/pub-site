@@ -440,6 +440,8 @@ jobs:
         set -euo pipefail
         RAW_BASE="https://raw.githubusercontent.com/${{ github.repository }}/${{ github.ref_name }}"
         MANIFEST_BASE="$RAW_BASE/k8s-1.35-manifests"
+          kubectl apply -f "$MANIFEST_BASE/default__prometheus-pvc.yaml"
+          kubectl apply -f "$MANIFEST_BASE/monitoring__grafana-pvc.yaml"
           kubectl apply -f "$MANIFEST_BASE/global-gateway.yaml"
           export GATEWAY_EXTERNAL_IP="${{ vars.GATEWAY_EXTERNAL_IP }}"
           tmp_gateway_svc="$(mktemp)"
@@ -491,6 +493,8 @@ jobs:
         set -euo pipefail
         RAW_BASE="https://raw.githubusercontent.com/${{ github.repository }}/${{ github.ref_name }}"
         MANIFEST_BASE="$RAW_BASE/k8s-1.35-manifests"
+          kubectl apply -f "$MANIFEST_BASE/default__prometheus-pvc.yaml"
+          kubectl apply -f "$MANIFEST_BASE/monitoring__grafana-pvc.yaml"
           kubectl apply -f "$MANIFEST_BASE/global-gateway.yaml"
           export GATEWAY_EXTERNAL_IP="${{ vars.GATEWAY_EXTERNAL_IP }}"
           tmp_gateway_svc="$(mktemp)"

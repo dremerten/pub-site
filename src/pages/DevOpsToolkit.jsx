@@ -60,6 +60,9 @@ const DevOpsToolkit = () => {
     { name: "Production", value: "production", url: "https://devops-toolkit.dremer10.com" }
   ];
 
+  const grafanaDashboardUrl =
+    import.meta.env.VITE_GRAFANA_DASHBOARD_URL || "https://grafana.devops-toolkit.dremer10.com";
+
   const galleryImages = [
     { src: "/images/release-push.png", alt: "Production CI/CD Pipeline", caption: "Production Branch Pipeline - Main deployment workflow" },
     { src: "/images/dev-push.png", alt: "Development CI/CD Pipeline", caption: "Development Branch Pipeline - Rapid iteration workflow" },
@@ -161,7 +164,7 @@ const DevOpsToolkit = () => {
             </div>
 
             <a
-              href="https://grafana.devops-toolkit.dremer10.com/public-dashboards/fbf8859540614caaa979db376e079e07"
+              href={grafanaDashboardUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold text-xs rounded-full shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 transition-all duration-300 hover:scale-105 cursor-pointer"

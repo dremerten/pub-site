@@ -73,6 +73,18 @@ spec:
     allowedRoutes:
       namespaces:
         from: All
+  - name: grafana-staging
+    hostname: grafana-staging.devops-toolkit.dremer10.com
+    port: 443
+    protocol: HTTPS
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - name: grafana-staging-tls
+        kind: Secret
+    allowedRoutes:
+      namespaces:
+        from: All
   - name: pub-site-prod
     hostname: info.dremer10.com
     port: 443

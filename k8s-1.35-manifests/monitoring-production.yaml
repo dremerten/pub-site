@@ -52,17 +52,18 @@ data:
     ,\n        \"name\": \"Annotations & Alerts\",\n        \"type\": \"dashboard\"\
     \n      }\n    ]\n  },\n  \"editable\": false,\n  \"fiscalYearStartMonth\": 0,\n\
     \  \"graphTooltip\": 0,\n  \"links\": [],\n  \"panels\": [\n    {\n      \"datasource\"\
-    : \"Prometheus\",\n      \"fieldConfig\": {\n        \"defaults\": {\n       \
-    \   \"color\": {\n            \"mode\": \"palette-classic\"\n          },\n  \
-    \        \"custom\": {\n            \"axisBorderShow\": false,\n            \"\
-    axisCenteredZero\": false,\n            \"axisColorMode\": \"text\",\n       \
-    \     \"axisLabel\": \"\",\n            \"axisPlacement\": \"auto\",\n       \
-    \     \"barAlignment\": 0,\n            \"barWidthFactor\": 0.6,\n           \
-    \ \"drawStyle\": \"line\",\n            \"fillOpacity\": 0,\n            \"gradientMode\"\
-    : \"none\",\n            \"hideFrom\": {\n              \"legend\": false,\n \
-    \             \"tooltip\": false,\n              \"viz\": false\n            },\n\
-    \            \"insertNulls\": false,\n            \"lineInterpolation\": \"linear\"\
-    ,\n            \"lineWidth\": 1,\n            \"pointSize\": 5,\n            \"\
+    : {\n        \"type\": \"prometheus\",\n        \"uid\": \"public-ds\"\n     \
+    \ },\n      \"fieldConfig\": {\n        \"defaults\": {\n          \"color\":\
+    \ {\n            \"mode\": \"palette-classic\"\n          },\n          \"custom\"\
+    : {\n            \"axisBorderShow\": false,\n            \"axisCenteredZero\"\
+    : false,\n            \"axisColorMode\": \"text\",\n            \"axisLabel\"\
+    : \"\",\n            \"axisPlacement\": \"auto\",\n            \"barAlignment\"\
+    : 0,\n            \"barWidthFactor\": 0.6,\n            \"drawStyle\": \"line\"\
+    ,\n            \"fillOpacity\": 0,\n            \"gradientMode\": \"none\",\n\
+    \            \"hideFrom\": {\n              \"legend\": false,\n             \
+    \ \"tooltip\": false,\n              \"viz\": false\n            },\n        \
+    \    \"insertNulls\": false,\n            \"lineInterpolation\": \"linear\",\n\
+    \            \"lineWidth\": 1,\n            \"pointSize\": 5,\n            \"\
     scaleDistribution\": {\n              \"type\": \"linear\"\n            },\n \
     \           \"showPoints\": \"auto\",\n            \"showValues\": false,\n  \
     \          \"spanNulls\": false,\n            \"stacking\": {\n              \"\
@@ -85,17 +86,18 @@ data:
     \"idle\\\"}[5m])) * 100)\",\n          \"legendFormat\": \"{{instance}}\",\n \
     \         \"refId\": \"A\"\n        }\n      ],\n      \"title\": \"CPU Usage\
     \ (%)\",\n      \"type\": \"timeseries\"\n    },\n    {\n      \"datasource\"\
-    : \"Prometheus\",\n      \"fieldConfig\": {\n        \"defaults\": {\n       \
-    \   \"color\": {\n            \"mode\": \"palette-classic\"\n          },\n  \
-    \        \"custom\": {\n            \"axisBorderShow\": false,\n            \"\
-    axisCenteredZero\": false,\n            \"axisColorMode\": \"text\",\n       \
-    \     \"axisLabel\": \"\",\n            \"axisPlacement\": \"auto\",\n       \
-    \     \"barAlignment\": 0,\n            \"barWidthFactor\": 0.6,\n           \
-    \ \"drawStyle\": \"line\",\n            \"fillOpacity\": 0,\n            \"gradientMode\"\
-    : \"none\",\n            \"hideFrom\": {\n              \"legend\": false,\n \
-    \             \"tooltip\": false,\n              \"viz\": false\n            },\n\
-    \            \"insertNulls\": false,\n            \"lineInterpolation\": \"linear\"\
-    ,\n            \"lineWidth\": 1,\n            \"pointSize\": 5,\n            \"\
+    : {\n        \"type\": \"prometheus\",\n        \"uid\": \"public-ds\"\n     \
+    \ },\n      \"fieldConfig\": {\n        \"defaults\": {\n          \"color\":\
+    \ {\n            \"mode\": \"palette-classic\"\n          },\n          \"custom\"\
+    : {\n            \"axisBorderShow\": false,\n            \"axisCenteredZero\"\
+    : false,\n            \"axisColorMode\": \"text\",\n            \"axisLabel\"\
+    : \"\",\n            \"axisPlacement\": \"auto\",\n            \"barAlignment\"\
+    : 0,\n            \"barWidthFactor\": 0.6,\n            \"drawStyle\": \"line\"\
+    ,\n            \"fillOpacity\": 0,\n            \"gradientMode\": \"none\",\n\
+    \            \"hideFrom\": {\n              \"legend\": false,\n             \
+    \ \"tooltip\": false,\n              \"viz\": false\n            },\n        \
+    \    \"insertNulls\": false,\n            \"lineInterpolation\": \"linear\",\n\
+    \            \"lineWidth\": 1,\n            \"pointSize\": 5,\n            \"\
     scaleDistribution\": {\n              \"type\": \"linear\"\n            },\n \
     \           \"showPoints\": \"auto\",\n            \"showValues\": false,\n  \
     \          \"spanNulls\": false,\n            \"stacking\": {\n              \"\
@@ -118,17 +120,18 @@ data:
     \ / node_memory_MemTotal_bytes))\",\n          \"legendFormat\": \"{{instance}}\"\
     ,\n          \"refId\": \"A\"\n        }\n      ],\n      \"title\": \"Memory\
     \ Usage (%)\",\n      \"type\": \"timeseries\"\n    },\n    {\n      \"datasource\"\
-    : \"Prometheus\",\n      \"fieldConfig\": {\n        \"defaults\": {\n       \
-    \   \"color\": {\n            \"mode\": \"palette-classic\"\n          },\n  \
-    \        \"custom\": {\n            \"axisBorderShow\": false,\n            \"\
-    axisCenteredZero\": false,\n            \"axisColorMode\": \"text\",\n       \
-    \     \"axisLabel\": \"\",\n            \"axisPlacement\": \"auto\",\n       \
-    \     \"barAlignment\": 0,\n            \"barWidthFactor\": 0.6,\n           \
-    \ \"drawStyle\": \"line\",\n            \"fillOpacity\": 0,\n            \"gradientMode\"\
-    : \"none\",\n            \"hideFrom\": {\n              \"legend\": false,\n \
-    \             \"tooltip\": false,\n              \"viz\": false\n            },\n\
-    \            \"insertNulls\": false,\n            \"lineInterpolation\": \"linear\"\
-    ,\n            \"lineWidth\": 1,\n            \"pointSize\": 5,\n            \"\
+    : {\n        \"type\": \"prometheus\",\n        \"uid\": \"public-ds\"\n     \
+    \ },\n      \"fieldConfig\": {\n        \"defaults\": {\n          \"color\":\
+    \ {\n            \"mode\": \"palette-classic\"\n          },\n          \"custom\"\
+    : {\n            \"axisBorderShow\": false,\n            \"axisCenteredZero\"\
+    : false,\n            \"axisColorMode\": \"text\",\n            \"axisLabel\"\
+    : \"\",\n            \"axisPlacement\": \"auto\",\n            \"barAlignment\"\
+    : 0,\n            \"barWidthFactor\": 0.6,\n            \"drawStyle\": \"line\"\
+    ,\n            \"fillOpacity\": 0,\n            \"gradientMode\": \"none\",\n\
+    \            \"hideFrom\": {\n              \"legend\": false,\n             \
+    \ \"tooltip\": false,\n              \"viz\": false\n            },\n        \
+    \    \"insertNulls\": false,\n            \"lineInterpolation\": \"linear\",\n\
+    \            \"lineWidth\": 1,\n            \"pointSize\": 5,\n            \"\
     scaleDistribution\": {\n              \"type\": \"linear\"\n            },\n \
     \           \"showPoints\": \"auto\",\n            \"showValues\": false,\n  \
     \          \"spanNulls\": false,\n            \"stacking\": {\n              \"\
@@ -152,11 +155,12 @@ data:
     \"/\\\",fstype!~\\\"tmpfs|overlay|squashfs\\\"}))\",\n          \"legendFormat\"\
     : \"{{instance}}\",\n          \"refId\": \"A\"\n        }\n      ],\n      \"\
     title\": \"Disk Usage (%)\",\n      \"type\": \"timeseries\"\n    },\n    {\n\
-    \      \"datasource\": \"Prometheus\",\n      \"fieldConfig\": {\n        \"defaults\"\
-    : {\n          \"color\": {\n            \"mode\": \"palette-classic\"\n     \
-    \     },\n          \"custom\": {\n            \"axisBorderShow\": false,\n  \
-    \          \"axisCenteredZero\": false,\n            \"axisColorMode\": \"text\"\
-    ,\n            \"axisLabel\": \"\",\n            \"axisPlacement\": \"auto\",\n\
+    \      \"datasource\": {\n        \"type\": \"prometheus\",\n        \"uid\":\
+    \ \"public-ds\"\n      },\n      \"fieldConfig\": {\n        \"defaults\": {\n\
+    \          \"color\": {\n            \"mode\": \"palette-classic\"\n         \
+    \ },\n          \"custom\": {\n            \"axisBorderShow\": false,\n      \
+    \      \"axisCenteredZero\": false,\n            \"axisColorMode\": \"text\",\n\
+    \            \"axisLabel\": \"\",\n            \"axisPlacement\": \"auto\",\n\
     \            \"barAlignment\": 0,\n            \"barWidthFactor\": 0.6,\n    \
     \        \"drawStyle\": \"line\",\n            \"fillOpacity\": 0,\n         \
     \   \"gradientMode\": \"none\",\n            \"hideFrom\": {\n              \"\
@@ -186,10 +190,11 @@ data:
     \n        },\n        {\n          \"expr\": \"rate(node_network_transmit_bytes_total{device!~\\\
     \"lo\\\"}[5m])\",\n          \"legendFormat\": \"{{instance}} TX\",\n        \
     \  \"refId\": \"B\"\n        }\n      ],\n      \"title\": \"Network Traffic (B/s)\"\
-    ,\n      \"type\": \"timeseries\"\n    },\n    {\n      \"datasource\": \"Prometheus\"\
-    ,\n      \"fieldConfig\": {\n        \"defaults\": {\n          \"color\": {\n\
-    \            \"mode\": \"palette-classic\"\n          },\n          \"custom\"\
-    : {\n            \"axisBorderShow\": false,\n            \"axisCenteredZero\"\
+    ,\n      \"type\": \"timeseries\"\n    },\n    {\n      \"datasource\": {\n  \
+    \      \"type\": \"prometheus\",\n        \"uid\": \"public-ds\"\n      },\n \
+    \     \"fieldConfig\": {\n        \"defaults\": {\n          \"color\": {\n  \
+    \          \"mode\": \"palette-classic\"\n          },\n          \"custom\":\
+    \ {\n            \"axisBorderShow\": false,\n            \"axisCenteredZero\"\
     : false,\n            \"axisColorMode\": \"text\",\n            \"axisLabel\"\
     : \"\",\n            \"axisPlacement\": \"auto\",\n            \"barAlignment\"\
     : 0,\n            \"barWidthFactor\": 0.6,\n            \"drawStyle\": \"line\"\
@@ -219,17 +224,18 @@ data:
     expr\": \"time() - node_boot_time_seconds\",\n          \"legendFormat\": \"{{instance}}\"\
     ,\n          \"refId\": \"A\"\n        }\n      ],\n      \"title\": \"System\
     \ Uptime (s)\",\n      \"type\": \"timeseries\"\n    },\n    {\n      \"datasource\"\
-    : \"Prometheus\",\n      \"fieldConfig\": {\n        \"defaults\": {\n       \
-    \   \"color\": {\n            \"mode\": \"palette-classic\"\n          },\n  \
-    \        \"custom\": {\n            \"axisBorderShow\": false,\n            \"\
-    axisCenteredZero\": false,\n            \"axisColorMode\": \"text\",\n       \
-    \     \"axisLabel\": \"\",\n            \"axisPlacement\": \"auto\",\n       \
-    \     \"barAlignment\": 0,\n            \"barWidthFactor\": 0.6,\n           \
-    \ \"drawStyle\": \"line\",\n            \"fillOpacity\": 0,\n            \"gradientMode\"\
-    : \"none\",\n            \"hideFrom\": {\n              \"legend\": false,\n \
-    \             \"tooltip\": false,\n              \"viz\": false\n            },\n\
-    \            \"insertNulls\": false,\n            \"lineInterpolation\": \"linear\"\
-    ,\n            \"lineWidth\": 1,\n            \"pointSize\": 5,\n            \"\
+    : {\n        \"type\": \"prometheus\",\n        \"uid\": \"public-ds\"\n     \
+    \ },\n      \"fieldConfig\": {\n        \"defaults\": {\n          \"color\":\
+    \ {\n            \"mode\": \"palette-classic\"\n          },\n          \"custom\"\
+    : {\n            \"axisBorderShow\": false,\n            \"axisCenteredZero\"\
+    : false,\n            \"axisColorMode\": \"text\",\n            \"axisLabel\"\
+    : \"\",\n            \"axisPlacement\": \"auto\",\n            \"barAlignment\"\
+    : 0,\n            \"barWidthFactor\": 0.6,\n            \"drawStyle\": \"line\"\
+    ,\n            \"fillOpacity\": 0,\n            \"gradientMode\": \"none\",\n\
+    \            \"hideFrom\": {\n              \"legend\": false,\n             \
+    \ \"tooltip\": false,\n              \"viz\": false\n            },\n        \
+    \    \"insertNulls\": false,\n            \"lineInterpolation\": \"linear\",\n\
+    \            \"lineWidth\": 1,\n            \"pointSize\": 5,\n            \"\
     scaleDistribution\": {\n              \"type\": \"linear\"\n            },\n \
     \           \"showPoints\": \"auto\",\n            \"showValues\": false,\n  \
     \          \"spanNulls\": false,\n            \"stacking\": {\n              \"\
@@ -254,17 +260,18 @@ data:
     \        \"expr\": \"node_load15\",\n          \"legendFormat\": \"{{instance}}\
     \ 15m\",\n          \"refId\": \"C\"\n        }\n      ],\n      \"title\": \"\
     Load Average\",\n      \"type\": \"timeseries\"\n    },\n    {\n      \"datasource\"\
-    : \"Prometheus\",\n      \"fieldConfig\": {\n        \"defaults\": {\n       \
-    \   \"color\": {\n            \"mode\": \"palette-classic\"\n          },\n  \
-    \        \"custom\": {\n            \"axisBorderShow\": false,\n            \"\
-    axisCenteredZero\": false,\n            \"axisColorMode\": \"text\",\n       \
-    \     \"axisLabel\": \"\",\n            \"axisPlacement\": \"auto\",\n       \
-    \     \"barAlignment\": 0,\n            \"barWidthFactor\": 0.6,\n           \
-    \ \"drawStyle\": \"line\",\n            \"fillOpacity\": 0,\n            \"gradientMode\"\
-    : \"none\",\n            \"hideFrom\": {\n              \"legend\": false,\n \
-    \             \"tooltip\": false,\n              \"viz\": false\n            },\n\
-    \            \"insertNulls\": false,\n            \"lineInterpolation\": \"linear\"\
-    ,\n            \"lineWidth\": 1,\n            \"pointSize\": 5,\n            \"\
+    : {\n        \"type\": \"prometheus\",\n        \"uid\": \"public-ds\"\n     \
+    \ },\n      \"fieldConfig\": {\n        \"defaults\": {\n          \"color\":\
+    \ {\n            \"mode\": \"palette-classic\"\n          },\n          \"custom\"\
+    : {\n            \"axisBorderShow\": false,\n            \"axisCenteredZero\"\
+    : false,\n            \"axisColorMode\": \"text\",\n            \"axisLabel\"\
+    : \"\",\n            \"axisPlacement\": \"auto\",\n            \"barAlignment\"\
+    : 0,\n            \"barWidthFactor\": 0.6,\n            \"drawStyle\": \"line\"\
+    ,\n            \"fillOpacity\": 0,\n            \"gradientMode\": \"none\",\n\
+    \            \"hideFrom\": {\n              \"legend\": false,\n             \
+    \ \"tooltip\": false,\n              \"viz\": false\n            },\n        \
+    \    \"insertNulls\": false,\n            \"lineInterpolation\": \"linear\",\n\
+    \            \"lineWidth\": 1,\n            \"pointSize\": 5,\n            \"\
     scaleDistribution\": {\n              \"type\": \"linear\"\n            },\n \
     \           \"showPoints\": \"auto\",\n            \"showValues\": false,\n  \
     \          \"spanNulls\": false,\n            \"stacking\": {\n              \"\
@@ -286,17 +293,18 @@ data:
     expr\": \"node_memory_MemTotal_bytes\",\n          \"legendFormat\": \"{{instance}}\"\
     ,\n          \"refId\": \"A\"\n        }\n      ],\n      \"title\": \"Total Memory\
     \ (bytes)\",\n      \"type\": \"timeseries\"\n    },\n    {\n      \"datasource\"\
-    : \"Prometheus\",\n      \"fieldConfig\": {\n        \"defaults\": {\n       \
-    \   \"color\": {\n            \"mode\": \"palette-classic\"\n          },\n  \
-    \        \"custom\": {\n            \"axisBorderShow\": false,\n            \"\
-    axisCenteredZero\": false,\n            \"axisColorMode\": \"text\",\n       \
-    \     \"axisLabel\": \"\",\n            \"axisPlacement\": \"auto\",\n       \
-    \     \"barAlignment\": 0,\n            \"barWidthFactor\": 0.6,\n           \
-    \ \"drawStyle\": \"line\",\n            \"fillOpacity\": 0,\n            \"gradientMode\"\
-    : \"none\",\n            \"hideFrom\": {\n              \"legend\": false,\n \
-    \             \"tooltip\": false,\n              \"viz\": false\n            },\n\
-    \            \"insertNulls\": false,\n            \"lineInterpolation\": \"linear\"\
-    ,\n            \"lineWidth\": 1,\n            \"pointSize\": 5,\n            \"\
+    : {\n        \"type\": \"prometheus\",\n        \"uid\": \"public-ds\"\n     \
+    \ },\n      \"fieldConfig\": {\n        \"defaults\": {\n          \"color\":\
+    \ {\n            \"mode\": \"palette-classic\"\n          },\n          \"custom\"\
+    : {\n            \"axisBorderShow\": false,\n            \"axisCenteredZero\"\
+    : false,\n            \"axisColorMode\": \"text\",\n            \"axisLabel\"\
+    : \"\",\n            \"axisPlacement\": \"auto\",\n            \"barAlignment\"\
+    : 0,\n            \"barWidthFactor\": 0.6,\n            \"drawStyle\": \"line\"\
+    ,\n            \"fillOpacity\": 0,\n            \"gradientMode\": \"none\",\n\
+    \            \"hideFrom\": {\n              \"legend\": false,\n             \
+    \ \"tooltip\": false,\n              \"viz\": false\n            },\n        \
+    \    \"insertNulls\": false,\n            \"lineInterpolation\": \"linear\",\n\
+    \            \"lineWidth\": 1,\n            \"pointSize\": 5,\n            \"\
     scaleDistribution\": {\n              \"type\": \"linear\"\n            },\n \
     \           \"showPoints\": \"auto\",\n            \"showValues\": false,\n  \
     \          \"spanNulls\": false,\n            \"stacking\": {\n              \"\
@@ -332,7 +340,9 @@ metadata:
 data:
   datasources.yaml: "apiVersion: 1\ndatasources:\n- name: Prometheus\n  type: prometheus\n\
     \  access: proxy\n  url: http://prometheus.monitoring-production.svc.cluster.local:9090\n\
-    \  isDefault: true\n  editable: true\n"
+    \  isDefault: true\n  editable: true\n- name: Prometheus Public\n  type: prometheus\n\
+    \  access: proxy\n  url: http://prometheus.monitoring-production.svc.cluster.local:9090\n\
+    \  isDefault: false\n  editable: false\n  uid: public-ds\n"
 ---
 apiVersion: v1
 kind: Secret
@@ -502,7 +512,7 @@ spec:
               name: grafana-credentials
               key: admin-password
         - name: GF_INSTALL_PLUGINS
-          value: grafana-clock-panel,grafana-simple-json-datasource,grafana-piechart-panel
+          value: grafana-clock-panel,grafana-piechart-panel
         ports:
         - containerPort: 3000
           name: http

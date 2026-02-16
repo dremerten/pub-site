@@ -13,7 +13,7 @@ A modern React-based portfolio site showcasing professional information, project
 
 ## Deployment
 
-The site is deployed to Kubernetes with automated CI/CD via GitHub Actions.
+The site is deployed to Kubernetes with automated CI/CD via GitHub Actions!
 
 ### Production
 - **Environment**: `pub-site-prod` namespace

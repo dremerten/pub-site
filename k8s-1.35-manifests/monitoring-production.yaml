@@ -1,18 +1,15 @@
----
 apiVersion: v1
 kind: Namespace
 metadata:
   name: monitoring-production
   labels:
     name: monitoring-production
-
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: prometheus
   namespace: monitoring-production
-
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -20,59 +17,25 @@ metadata:
   name: prometheus-config
   namespace: monitoring-production
 data:
-  prometheus.yml: |
-    global:
-      scrape_interval: 15s
-      evaluation_interval: 15s
-      external_labels:
-        monitor: 'devops-toolkit'
-        environment: 'production'
-
-    scrape_configs:
-      # Prometheus itself
-      - job_name: 'prometheus'
-        static_configs:
-          - targets: ['localhost:9090']
-            labels:
-              service: 'prometheus'
-
-      # Node Exporter (System Metrics - CPU, RAM, Disk, Network)
-      - job_name: 'node-exporter'
-        kubernetes_sd_configs:
-          - role: pod
-        relabel_configs:
-          - source_labels: [__meta_kubernetes_pod_label_app]
-            action: keep
-            regex: node-exporter
-          - source_labels: [__meta_kubernetes_pod_ip]
-            target_label: __address__
-            replacement: $1:9100
-          - source_labels: [__meta_kubernetes_pod_node_name]
-            target_label: instance
-
-      # cAdvisor (Docker Container Metrics)
-      - job_name: 'cadvisor'
-        kubernetes_sd_configs:
-          - role: pod
-        relabel_configs:
-          - source_labels: [__meta_kubernetes_pod_label_app]
-            action: keep
-            regex: cadvisor
-          - source_labels: [__meta_kubernetes_pod_ip]
-            target_label: __address__
-            replacement: $1:8080
-          - source_labels: [__meta_kubernetes_pod_node_name]
-            target_label: instance
-
-      # Kubernetes Pods (General pod discovery for annotated pods)
-      - job_name: 'kubernetes-pods'
-        kubernetes_sd_configs:
-          - role: pod
-        relabel_configs:
-          - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
-            action: keep
-            regex: true
-
+  prometheus.yml: "global:\n  scrape_interval: 15s\n  evaluation_interval: 15s\n \
+    \ external_labels:\n    monitor: 'devops-toolkit'\n    environment: 'production'\n\
+    \nscrape_configs:\n  # Prometheus itself\n  - job_name: 'prometheus'\n    static_configs:\n\
+    \      - targets: ['localhost:9090']\n        labels:\n          service: 'prometheus'\n\
+    \n  # Node Exporter (System Metrics - CPU, RAM, Disk, Network)\n  - job_name:\
+    \ 'node-exporter'\n    kubernetes_sd_configs:\n      - role: pod\n    relabel_configs:\n\
+    \      - source_labels: [__meta_kubernetes_pod_label_app]\n        action: keep\n\
+    \        regex: node-exporter\n      - source_labels: [__meta_kubernetes_pod_ip]\n\
+    \        target_label: __address__\n        replacement: $1:9100\n      - source_labels:\
+    \ [__meta_kubernetes_pod_node_name]\n        target_label: instance\n\n  # cAdvisor\
+    \ (Docker Container Metrics)\n  - job_name: 'cadvisor'\n    kubernetes_sd_configs:\n\
+    \      - role: pod\n    relabel_configs:\n      - source_labels: [__meta_kubernetes_pod_label_app]\n\
+    \        action: keep\n        regex: cadvisor\n      - source_labels: [__meta_kubernetes_pod_ip]\n\
+    \        target_label: __address__\n        replacement: $1:8080\n      - source_labels:\
+    \ [__meta_kubernetes_pod_node_name]\n        target_label: instance\n\n  # Kubernetes\
+    \ Pods (General pod discovery for annotated pods)\n  - job_name: 'kubernetes-pods'\n\
+    \    kubernetes_sd_configs:\n      - role: pod\n    relabel_configs:\n      -\
+    \ source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]\n   \
+    \     action: keep\n        regex: true\n"
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -80,18 +43,286 @@ metadata:
   name: grafana-dashboards
   namespace: monitoring-production
 data:
-  dashboard.yml: |
-    apiVersion: 1
-    providers:
-      - name: 'DevOps Observatory'
-        orgId: 1
-        folder: ''
-        type: file
-        disableDeletion: false
-        editable: true
-        options:
-          path: /etc/grafana/provisioning/dashboards
-
+  dashboard.yml: "apiVersion: 1\nproviders:\n  - name: 'DevOps Observatory'\n    orgId:\
+    \ 1\n    folder: ''\n    type: file\n    disableDeletion: false\n    editable:\
+    \ true\n    options:\n      path: /etc/grafana/provisioning/dashboards\n"
+  system-metrics.json: "{\n  \"annotations\": {\n    \"list\": [\n      {\n      \
+    \  \"builtIn\": 1,\n        \"datasource\": \"-- Grafana --\",\n        \"enable\"\
+    : true,\n        \"hide\": true,\n        \"iconColor\": \"rgba(0, 211, 255, 1)\"\
+    ,\n        \"name\": \"Annotations & Alerts\",\n        \"type\": \"dashboard\"\
+    \n      }\n    ]\n  },\n  \"editable\": false,\n  \"fiscalYearStartMonth\": 0,\n\
+    \  \"graphTooltip\": 0,\n  \"links\": [],\n  \"panels\": [\n    {\n      \"datasource\"\
+    : \"Prometheus\",\n      \"fieldConfig\": {\n        \"defaults\": {\n       \
+    \   \"color\": {\n            \"mode\": \"palette-classic\"\n          },\n  \
+    \        \"custom\": {\n            \"axisBorderShow\": false,\n            \"\
+    axisCenteredZero\": false,\n            \"axisColorMode\": \"text\",\n       \
+    \     \"axisLabel\": \"\",\n            \"axisPlacement\": \"auto\",\n       \
+    \     \"barAlignment\": 0,\n            \"barWidthFactor\": 0.6,\n           \
+    \ \"drawStyle\": \"line\",\n            \"fillOpacity\": 0,\n            \"gradientMode\"\
+    : \"none\",\n            \"hideFrom\": {\n              \"legend\": false,\n \
+    \             \"tooltip\": false,\n              \"viz\": false\n            },\n\
+    \            \"insertNulls\": false,\n            \"lineInterpolation\": \"linear\"\
+    ,\n            \"lineWidth\": 1,\n            \"pointSize\": 5,\n            \"\
+    scaleDistribution\": {\n              \"type\": \"linear\"\n            },\n \
+    \           \"showPoints\": \"auto\",\n            \"showValues\": false,\n  \
+    \          \"spanNulls\": false,\n            \"stacking\": {\n              \"\
+    group\": \"A\",\n              \"mode\": \"none\"\n            },\n          \
+    \  \"thresholdsStyle\": {\n              \"mode\": \"off\"\n            }\n  \
+    \        },\n          \"mappings\": [],\n          \"max\": 100,\n          \"\
+    min\": 0,\n          \"thresholds\": {\n            \"mode\": \"absolute\",\n\
+    \            \"steps\": [\n              {\n                \"color\": \"green\"\
+    ,\n                \"value\": 0\n              },\n              {\n         \
+    \       \"color\": \"red\",\n                \"value\": 80\n              }\n\
+    \            ]\n          },\n          \"unit\": \"percent\"\n        },\n  \
+    \      \"overrides\": []\n      },\n      \"gridPos\": {\n        \"h\": 8,\n\
+    \        \"w\": 12,\n        \"x\": 0,\n        \"y\": 0\n      },\n      \"id\"\
+    : 1,\n      \"options\": {\n        \"legend\": {\n          \"calcs\": [],\n\
+    \          \"displayMode\": \"list\",\n          \"placement\": \"bottom\",\n\
+    \          \"showLegend\": true\n        },\n        \"tooltip\": {\n        \
+    \  \"hideZeros\": false,\n          \"mode\": \"single\",\n          \"sort\"\
+    : \"none\"\n        }\n      },\n      \"pluginVersion\": \"12.3.3\",\n      \"\
+    targets\": [\n        {\n          \"expr\": \"100 - (avg by (instance) (rate(node_cpu_seconds_total{mode=\\\
+    \"idle\\\"}[5m])) * 100)\",\n          \"legendFormat\": \"{{instance}}\",\n \
+    \         \"refId\": \"A\"\n        }\n      ],\n      \"title\": \"CPU Usage\
+    \ (%)\",\n      \"type\": \"timeseries\"\n    },\n    {\n      \"datasource\"\
+    : \"Prometheus\",\n      \"fieldConfig\": {\n        \"defaults\": {\n       \
+    \   \"color\": {\n            \"mode\": \"palette-classic\"\n          },\n  \
+    \        \"custom\": {\n            \"axisBorderShow\": false,\n            \"\
+    axisCenteredZero\": false,\n            \"axisColorMode\": \"text\",\n       \
+    \     \"axisLabel\": \"\",\n            \"axisPlacement\": \"auto\",\n       \
+    \     \"barAlignment\": 0,\n            \"barWidthFactor\": 0.6,\n           \
+    \ \"drawStyle\": \"line\",\n            \"fillOpacity\": 0,\n            \"gradientMode\"\
+    : \"none\",\n            \"hideFrom\": {\n              \"legend\": false,\n \
+    \             \"tooltip\": false,\n              \"viz\": false\n            },\n\
+    \            \"insertNulls\": false,\n            \"lineInterpolation\": \"linear\"\
+    ,\n            \"lineWidth\": 1,\n            \"pointSize\": 5,\n            \"\
+    scaleDistribution\": {\n              \"type\": \"linear\"\n            },\n \
+    \           \"showPoints\": \"auto\",\n            \"showValues\": false,\n  \
+    \          \"spanNulls\": false,\n            \"stacking\": {\n              \"\
+    group\": \"A\",\n              \"mode\": \"none\"\n            },\n          \
+    \  \"thresholdsStyle\": {\n              \"mode\": \"off\"\n            }\n  \
+    \        },\n          \"mappings\": [],\n          \"max\": 100,\n          \"\
+    min\": 0,\n          \"thresholds\": {\n            \"mode\": \"absolute\",\n\
+    \            \"steps\": [\n              {\n                \"color\": \"green\"\
+    ,\n                \"value\": 0\n              },\n              {\n         \
+    \       \"color\": \"red\",\n                \"value\": 80\n              }\n\
+    \            ]\n          },\n          \"unit\": \"percent\"\n        },\n  \
+    \      \"overrides\": []\n      },\n      \"gridPos\": {\n        \"h\": 8,\n\
+    \        \"w\": 12,\n        \"x\": 12,\n        \"y\": 0\n      },\n      \"\
+    id\": 2,\n      \"options\": {\n        \"legend\": {\n          \"calcs\": [],\n\
+    \          \"displayMode\": \"list\",\n          \"placement\": \"bottom\",\n\
+    \          \"showLegend\": true\n        },\n        \"tooltip\": {\n        \
+    \  \"hideZeros\": false,\n          \"mode\": \"single\",\n          \"sort\"\
+    : \"none\"\n        }\n      },\n      \"pluginVersion\": \"12.3.3\",\n      \"\
+    targets\": [\n        {\n          \"expr\": \"100 * (1 - (node_memory_MemAvailable_bytes\
+    \ / node_memory_MemTotal_bytes))\",\n          \"legendFormat\": \"{{instance}}\"\
+    ,\n          \"refId\": \"A\"\n        }\n      ],\n      \"title\": \"Memory\
+    \ Usage (%)\",\n      \"type\": \"timeseries\"\n    },\n    {\n      \"datasource\"\
+    : \"Prometheus\",\n      \"fieldConfig\": {\n        \"defaults\": {\n       \
+    \   \"color\": {\n            \"mode\": \"palette-classic\"\n          },\n  \
+    \        \"custom\": {\n            \"axisBorderShow\": false,\n            \"\
+    axisCenteredZero\": false,\n            \"axisColorMode\": \"text\",\n       \
+    \     \"axisLabel\": \"\",\n            \"axisPlacement\": \"auto\",\n       \
+    \     \"barAlignment\": 0,\n            \"barWidthFactor\": 0.6,\n           \
+    \ \"drawStyle\": \"line\",\n            \"fillOpacity\": 0,\n            \"gradientMode\"\
+    : \"none\",\n            \"hideFrom\": {\n              \"legend\": false,\n \
+    \             \"tooltip\": false,\n              \"viz\": false\n            },\n\
+    \            \"insertNulls\": false,\n            \"lineInterpolation\": \"linear\"\
+    ,\n            \"lineWidth\": 1,\n            \"pointSize\": 5,\n            \"\
+    scaleDistribution\": {\n              \"type\": \"linear\"\n            },\n \
+    \           \"showPoints\": \"auto\",\n            \"showValues\": false,\n  \
+    \          \"spanNulls\": false,\n            \"stacking\": {\n              \"\
+    group\": \"A\",\n              \"mode\": \"none\"\n            },\n          \
+    \  \"thresholdsStyle\": {\n              \"mode\": \"off\"\n            }\n  \
+    \        },\n          \"mappings\": [],\n          \"max\": 100,\n          \"\
+    min\": 0,\n          \"thresholds\": {\n            \"mode\": \"absolute\",\n\
+    \            \"steps\": [\n              {\n                \"color\": \"green\"\
+    ,\n                \"value\": 0\n              },\n              {\n         \
+    \       \"color\": \"red\",\n                \"value\": 80\n              }\n\
+    \            ]\n          },\n          \"unit\": \"percent\"\n        },\n  \
+    \      \"overrides\": []\n      },\n      \"gridPos\": {\n        \"h\": 8,\n\
+    \        \"w\": 12,\n        \"x\": 0,\n        \"y\": 8\n      },\n      \"id\"\
+    : 3,\n      \"options\": {\n        \"legend\": {\n          \"calcs\": [],\n\
+    \          \"displayMode\": \"list\",\n          \"placement\": \"bottom\",\n\
+    \          \"showLegend\": true\n        },\n        \"tooltip\": {\n        \
+    \  \"hideZeros\": false,\n          \"mode\": \"single\",\n          \"sort\"\
+    : \"none\"\n        }\n      },\n      \"pluginVersion\": \"12.3.3\",\n      \"\
+    targets\": [\n        {\n          \"expr\": \"100 * (1 - (node_filesystem_avail_bytes{mountpoint=\\\
+    \"/\\\",fstype!~\\\"tmpfs|overlay|squashfs\\\"} / node_filesystem_size_bytes{mountpoint=\\\
+    \"/\\\",fstype!~\\\"tmpfs|overlay|squashfs\\\"}))\",\n          \"legendFormat\"\
+    : \"{{instance}}\",\n          \"refId\": \"A\"\n        }\n      ],\n      \"\
+    title\": \"Disk Usage (%)\",\n      \"type\": \"timeseries\"\n    },\n    {\n\
+    \      \"datasource\": \"Prometheus\",\n      \"fieldConfig\": {\n        \"defaults\"\
+    : {\n          \"color\": {\n            \"mode\": \"palette-classic\"\n     \
+    \     },\n          \"custom\": {\n            \"axisBorderShow\": false,\n  \
+    \          \"axisCenteredZero\": false,\n            \"axisColorMode\": \"text\"\
+    ,\n            \"axisLabel\": \"\",\n            \"axisPlacement\": \"auto\",\n\
+    \            \"barAlignment\": 0,\n            \"barWidthFactor\": 0.6,\n    \
+    \        \"drawStyle\": \"line\",\n            \"fillOpacity\": 0,\n         \
+    \   \"gradientMode\": \"none\",\n            \"hideFrom\": {\n              \"\
+    legend\": false,\n              \"tooltip\": false,\n              \"viz\": false\n\
+    \            },\n            \"insertNulls\": false,\n            \"lineInterpolation\"\
+    : \"linear\",\n            \"lineWidth\": 1,\n            \"pointSize\": 5,\n\
+    \            \"scaleDistribution\": {\n              \"type\": \"linear\"\n  \
+    \          },\n            \"showPoints\": \"auto\",\n            \"showValues\"\
+    : false,\n            \"spanNulls\": false,\n            \"stacking\": {\n   \
+    \           \"group\": \"A\",\n              \"mode\": \"none\"\n            },\n\
+    \            \"thresholdsStyle\": {\n              \"mode\": \"off\"\n       \
+    \     }\n          },\n          \"mappings\": [],\n          \"min\": 0,\n  \
+    \        \"thresholds\": {\n            \"mode\": \"absolute\",\n            \"\
+    steps\": [\n              {\n                \"color\": \"green\",\n         \
+    \       \"value\": 0\n              },\n              {\n                \"color\"\
+    : \"red\",\n                \"value\": 80\n              }\n            ]\n  \
+    \        },\n          \"unit\": \"Bps\"\n        },\n        \"overrides\": []\n\
+    \      },\n      \"gridPos\": {\n        \"h\": 8,\n        \"w\": 12,\n     \
+    \   \"x\": 12,\n        \"y\": 8\n      },\n      \"id\": 4,\n      \"options\"\
+    : {\n        \"legend\": {\n          \"calcs\": [],\n          \"displayMode\"\
+    : \"list\",\n          \"placement\": \"bottom\",\n          \"showLegend\": true\n\
+    \        },\n        \"tooltip\": {\n          \"hideZeros\": false,\n       \
+    \   \"mode\": \"single\",\n          \"sort\": \"none\"\n        }\n      },\n\
+    \      \"pluginVersion\": \"12.3.3\",\n      \"targets\": [\n        {\n     \
+    \     \"expr\": \"rate(node_network_receive_bytes_total{device!~\\\"lo\\\"}[5m])\"\
+    ,\n          \"legendFormat\": \"{{instance}} RX\",\n          \"refId\": \"A\"\
+    \n        },\n        {\n          \"expr\": \"rate(node_network_transmit_bytes_total{device!~\\\
+    \"lo\\\"}[5m])\",\n          \"legendFormat\": \"{{instance}} TX\",\n        \
+    \  \"refId\": \"B\"\n        }\n      ],\n      \"title\": \"Network Traffic (B/s)\"\
+    ,\n      \"type\": \"timeseries\"\n    },\n    {\n      \"datasource\": \"Prometheus\"\
+    ,\n      \"fieldConfig\": {\n        \"defaults\": {\n          \"color\": {\n\
+    \            \"mode\": \"palette-classic\"\n          },\n          \"custom\"\
+    : {\n            \"axisBorderShow\": false,\n            \"axisCenteredZero\"\
+    : false,\n            \"axisColorMode\": \"text\",\n            \"axisLabel\"\
+    : \"\",\n            \"axisPlacement\": \"auto\",\n            \"barAlignment\"\
+    : 0,\n            \"barWidthFactor\": 0.6,\n            \"drawStyle\": \"line\"\
+    ,\n            \"fillOpacity\": 0,\n            \"gradientMode\": \"none\",\n\
+    \            \"hideFrom\": {\n              \"legend\": false,\n             \
+    \ \"tooltip\": false,\n              \"viz\": false\n            },\n        \
+    \    \"insertNulls\": false,\n            \"lineInterpolation\": \"linear\",\n\
+    \            \"lineWidth\": 1,\n            \"pointSize\": 5,\n            \"\
+    scaleDistribution\": {\n              \"type\": \"linear\"\n            },\n \
+    \           \"showPoints\": \"auto\",\n            \"showValues\": false,\n  \
+    \          \"spanNulls\": false,\n            \"stacking\": {\n              \"\
+    group\": \"A\",\n              \"mode\": \"none\"\n            },\n          \
+    \  \"thresholdsStyle\": {\n              \"mode\": \"off\"\n            }\n  \
+    \        },\n          \"mappings\": [],\n          \"min\": 0,\n          \"\
+    thresholds\": {\n            \"mode\": \"absolute\",\n            \"steps\": [\n\
+    \              {\n                \"color\": \"green\",\n                \"value\"\
+    : 0\n              },\n              {\n                \"color\": \"red\",\n\
+    \                \"value\": 80\n              }\n            ]\n          },\n\
+    \          \"unit\": \"s\"\n        },\n        \"overrides\": []\n      },\n\
+    \      \"gridPos\": {\n        \"h\": 8,\n        \"w\": 12,\n        \"x\": 0,\n\
+    \        \"y\": 16\n      },\n      \"id\": 5,\n      \"options\": {\n       \
+    \ \"legend\": {\n          \"calcs\": [],\n          \"displayMode\": \"list\"\
+    ,\n          \"placement\": \"bottom\",\n          \"showLegend\": true\n    \
+    \    },\n        \"tooltip\": {\n          \"hideZeros\": false,\n          \"\
+    mode\": \"single\",\n          \"sort\": \"none\"\n        }\n      },\n     \
+    \ \"pluginVersion\": \"12.3.3\",\n      \"targets\": [\n        {\n          \"\
+    expr\": \"time() - node_boot_time_seconds\",\n          \"legendFormat\": \"{{instance}}\"\
+    ,\n          \"refId\": \"A\"\n        }\n      ],\n      \"title\": \"System\
+    \ Uptime (s)\",\n      \"type\": \"timeseries\"\n    },\n    {\n      \"datasource\"\
+    : \"Prometheus\",\n      \"fieldConfig\": {\n        \"defaults\": {\n       \
+    \   \"color\": {\n            \"mode\": \"palette-classic\"\n          },\n  \
+    \        \"custom\": {\n            \"axisBorderShow\": false,\n            \"\
+    axisCenteredZero\": false,\n            \"axisColorMode\": \"text\",\n       \
+    \     \"axisLabel\": \"\",\n            \"axisPlacement\": \"auto\",\n       \
+    \     \"barAlignment\": 0,\n            \"barWidthFactor\": 0.6,\n           \
+    \ \"drawStyle\": \"line\",\n            \"fillOpacity\": 0,\n            \"gradientMode\"\
+    : \"none\",\n            \"hideFrom\": {\n              \"legend\": false,\n \
+    \             \"tooltip\": false,\n              \"viz\": false\n            },\n\
+    \            \"insertNulls\": false,\n            \"lineInterpolation\": \"linear\"\
+    ,\n            \"lineWidth\": 1,\n            \"pointSize\": 5,\n            \"\
+    scaleDistribution\": {\n              \"type\": \"linear\"\n            },\n \
+    \           \"showPoints\": \"auto\",\n            \"showValues\": false,\n  \
+    \          \"spanNulls\": false,\n            \"stacking\": {\n              \"\
+    group\": \"A\",\n              \"mode\": \"none\"\n            },\n          \
+    \  \"thresholdsStyle\": {\n              \"mode\": \"off\"\n            }\n  \
+    \        },\n          \"mappings\": [],\n          \"min\": 0,\n          \"\
+    thresholds\": {\n            \"mode\": \"absolute\",\n            \"steps\": [\n\
+    \              {\n                \"color\": \"green\",\n                \"value\"\
+    : 0\n              },\n              {\n                \"color\": \"red\",\n\
+    \                \"value\": 80\n              }\n            ]\n          }\n\
+    \        },\n        \"overrides\": []\n      },\n      \"gridPos\": {\n     \
+    \   \"h\": 8,\n        \"w\": 12,\n        \"x\": 12,\n        \"y\": 16\n   \
+    \   },\n      \"id\": 6,\n      \"options\": {\n        \"legend\": {\n      \
+    \    \"calcs\": [],\n          \"displayMode\": \"list\",\n          \"placement\"\
+    : \"bottom\",\n          \"showLegend\": true\n        },\n        \"tooltip\"\
+    : {\n          \"hideZeros\": false,\n          \"mode\": \"single\",\n      \
+    \    \"sort\": \"none\"\n        }\n      },\n      \"pluginVersion\": \"12.3.3\"\
+    ,\n      \"targets\": [\n        {\n          \"expr\": \"node_load1\",\n    \
+    \      \"legendFormat\": \"{{instance}} 1m\",\n          \"refId\": \"A\"\n  \
+    \      },\n        {\n          \"expr\": \"node_load5\",\n          \"legendFormat\"\
+    : \"{{instance}} 5m\",\n          \"refId\": \"B\"\n        },\n        {\n  \
+    \        \"expr\": \"node_load15\",\n          \"legendFormat\": \"{{instance}}\
+    \ 15m\",\n          \"refId\": \"C\"\n        }\n      ],\n      \"title\": \"\
+    Load Average\",\n      \"type\": \"timeseries\"\n    },\n    {\n      \"datasource\"\
+    : \"Prometheus\",\n      \"fieldConfig\": {\n        \"defaults\": {\n       \
+    \   \"color\": {\n            \"mode\": \"palette-classic\"\n          },\n  \
+    \        \"custom\": {\n            \"axisBorderShow\": false,\n            \"\
+    axisCenteredZero\": false,\n            \"axisColorMode\": \"text\",\n       \
+    \     \"axisLabel\": \"\",\n            \"axisPlacement\": \"auto\",\n       \
+    \     \"barAlignment\": 0,\n            \"barWidthFactor\": 0.6,\n           \
+    \ \"drawStyle\": \"line\",\n            \"fillOpacity\": 0,\n            \"gradientMode\"\
+    : \"none\",\n            \"hideFrom\": {\n              \"legend\": false,\n \
+    \             \"tooltip\": false,\n              \"viz\": false\n            },\n\
+    \            \"insertNulls\": false,\n            \"lineInterpolation\": \"linear\"\
+    ,\n            \"lineWidth\": 1,\n            \"pointSize\": 5,\n            \"\
+    scaleDistribution\": {\n              \"type\": \"linear\"\n            },\n \
+    \           \"showPoints\": \"auto\",\n            \"showValues\": false,\n  \
+    \          \"spanNulls\": false,\n            \"stacking\": {\n              \"\
+    group\": \"A\",\n              \"mode\": \"none\"\n            },\n          \
+    \  \"thresholdsStyle\": {\n              \"mode\": \"off\"\n            }\n  \
+    \        },\n          \"mappings\": [],\n          \"min\": 0,\n          \"\
+    thresholds\": {\n            \"mode\": \"absolute\",\n            \"steps\": [\n\
+    \              {\n                \"color\": \"green\",\n                \"value\"\
+    : 0\n              },\n              {\n                \"color\": \"red\",\n\
+    \                \"value\": 80\n              }\n            ]\n          },\n\
+    \          \"unit\": \"bytes\"\n        },\n        \"overrides\": []\n      },\n\
+    \      \"gridPos\": {\n        \"h\": 8,\n        \"w\": 12,\n        \"x\": 0,\n\
+    \        \"y\": 24\n      },\n      \"id\": 7,\n      \"options\": {\n       \
+    \ \"legend\": {\n          \"calcs\": [],\n          \"displayMode\": \"list\"\
+    ,\n          \"placement\": \"bottom\",\n          \"showLegend\": true\n    \
+    \    },\n        \"tooltip\": {\n          \"hideZeros\": false,\n          \"\
+    mode\": \"single\",\n          \"sort\": \"none\"\n        }\n      },\n     \
+    \ \"pluginVersion\": \"12.3.3\",\n      \"targets\": [\n        {\n          \"\
+    expr\": \"node_memory_MemTotal_bytes\",\n          \"legendFormat\": \"{{instance}}\"\
+    ,\n          \"refId\": \"A\"\n        }\n      ],\n      \"title\": \"Total Memory\
+    \ (bytes)\",\n      \"type\": \"timeseries\"\n    },\n    {\n      \"datasource\"\
+    : \"Prometheus\",\n      \"fieldConfig\": {\n        \"defaults\": {\n       \
+    \   \"color\": {\n            \"mode\": \"palette-classic\"\n          },\n  \
+    \        \"custom\": {\n            \"axisBorderShow\": false,\n            \"\
+    axisCenteredZero\": false,\n            \"axisColorMode\": \"text\",\n       \
+    \     \"axisLabel\": \"\",\n            \"axisPlacement\": \"auto\",\n       \
+    \     \"barAlignment\": 0,\n            \"barWidthFactor\": 0.6,\n           \
+    \ \"drawStyle\": \"line\",\n            \"fillOpacity\": 0,\n            \"gradientMode\"\
+    : \"none\",\n            \"hideFrom\": {\n              \"legend\": false,\n \
+    \             \"tooltip\": false,\n              \"viz\": false\n            },\n\
+    \            \"insertNulls\": false,\n            \"lineInterpolation\": \"linear\"\
+    ,\n            \"lineWidth\": 1,\n            \"pointSize\": 5,\n            \"\
+    scaleDistribution\": {\n              \"type\": \"linear\"\n            },\n \
+    \           \"showPoints\": \"auto\",\n            \"showValues\": false,\n  \
+    \          \"spanNulls\": false,\n            \"stacking\": {\n              \"\
+    group\": \"A\",\n              \"mode\": \"none\"\n            },\n          \
+    \  \"thresholdsStyle\": {\n              \"mode\": \"off\"\n            }\n  \
+    \        },\n          \"mappings\": [],\n          \"min\": 0,\n          \"\
+    thresholds\": {\n            \"mode\": \"absolute\",\n            \"steps\": [\n\
+    \              {\n                \"color\": \"green\",\n                \"value\"\
+    : 0\n              },\n              {\n                \"color\": \"red\",\n\
+    \                \"value\": 80\n              }\n            ]\n          },\n\
+    \          \"unit\": \"short\"\n        },\n        \"overrides\": []\n      },\n\
+    \      \"gridPos\": {\n        \"h\": 8,\n        \"w\": 12,\n        \"x\": 12,\n\
+    \        \"y\": 24\n      },\n      \"id\": 8,\n      \"options\": {\n       \
+    \ \"legend\": {\n          \"calcs\": [],\n          \"displayMode\": \"list\"\
+    ,\n          \"placement\": \"bottom\",\n          \"showLegend\": true\n    \
+    \    },\n        \"tooltip\": {\n          \"hideZeros\": false,\n          \"\
+    mode\": \"single\",\n          \"sort\": \"none\"\n        }\n      },\n     \
+    \ \"pluginVersion\": \"12.3.3\",\n      \"targets\": [\n        {\n          \"\
+    expr\": \"count by (instance) (node_cpu_seconds_total{mode=\\\"idle\\\"})\",\n\
+    \          \"legendFormat\": \"{{instance}}\",\n          \"refId\": \"A\"\n \
+    \       }\n      ],\n      \"title\": \"CPU Cores\",\n      \"type\": \"timeseries\"\
+    \n    }\n  ],\n  \"preload\": false,\n  \"refresh\": \"30s\",\n  \"schemaVersion\"\
+    : 42,\n  \"tags\": [\n    \"system\"\n  ],\n  \"templating\": {\n    \"list\"\
+    : []\n  },\n  \"time\": {\n    \"from\": \"now-6h\",\n    \"to\": \"now\"\n  },\n\
+    \  \"timepicker\": {},\n  \"timezone\": \"browser\",\n  \"title\": \"System Metrics\"\
+    ,\n  \"uid\": \"system-metrics\",\n  \"version\": 1\n}"
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -99,16 +330,9 @@ metadata:
   name: grafana-datasources
   namespace: monitoring-production
 data:
-  datasources.yaml: |
-    apiVersion: 1
-    datasources:
-      - name: Prometheus
-        type: prometheus
-        access: proxy
-        url: http://prometheus.monitoring-production.svc.cluster.local:9090
-        isDefault: true
-        editable: true
-
+  datasources.yaml: "apiVersion: 1\ndatasources:\n- name: Prometheus\n  type: prometheus\n\
+    \  access: proxy\n  url: http://prometheus.monitoring-production.svc.cluster.local:9090\n\
+    \  isDefault: true\n  editable: true\n"
 ---
 apiVersion: v1
 kind: Secret
@@ -119,7 +343,6 @@ type: Opaque
 data:
   admin-password: ZDViMDUyNTYtY2Y1My00ODRhLTk4N2ItMzI5Y2I1ZTQyMzJi
   admin-user: YWRtaW4tZGV2b3BzdG9vbGtpdA==
-
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -134,7 +357,6 @@ spec:
       storage: 20Gi
   storageClassName: local-path
   volumeMode: Filesystem
-
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -149,7 +371,6 @@ spec:
       storage: 5Gi
   storageClassName: local-path
   volumeMode: Filesystem
-
 ---
 apiVersion: v1
 kind: Service
@@ -169,7 +390,6 @@ spec:
     port: 9090
     protocol: TCP
     targetPort: 9090
-
 ---
 apiVersion: v1
 kind: Service
@@ -189,7 +409,6 @@ spec:
     port: 3000
     protocol: TCP
     targetPort: 3000
-
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -227,7 +446,7 @@ spec:
           name: http
         resources:
           limits:
-            cpu: "1"
+            cpu: '1'
             memory: 2Gi
           requests:
             cpu: 200m
@@ -244,7 +463,6 @@ spec:
       - name: prometheus-data
         persistentVolumeClaim:
           claimName: prometheus-pvc
-
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -271,6 +489,8 @@ spec:
         image: grafana/grafana:latest
         imagePullPolicy: Always
         env:
+        - name: GF_FEATURE_TOGGLES_ENABLE
+          value: publicDashboards
         - name: GF_SECURITY_ADMIN_USER
           valueFrom:
             secretKeyRef:
@@ -322,7 +542,152 @@ spec:
       - name: grafana-datasources
         configMap:
           name: grafana-datasources
-
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: cadvisor
+  namespace: monitoring-production
+  labels:
+    app: cadvisor
+    component: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: cadvisor
+  template:
+    metadata:
+      labels:
+        app: cadvisor
+        component: monitoring
+    spec:
+      containers:
+      - name: cadvisor
+        image: gcr.io/cadvisor/cadvisor:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 500m
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - mountPath: /rootfs
+          name: rootfs
+          readOnly: true
+        - mountPath: /var/run
+          name: var-run
+        - mountPath: /sys
+          name: sys
+          readOnly: true
+        - mountPath: /var/lib/docker
+          name: docker
+          readOnly: true
+        - mountPath: /dev/disk
+          name: disk
+          readOnly: true
+      hostNetwork: true
+      tolerations:
+      - effect: NoSchedule
+        operator: Exists
+      volumes:
+      - name: rootfs
+        hostPath:
+          path: /
+      - name: var-run
+        hostPath:
+          path: /var/run
+      - name: sys
+        hostPath:
+          path: /sys
+      - name: docker
+        hostPath:
+          path: /var/lib/docker
+      - name: disk
+        hostPath:
+          path: /dev/disk
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 0
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: node-exporter
+  namespace: monitoring-production
+  labels:
+    app: node-exporter
+    component: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: node-exporter
+  template:
+    metadata:
+      labels:
+        app: node-exporter
+        component: monitoring
+    spec:
+      containers:
+      - name: node-exporter
+        image: prom/node-exporter:latest
+        imagePullPolicy: Always
+        args:
+        - --path.procfs=/host/proc
+        - --path.sysfs=/host/sys
+        - --path.rootfs=/host/root
+        - --collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)
+        ports:
+        - containerPort: 9100
+          name: metrics
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 200m
+            memory: 128Mi
+          requests:
+            cpu: 50m
+            memory: 64Mi
+        volumeMounts:
+        - mountPath: /host/proc
+          name: proc
+          readOnly: true
+        - mountPath: /host/sys
+          name: sys
+          readOnly: true
+        - mountPath: /host/root
+          name: root
+          readOnly: true
+          mountPropagation: HostToContainer
+      hostNetwork: true
+      hostPID: true
+      tolerations:
+      - effect: NoSchedule
+        operator: Exists
+      volumes:
+      - name: proc
+        hostPath:
+          path: /proc
+      - name: sys
+        hostPath:
+          path: /sys
+      - name: root
+        hostPath:
+          path: /
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 0
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute

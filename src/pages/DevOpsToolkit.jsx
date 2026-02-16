@@ -66,7 +66,7 @@ const DevOpsToolkit = () => {
     }
     const host = window.location.hostname;
     if (host === "info-staging.dremer10.com") {
-      return "https://grafana-staging.devops-toolkit.dremer10.com/public-dashboards/dcac6c24ca55438dbb43279b08b9356c";
+      return "https://grafana-staging.devops-toolkit.dremer10.com/public-dashboards/a6c75aece6e0437a993bb1ca63ab5643";
     }
     return "https://grafana.devops-toolkit.dremer10.com/public-dashboards/fbf8859540614caaa979db376e079e07";
   })();

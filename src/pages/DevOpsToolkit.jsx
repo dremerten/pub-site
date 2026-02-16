@@ -60,16 +60,42 @@ const DevOpsToolkit = () => {
     { name: "Production", value: "production", url: "https://devops-toolkit.dremer10.com" }
   ];
 
-  const grafanaDashboardUrl = (() => {
+  const grafanaFallbacks = {
+    production: "https://grafana.devops-toolkit.dremer10.com/public-dashboards/7ac9ca2bc8ee46d58e2daf666ec5f795",
+    staging: "https://grafana-staging.devops-toolkit.dremer10.com/public-dashboards/a6c75aece6e0437a993bb1ca63ab5643",
+  };
+
+  const resolveGrafanaUrl = (config) => {
     if (typeof window === "undefined") {
-      return "https://grafana.devops-toolkit.dremer10.com/public-dashboards/fbf8859540614caaa979db376e079e07";
+      return grafanaFallbacks.production;
     }
     const host = window.location.hostname;
     if (host === "info-staging.dremer10.com") {
-      return "https://grafana-staging.devops-toolkit.dremer10.com/public-dashboards/a6c75aece6e0437a993bb1ca63ab5643";
+      return config?.staging || grafanaFallbacks.staging;
     }
-    return "https://grafana.devops-toolkit.dremer10.com/public-dashboards/fbf8859540614caaa979db376e079e07";
-  })();
+    return config?.production || grafanaFallbacks.production;
+  };
+
+  const [grafanaDashboardUrl, setGrafanaDashboardUrl] = useState(() => resolveGrafanaUrl());
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const loadConfig = async () => {
+      try {
+        const res = await fetch("/config/grafana.json", { cache: "no-store", signal: controller.signal });
+        if (!res.ok) return;
+        const json = await res.json();
+        if (!json || typeof json !== "object") return;
+        setGrafanaDashboardUrl(resolveGrafanaUrl(json));
+      } catch (err) {
+        if (err?.name !== "AbortError") {
+          // Ignore config load failures; fallbacks already cover.
+        }
+      }
+    };
+    loadConfig();
+    return () => controller.abort();
+  }, []);
 
   const galleryImages = [
     { src: "/images/release-push.png", alt: "Production CI/CD Pipeline", caption: "Production Branch Pipeline - Main deployment workflow" },

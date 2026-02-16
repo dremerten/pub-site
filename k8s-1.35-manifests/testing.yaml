@@ -7,6 +7,19 @@ metadata:
     name: pub-site-staging
 
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pub-site-grafana-links
+  namespace: pub-site-staging
+data:
+  grafana.json: |
+    {
+      "production": "https://grafana.devops-toolkit.dremer10.com/public-dashboards/7ac9ca2bc8ee46d58e2daf666ec5f795",
+      "staging": "https://grafana-staging.devops-toolkit.dremer10.com/public-dashboards/a6c75aece6e0437a993bb1ca63ab5643"
+    }
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -34,6 +47,11 @@ spec:
         ports:
         - containerPort: 80
           name: http
+        volumeMounts:
+        - name: grafana-links
+          mountPath: /usr/share/nginx/html/config/grafana.json
+          subPath: grafana.json
+          readOnly: true
         resources:
           requests:
             memory: "12Mi"
@@ -53,6 +71,10 @@ spec:
             port: 80
           initialDelaySeconds: 5
           periodSeconds: 5
+      volumes:
+      - name: grafana-links
+        configMap:
+          name: pub-site-grafana-links
 
 ---
 apiVersion: v1

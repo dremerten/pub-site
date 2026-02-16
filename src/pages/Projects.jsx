@@ -4,6 +4,11 @@ import { ArrowRight, ExternalLink, Sparkles } from "lucide-react";
 import PageWrapper from "@/components/PageWrapper";
 import { StickyButtons } from "@/components/StickyButtons";
 
+const isInfoStaging =
+  typeof window !== "undefined" && window.location.hostname === "info-staging.dremer10.com";
+const iacLiveUrl = isInfoStaging ? "https://iac-sandbox-staging.dremer10.com/" : "https://iac-sandbox.dremer10.com";
+const solarLiveUrl = isInfoStaging ? "https://solar-dev.dremer10.com" : "https://solar.dremer10.com";
+
 export const projects = [
   {
     title: "Infrastructure as Code Sandbox",
@@ -15,7 +20,7 @@ export const projects = [
     detailPath: "/projects/iac-sandbox",
     ctas: [
       { label: "View detail", to: "/projects/iac-sandbox", type: "internal" },
-      { label: "Check it Out Live", href: "https://iac-sandbox.dremer10.com", type: "external" },
+      { label: "Check it Out Live", href: iacLiveUrl, type: "external" },
     ],
   },
   {
@@ -46,7 +51,7 @@ export const projects = [
     detailPath: "/projects/solar-system-simulator",
     ctas: [
       { label: "View detail", to: "/projects/solar-system-simulator", type: "internal" },
-      { label: "Check it Out Live", href: "https://solar.dremer10.com", type: "external" },
+      { label: "Check it Out Live", href: solarLiveUrl, type: "external" },
     ],
   },
   {

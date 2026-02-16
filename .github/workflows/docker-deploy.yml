@@ -21,7 +21,6 @@ permissions:
 env:
   IMAGE_NAME: ${{ vars.DOCKERHUB_USERNAME }}/pub-site
   VITE_QUIZ_TERMINAL_URL: ${{ vars.VITE_QUIZ_TERMINAL_URL }}
-  VITE_GRAFANA_DASHBOARD_URL: ${{ vars.VITE_GRAFANA_DASHBOARD_URL }}
   TERMINAL_IMAGE: ${{ vars.DOCKERHUB_USERNAME }}/quiz-terminal
 
 jobs:
@@ -137,7 +136,6 @@ jobs:
         cache-to: type=inline
         build-args: |
           VITE_QUIZ_TERMINAL_URL=${{ env.VITE_QUIZ_TERMINAL_URL }}
-          VITE_GRAFANA_DASHBOARD_URL=${{ env.VITE_GRAFANA_DASHBOARD_URL }}
           VITE_APP_VERSION=${{ steps.version.outputs.display_version }}
 
     - name: Build Docker image (quiz terminal)

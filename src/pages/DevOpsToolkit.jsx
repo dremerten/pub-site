@@ -60,8 +60,16 @@ const DevOpsToolkit = () => {
     { name: "Production", value: "production", url: "https://devops-toolkit.dremer10.com" }
   ];
 
-  const grafanaDashboardUrl =
-    import.meta.env.VITE_GRAFANA_DASHBOARD_URL || "https://grafana.devops-toolkit.dremer10.com";
+  const grafanaDashboardUrl = (() => {
+    if (typeof window === "undefined") {
+      return "https://grafana.devops-toolkit.dremer10.com/public-dashboards/fbf8859540614caaa979db376e079e07";
+    }
+    const host = window.location.hostname;
+    if (host === "info-staging.dremer10.com") {
+      return "https://grafana-staging.devops-toolkit.dremer10.com/public-dashboards/dcac6c24ca55438dbb43279b08b9356c";
+    }
+    return "https://grafana.devops-toolkit.dremer10.com/public-dashboards/fbf8859540614caaa979db376e079e07";
+  })();
 
   const galleryImages = [
     { src: "/images/release-push.png", alt: "Production CI/CD Pipeline", caption: "Production Branch Pipeline - Main deployment workflow" },

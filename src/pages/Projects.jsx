@@ -68,6 +68,20 @@ export const projects = [
       { label: "Check it Out Live", to: "/quiz", type: "internal" },
     ],
   },
+  {
+    title: "LLM Hardware Calculator Helper",
+    subtitle: "Fast VRAM + RAM sizing for inference deployments",
+    description:
+      "A web-based estimator that turns model size, quantization, and context settings into concrete VRAM, system RAM, on-disk size, and GPU count guidance—built for quick what-if checks before you provision hardware.",
+    tags: ["LLM Inference", "VRAM Sizing", "Quantization", "GPU Planning"],
+    image: "/images/calc.jpeg",
+    accent: "from-indigo-500/25 via-sky-500/10 to-emerald-400/15",
+    detailPath: "/projects/llm-hardware-calculator",
+    ctas: [
+      { label: "View detail", to: "/projects/llm-hardware-calculator", type: "internal" },
+      { label: "Check it Out Live", href: "https://calc.dremer10.com", type: "external" },
+    ],
+  },
 ];
 
 const modalSteps = [

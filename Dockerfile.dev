@@ -5,9 +5,17 @@ WORKDIR /app
 COPY package*.json ./
 
 RUN npm ci && \
-    npm cache clean --force
+    npm cache clean --force && \
+    addgroup -S app && \
+    adduser -S -G app app && \
+    chown -R app:app /app
 
 COPY . .
+
+USER app
+
+HEALTHCHECK --interval=30s --timeout=3s --start-period=20s --retries=3 \
+  CMD wget -q -O /dev/null http://127.0.0.1:5173/ || exit 1
 
 EXPOSE 5173
 

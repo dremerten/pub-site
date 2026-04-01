@@ -34,6 +34,8 @@ COPY --from=build /app/dist /usr/share/nginx/html
 COPY nginx-container.conf /etc/nginx/conf.d/default.conf
 COPY --chmod=0755 docker-entrypoint.d/10-version.sh /docker-entrypoint.d/10-version.sh
 
+RUN chown -R app:app /usr/share/nginx/html /etc/nginx/conf.d
+
 USER app
 
 HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \

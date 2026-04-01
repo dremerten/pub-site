@@ -28,7 +28,13 @@ RUN apk upgrade --no-cache && \
     addgroup -S app && \
     adduser -S -G app app && \
     mkdir -p /var/cache/nginx /var/run /tmp && \
-    chown -R app:app /var/cache/nginx /var/run /tmp /usr/share/nginx/html
+    chown -R app:app /var/cache/nginx /var/run /tmp /usr/share/nginx/html && \
+    sed -i 's#^user .*;#\# user disabled: running as non-root user app#' /etc/nginx/nginx.conf && \
+    if grep -q '^pid ' /etc/nginx/nginx.conf; then \
+      sed -i 's#^pid .*;#pid /tmp/nginx.pid;#' /etc/nginx/nginx.conf; \
+    else \
+      printf '\npid /tmp/nginx.pid;\n' >> /etc/nginx/nginx.conf; \
+    fi
 
 COPY --from=build /app/dist /usr/share/nginx/html
 COPY nginx-container.conf /etc/nginx/conf.d/default.conf

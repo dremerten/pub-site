@@ -51,6 +51,11 @@ spec:
       - name: pub-site
         image: dremer10/pub-site:${PUB_SITE_IMAGE_TAG}
         imagePullPolicy: Always
+        command:
+        - nginx
+        args:
+        - -g
+        - daemon off;
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false

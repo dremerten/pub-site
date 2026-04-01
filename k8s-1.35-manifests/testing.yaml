@@ -40,18 +40,39 @@ spec:
         app: pub-site
         environment: staging
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10101
+        runAsGroup: 10101
+        fsGroup: 10101
+        seccompProfile:
+          type: RuntimeDefault
       containers:
       - name: pub-site
         image: dremer10/pub-site:${PUB_SITE_IMAGE_TAG}
         imagePullPolicy: Always
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+            add:
+            - NET_BIND_SERVICE
         ports:
-        - containerPort: 80
+        - containerPort: 8080
           name: http
         volumeMounts:
         - name: grafana-links
           mountPath: /usr/share/nginx/html/config/grafana.json
           subPath: grafana.json
           readOnly: true
+        - name: nginx-cache
+          mountPath: /var/cache/nginx
+        - name: nginx-run
+          mountPath: /var/run
+        - name: nginx-tmp
+          mountPath: /tmp
         resources:
           requests:
             memory: "12Mi"
@@ -75,6 +96,12 @@ spec:
       - name: grafana-links
         configMap:
           name: pub-site-grafana-links
+      - name: nginx-cache
+        emptyDir: {}
+      - name: nginx-run
+        emptyDir: {}
+      - name: nginx-tmp
+        emptyDir: {}
 
 ---
 apiVersion: v1

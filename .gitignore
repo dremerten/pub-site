@@ -28,3 +28,6 @@ public/images/digital-toolkit.jpeg
 public/images/iac-sandbox.svg
 public/images/purp-sandbox.jpg
 public/images/solar8bit.jpeg
+
+# Trivy scan outputs
+trivy-*.json

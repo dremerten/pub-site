@@ -31,3 +31,5 @@ public/images/solar8bit.jpeg
 
 # Trivy scan outputs
 trivy-*.json
+.trivy-local-scan
+.trivyignore.yaml

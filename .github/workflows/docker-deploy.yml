@@ -130,11 +130,11 @@ jobs:
       with:
         context: .
         file: ./Dockerfile
+        pull: true
+        no-cache: true
         tags: |
           ${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.commit_tag }}
         outputs: type=docker,dest=/tmp/image.tar
-        cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:latest
-        cache-to: type=inline
         build-args: |
           VITE_QUIZ_TERMINAL_URL=${{ env.VITE_QUIZ_TERMINAL_URL }}
           VITE_APP_VERSION=${{ steps.version.outputs.display_version }}
@@ -145,11 +145,11 @@ jobs:
       with:
         context: ./terminal
         file: ./terminal/Dockerfile
+        pull: true
+        no-cache: true
         tags: |
           ${{ env.TERMINAL_IMAGE }}:${{ steps.meta.outputs.commit_tag }}
         outputs: type=docker,dest=/tmp/terminal-image.tar
-        cache-from: type=registry,ref=${{ env.TERMINAL_IMAGE }}:latest
-        cache-to: type=inline
 
     - name: Load pub-site image (main only)
       if: github.ref == 'refs/heads/main'

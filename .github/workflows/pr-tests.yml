@@ -34,23 +34,19 @@ jobs:
         username: ${{ vars.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    - name: Pull dev image (from branch push) or build locally
+    - name: Build image locally for PR scan
       env:
         VITE_QUIZ_TERMINAL_URL: ${{ vars.VITE_QUIZ_TERMINAL_URL }}
       run: |
         set -euo pipefail
-        if docker pull "${IMAGE_NAME}:${IMAGE_TAG}"; then
-          echo "IMAGE_SOURCE=pulled" >> "$GITHUB_ENV"
-          exit 0
-        fi
-
-        echo "Image not found in registry, building locally for PR tests..."
+        echo "Building image locally for PR tests (fresh base and no cache)..."
         docker build \
+          --pull \
+          --no-cache \
           --build-arg "VITE_QUIZ_TERMINAL_URL=${VITE_QUIZ_TERMINAL_URL}" \
           --build-arg "VITE_APP_VERSION=${IMAGE_TAG}" \
           -t "${IMAGE_NAME}:${IMAGE_TAG}" \
           .
-        echo "IMAGE_SOURCE=built" >> "$GITHUB_ENV"
 
         if [ "${{ github.event.pull_request.head.repo.full_name }}" = "${{ github.repository }}" ]; then
           echo "Pushing locally-built image to registry for promotion..."

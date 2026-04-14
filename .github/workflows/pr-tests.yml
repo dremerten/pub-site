@@ -29,7 +29,7 @@ jobs:
 
     - name: Log in to Docker Hub (same-repo PRs)
       if: github.event.pull_request.head.repo.full_name == github.repository
-      uses: docker/login-action@v3
+      uses: docker/login-action@v4
       with:
         username: ${{ vars.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}

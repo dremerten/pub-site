@@ -1,5 +1,5 @@
 # ---- Build Stage ----
-FROM node:25.1.0-alpine AS build
+FROM node:24.14.1-alpine AS build
 
 ARG VITE_QUIZ_TERMINAL_URL
 ARG VITE_APP_VERSION

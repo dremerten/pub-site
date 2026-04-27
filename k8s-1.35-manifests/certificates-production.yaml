@@ -30,6 +30,20 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
+  name: calc-prod-cert
+  namespace: nginx-gateway
+spec:
+  secretName: calc-prod-tls
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-gateway
+  dnsNames:
+  - calc.dremer10.com
+
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
   name: grafana-cert
   namespace: nginx-gateway
 spec:

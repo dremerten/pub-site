@@ -31,6 +31,7 @@ public/images/iac-sandbox.svg
 public/images/purp-sandbox.jpg
 public/images/solar8bit.jpeg
 .nvmrc
+.pr_changes.md
 
 # Trivy scan outputs
 trivy-*.json

@@ -8,6 +8,7 @@ const isInfoStaging =
   typeof window !== "undefined" && window.location.hostname === "info-staging.dremer10.com";
 const iacLiveUrl = isInfoStaging ? "https://iac-sandbox-staging.dremer10.com/" : "https://iac-sandbox.dremer10.com";
 const solarLiveUrl = isInfoStaging ? "https://solar-dev.dremer10.com" : "https://solar.dremer10.com";
+const calcLiveUrl = isInfoStaging ? "https://calc-staging.dremer10.com" : "https://calc.dremer10.com";
 
 export const projects = [
   {
@@ -79,7 +80,7 @@ export const projects = [
     detailPath: "/projects/llm-hardware-calculator",
     ctas: [
       { label: "View detail", to: "/projects/llm-hardware-calculator", type: "internal" },
-      { label: "Check it Out Live", href: "https://calc.dremer10.com", type: "external" },
+      { label: "Check it Out Live", href: calcLiveUrl, type: "external" },
     ],
   },
 ];

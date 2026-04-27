@@ -4,6 +4,11 @@ import { ArrowLeft, ExternalLink, HardDrive, Calculator, Activity } from "lucide
 import PageWrapper from "@/components/PageWrapper";
 import { StickyButtons } from "@/components/StickyButtons";
 
+const calcLiveUrl =
+  typeof window !== "undefined" && window.location.hostname === "info-staging.dremer10.com"
+    ? "https://calc-staging.dremer10.com"
+    : "https://calc.dremer10.com";
+
 const LlmHardwareCalculator = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
@@ -68,7 +73,7 @@ const LlmHardwareCalculator = () => {
 
                 <div className="flex flex-wrap gap-3">
                   <a
-                    href="https://calc.dremer10.com"
+                    href={calcLiveUrl}
                     target="_blank"
                     rel="noreferrer"
                     className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-sky-500 text-black text-sm font-semibold hover:bg-sky-400 transition-all"

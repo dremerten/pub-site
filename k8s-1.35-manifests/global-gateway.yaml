@@ -182,3 +182,27 @@ spec:
     allowedRoutes:
       namespaces:
         from: All
+  - name: calc-prod
+    hostname: calc.dremer10.com
+    port: 443
+    protocol: HTTPS
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - name: calc-prod-tls
+        kind: Secret
+    allowedRoutes:
+      namespaces:
+        from: All
+  - name: calc-staging
+    hostname: calc-staging.dremer10.com
+    port: 443
+    protocol: HTTPS
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - name: calc-staging-tls
+        kind: Secret
+    allowedRoutes:
+      namespaces:
+        from: All

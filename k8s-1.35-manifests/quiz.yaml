@@ -33,7 +33,7 @@ spec:
         runAsGroup: 10001
         fsGroup: 10001
         supplementalGroups:
-        - 995
+        - 988
         seccompProfile:
           type: RuntimeDefault
       containers:

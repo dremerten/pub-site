@@ -1,15 +1,15 @@
 # Builder: install only what we need to compile native deps (node-pty)
-FROM node:20-alpine AS build
+FROM node:24-alpine AS build
 WORKDIR /app
 RUN apk add --no-cache python3 make g++
 COPY package*.json ./
-# Use npm install to tolerate missing lockfile
 RUN npm install --omit=dev
 
 # Runner: small runtime with docker CLI + bash
-FROM node:20-alpine AS runner
+FROM node:24-alpine AS runner
 WORKDIR /app
-RUN apk add --no-cache docker-cli bash && \
+RUN npm install -g npm@latest && \
+    apk add --no-cache docker-cli bash && \
     addgroup -S app && \
     adduser -S -G app app && \
     chown -R app:app /app

@@ -472,6 +472,7 @@ jobs:
           kubectl apply -f "$MANIFEST_BASE/monitoring-cluster.yaml"
           kubectl apply -f "$MANIFEST_BASE/monitoring-production.yaml"
           kubectl apply -f "$MANIFEST_BASE/global-gateway.yaml"
+          EMAIL="${{ vars.ACME_EMAIL }}" envsubst < <(curl -fsSL "$MANIFEST_BASE/clusterissuer-gateway.yaml") | kubectl apply -f -
           export GATEWAY_EXTERNAL_IP="${{ vars.GATEWAY_EXTERNAL_IP }}"
           tmp_gateway_svc="$(mktemp)"
           curl -fsSL "$MANIFEST_BASE/gateway-service.yaml" -o "$tmp_gateway_svc"
@@ -525,6 +526,7 @@ jobs:
           kubectl apply -f "$MANIFEST_BASE/monitoring-cluster.yaml"
           kubectl apply -f "$MANIFEST_BASE/monitoring-staging.yaml"
           kubectl apply -f "$MANIFEST_BASE/global-gateway.yaml"
+          EMAIL="${{ vars.ACME_EMAIL }}" envsubst < <(curl -fsSL "$MANIFEST_BASE/clusterissuer-gateway.yaml") | kubectl apply -f -
           export GATEWAY_EXTERNAL_IP="${{ vars.GATEWAY_EXTERNAL_IP }}"
           tmp_gateway_svc="$(mktemp)"
           curl -fsSL "$MANIFEST_BASE/gateway-service.yaml" -o "$tmp_gateway_svc"

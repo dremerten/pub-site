@@ -2,7 +2,7 @@ import {Activity, BookOpenText, CircleUser, MapPin} from "lucide-react";
 
 export const personalInfo = {
   name: "Andre Merten",
-  role: "DevOps Test & Infrastructure Engineer",
+  role: "Senior QA / DevOps Engineer",
   summary: [
     "I'm a Senior QA/DevOps Engineer with 6+ years of experience building secure, automated infrastructure and enabling development teams through scalable platform solutions. I'm actively seeking my next role as a DevOps or Platform Engineer where I can leverage my deep automation expertise, infrastructure-as-code skills, and systems thinking to empower engineering teams at scale.",
     "Throughout my career, I've built CI/CD pipelines, automated environment provisioning with Kubernetes and Docker, and designed self-service deployment systems that saved hundreds of engineering hours while accelerating release cycles. My expertise is centered on AWS cloud infrastructure, with hands-on experience in container orchestration, Terraform, Ansible, and strong sysadmin foundations in Linux, Windows Server, networking, DNS, LDAP, and Active Directory. I also have basic experience with Azure and Google Cloud Platform.",
@@ -32,68 +32,60 @@ export const coreSkills = [
 
 export const experienceData = [
   {
-    company: "Aspera, an IBM company",
-    position: "Senior QA / DevOps Engineer",
-    years: "Jan 2025 - Dec 2025 (1 year)",
+    company: "IBM Aspera",
+    position: "Senior QA / DevOps",
+    years: "May 2024 - Dec 2025",
     status: "Active",
     highlights: [
-      "Optimized application performance and automated deployment pipelines, reducing release cycles by up to 35% and saving hundreds of engineering hours annually",
-      "Led research, testing, and validation of a new containerized app, eliminated prior single points of failure, and authored the official HA documentation, becoming the Webapps team SME",
-      "Designed and maintained secure, reproducible internal environments, improving reliability, developer productivity, and QA testing efficiency",
-      "Led, organized, setup and configured IBM Aspera WebApps Products for DISA and STIG Testing for potential Government Entity contracts",
-      "Contributed to key product releases, including HSTS, Aspera Proxy, HTTP-Gateway, OTFV, and Faspex 5 (5.0.0–5.0.14), enhancing stability, high-availability, and customer satisfaction"
+      "Architected and maintained hybrid AWS and on-prem production infrastructure with multi-AZ deployments, auto-scaling, HA load balancing, and MariaDB Galera clustering — achieving 99.99% uptime.",
+      "Managed infrastructure as code using Terraform and Ansible, enabling repeatable, version-controlled provisioning across all environments.",
+      "Built and maintained CI/CD pipelines supporting continuous delivery across development, staging, and production environments.",
+      "Deployed CloudWatch and cloud-based logging to proactively identify SQL bottlenecks and deadlocks, improving application performance by 12%.",
+      "Served as primary infrastructure engineer for government contract validation — granted access to internal government testing environments to deploy and configure the full Aspera product line under DISA STIG security requirements.",
+      "Led identity and security architecture (Vault, Entra ID, Okta), implementing SSO, SAML 2.0 federation, and PKI across the platform.",
+      "Stepped in across teams wherever the situation demanded — replicating complex multi-product environments on live Sev1 calls, unblocking deployments, and resolving integration failures that required full-stack product knowledge."
     ]
   },
   {
-    company: "Aspera, an IBM company",
+    company: "IBM Aspera",
     position: "QA Automation Engineer",
-    years: "Feb 2023 - Jan 2025 (2 years)",
+    years: "Feb 2022 - May 2024",
     highlights: [
-      "Implemented automation and parallel testing strategies, reducing QA cycle times by 50% and accelerating release schedules",
-      "Executed comprehensive QA and validation testing across distributed systems, containerized applications, and cloud infrastructure, ensuring defect-free releases",
-      "Developed turnkey test environments that reduced setup time by 50%, improved team collaboration, and enabled timely delivery of high-quality projects",
-      "Ensured software security and compliance by reviewing dependencies and enforcing long-term support (LTS) standards, reducing vulnerability exposure",
-      "Led AWS cloud deployments and implemented CI/CD pipelines with Jenkins, improving deployment reliability and delivery speed"
+      "Migrated legacy Ruby/Chef pipelines to Python, eliminating security vulnerabilities and long-term maintenance overhead.",
+      "Containerized Jenkins using Kubernetes dynamic agents — replacing static build infrastructure with short-lived agents that terminated after each job.",
+      "Automated VM and OpenShift cluster provisioning via IBM Fyre, enabling fully hands-off environment setup and test execution.",
+      "Built a smoke test pipeline gating stable builds to Slack, eliminating faulty distribution that previously cost the team up to 3 days of lost productivity per incident.",
+      "Parallelized CI pipelines in Jenkins, reducing test cycle times by 50%."
     ]
   },
   {
-    company: "Aspera, an IBM company",
-    position: "QA Engineer",
-    years: "Mar 2020 - May 2022 (2 years)",
+    company: "IBM Aspera",
+    position: "Software Quality Engineer",
+    years: "Jan 2020 - Jan 2022",
     highlights: [
-      "Adept in process improvement initiatives, identifying areas for optimization and implementing effective solutions",
-      "Proficient in defining comprehensive test plans, crafting detailed test cases, identifying crucial use cases, and creating effective test matrices",
-      "Solid expertise including Test Automation, Functional, Regression, Integration, System, Cross-platform, and Performance testing",
-      "Knowledgeable in security and compliance requirements, incorporating them into the QA processes",
-      "Developed and containerized automation scripts using Docker to streamline operational workflows and improve process reliability"
+      "Rewrote the legacy TestRail test case library and established a team-wide authoring standard, eliminating inconsistent and uncontrolled test case creation.",
+      "Drove automation of high-volume manual testing tasks, compressing QA cycles and contributing to multiple early releases.",
+      "Executed performance and reliability testing on distributed systems, catching critical vulnerabilities before production."
     ]
   },
   {
-    company: "Aspera, an IBM company",
+    company: "IBM Aspera",
     position: "Software Engineer Apprentice",
-    years: "Feb 2019 - Feb 2020 (1 year)",
+    years: "Feb 2019 - Jan 2020",
     highlights: [
-      "Selected as the sole apprentice from cohort to receive full-time employment offer upon program completion",
-      "Completed intensive hands-on program specializing in software development, quality assurance, and testing methodologies",
-      "Acquired practical experience deploying, testing, and maintaining enterprise applications in both on-premises and cloud environments",
-      "Contributed to quality assurance processes and test automation development for IBM Aspera products"
+      "Completed IBM apprenticeship in Software Engineering and Systems Fundamentals.",
+      "Built hands-on proficiency deploying and maintaining applications across on-prem and cloud environments."
     ]
   }
 ];
 
 export const skillsData = [
-  {type: "cloud", items: ["AWS (Primary)", "Azure (Basic)", "GCP (Basic)"]},
-  {type: "containerization & orchestration", items: ["Kubernetes", "OpenShift", "Docker", "Podman"]},
-  {type: "ci/cd & automation", items: ["Jenkins", "GitLab CI", "GitHub Actions", "Python3", "Shell Scripting"]},
-  {type: "infrastructure as code", items: ["Terraform", "Ansible"]},
-  {type: "monitoring & observability", items: ["Prometheus", "Grafana", "ELK Stack"]},
-  {type: "security", items: ["TLS Certificate & Secret Management", "Security-by-Design", "Blue-Green Deployments"]},
-  {type: "systems & networking", items: ["Linux", "Windows Server", "Firewalls", "DNS"]},
-  {type: "identity & access management", items: ["Okta", "JumpCloud", "Authentik", "Keycloak", "ADFS", "Microsoft Entra ID"]},
-  {type: "api testing & validation", items: ["Postman"]},
-  {type: "version control & project management", items: ["Git", "GitHub", "Jira", "Confluence"]},
-  {type: "communication & collaboration", items: ["MS Outlook", "Teams", "Slack"]},
-  {type: "methodologies", items: ["Agile", "DevOps"]}
+  {type: "Cloud & Infrastructure", items: ["AWS Cloud Suite", "Terraform", "Ansible", "Kubernetes", "Docker", "OpenShift", "Linux (RHEL, Rocky, Ubuntu)", "Windows Server"]},
+  {type: "Networking & IT Administration", items: ["TCP/IP", "UDP", "SSH", "DNS", "Firewall Management", "VPC Networking", "Load Balancing", "VPN", "TLS/SSL", "PKI", "Keepalived"]},
+  {type: "CI/CD & Automation", items: ["Jenkins", "GitHub Actions", "Python", "Bash", "PowerShell", "Dynamic Build Agents"]},
+  {type: "Observability", items: ["ELK Stack", "Prometheus", "Grafana", "CloudWatch"]},
+  {type: "Identity & Security", items: ["HashiCorp Vault", "Active Directory", "Entra ID", "Okta", "SAML 2.0", "SSO", "DISA STIG", "Secrets Management"]},
+  {type: "Data & High Availability", items: ["MariaDB Galera", "MaxScale", "RDS", "Multi-AZ Deployments"]}
 ];
 
 export const comments = [

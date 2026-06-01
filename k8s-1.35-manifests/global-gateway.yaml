@@ -206,7 +206,7 @@ spec:
     allowedRoutes:
       namespaces:
         from: All
-  - name: maydaylabs-staging
+  - name: maydaylabs
     hostname: maydaylabs.dremer10.com
     port: 443
     protocol: HTTPS
@@ -218,7 +218,7 @@ spec:
     allowedRoutes:
       namespaces:
         from: All
-  - name: maydaylabs-prod
+  - name: maydaylabsllc
     hostname: maydaylabsllc.dremer10.com
     port: 443
     protocol: HTTPS

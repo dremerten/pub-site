@@ -13,6 +13,7 @@ import Resume from "./pages/Resume.jsx";
 import About from "./pages/About.jsx";
 import AboutShowcase from "./pages/AboutShowcase.jsx";
 import Quiz from "./pages/Quiz.jsx";
+import MaydayLabs from "./pages/MaydayLabs.jsx";
 import { ThemeProvider } from "./components/ThemeProvider.jsx";
 
 const AppContent = () => {
@@ -55,6 +56,7 @@ const AppContent = () => {
           <Route path="/projects/solar-system-simulator" element={<SolarSystem />} />
           <Route path="/projects/iac-sandbox" element={<IacSandbox />} />
           <Route path="/projects/llm-hardware-calculator" element={<LlmHardwareCalculator />} />
+          <Route path="/projects/maydaylabs" element={<MaydayLabs />} />
         </Routes>
       </main>
       <div className="fixed left-1/2 bottom-4 -translate-x-1/2 z-40 text-[11px] sm:text-xs text-gray-300 pointer-events-none">

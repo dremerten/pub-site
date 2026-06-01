@@ -9,8 +9,23 @@ const isInfoStaging =
 const iacLiveUrl = isInfoStaging ? "https://iac-sandbox-staging.dremer10.com/" : "https://iac-sandbox.dremer10.com";
 const solarLiveUrl = isInfoStaging ? "https://solar-dev.dremer10.com" : "https://solar.dremer10.com";
 const calcLiveUrl = isInfoStaging ? "https://calc-staging.dremer10.com" : "https://calc.dremer10.com";
+const maydaylabsUrl = isInfoStaging ? "https://maydaylabs.dremer10.com" : "https://maydaylabsllc.dremer10.com";
 
 export const projects = [
+  {
+    title: "MayDayLabs",
+    subtitle: "Learn Kubernetes by Breaking Things",
+    description:
+      "An interactive Kubernetes learning platform with 50 live challenges set in real production scenarios. Each session gets an isolated namespace that auto-cleans after 15 minutes—no local setup required. Work through real kubectl commands, hints, and post-challenge debriefs entirely in the browser.",
+    tags: ["Kubernetes", "Interactive Labs", "Isolated Environments", "Next.js", "Browser-based"],
+    image: "/images/maydaylabs-llc.png",
+    accent: "from-violet-500/25 via-indigo-500/10 to-sky-400/20",
+    detailPath: "/projects/maydaylabs",
+    ctas: [
+      { label: "View detail", to: "/projects/maydaylabs", type: "internal" },
+      { label: "Check it Out Live", href: maydaylabsUrl, type: "external" },
+    ],
+  },
   {
     title: "Infrastructure as Code Sandbox",
     description:

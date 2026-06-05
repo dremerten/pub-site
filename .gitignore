@@ -37,3 +37,5 @@ public/images/solar8bit.jpeg
 trivy-*.json
 .trivy-local-scan
 .trivyignore.yaml
+scripts/fallow-report.txt
+tmp

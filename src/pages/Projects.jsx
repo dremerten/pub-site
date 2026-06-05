@@ -4,12 +4,23 @@ import { ArrowRight, ExternalLink, Sparkles } from "lucide-react";
 import PageWrapper from "@/components/PageWrapper";
 import { StickyButtons } from "@/components/StickyButtons";
 
+const isLocal =
+  typeof window !== "undefined" && window.location.hostname === "localhost";
 const isInfoStaging =
   typeof window !== "undefined" && window.location.hostname === "info-staging.dremer10.com";
 const iacLiveUrl = isInfoStaging ? "https://iac-sandbox-staging.dremer10.com/" : "https://iac-sandbox.dremer10.com";
 const solarLiveUrl = isInfoStaging ? "https://solar-dev.dremer10.com" : "https://solar.dremer10.com";
 const calcLiveUrl = isInfoStaging ? "https://calc-staging.dremer10.com" : "https://calc.dremer10.com";
-const maydaylabsUrl = isInfoStaging ? "https://maydaylabs.dremer10.com" : "https://maydaylabsllc.dremer10.com";
+const maydaylabsUrl = isLocal
+  ? "http://dev.maydaylabs.dremer10.com:3000"
+  : isInfoStaging
+  ? "https://maydaylabs.dremer10.com"
+  : "https://maydaylabsllc.dremer10.com";
+const wolfrayetUrl = isLocal
+  ? "http://local.wolfrayetvintage.com:30903"
+  : isInfoStaging
+  ? "https://staging.wolfrayetvintage.com"
+  : "https://shop.wolfrayetvintage.com";
 
 export const projects = [
   {
@@ -24,6 +35,19 @@ export const projects = [
     ctas: [
       { label: "View detail", to: "/projects/maydaylabs", type: "internal" },
       { label: "Check it Out Live", href: maydaylabsUrl, type: "external" },
+    ],
+  },
+  {
+    title: "Wolf Reyet Vintage",
+    subtitle: "Curated vintage clothing & accessories from the 1920s–1970s.",
+    description:
+      "Member-exclusive access. Sign in to explore our collection.",
+    tags: ["E-Commerce", "Vintage", "Shopify", "Storefront"],
+    image: "/images/wolf-rayet-vintage3.png",
+    accent: "from-rose-500/25 via-amber-400/10 to-pink-400/20",
+    detailPath: null,
+    ctas: [
+      { label: "Check it Out Live", href: wolfrayetUrl, type: "external" },
     ],
   },
   {
@@ -474,9 +498,9 @@ const Projects = () => {
                 style={{ transitionDelay: `${150 + idx * 50}ms` }}
                 role="button"
                 tabIndex={0}
-                onClick={() => navigate(project.detailPath)}
+                onClick={() => project.detailPath && navigate(project.detailPath)}
                 onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
+                  if ((e.key === "Enter" || e.key === " ") && project.detailPath) {
                     e.preventDefault();
                     navigate(project.detailPath);
                   }

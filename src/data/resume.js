@@ -10,14 +10,14 @@ export const personalInfo = {
   ]
 };
 
-export const metadataInfo = [
+const metadataInfo = [
   {text: "Certified Kubernetes Admin (in progress)", icon: BookOpenText},
   {text: "Looking for DevOps and QA Related Opportunites", icon: Activity},
   {text: "Open to Work Bay Area", icon: MapPin},
   {text: "Looking for Full-Time Employment", icon: CircleUser}
 ];
 
-export const coreSkills = [
+const coreSkills = [
   "Docker",
   "Kubernetes",
   "Cloud",
@@ -88,12 +88,12 @@ export const skillsData = [
   {type: "Data & High Availability", items: ["MariaDB Galera", "MaxScale", "RDS", "Multi-AZ Deployments"]}
 ];
 
-export const comments = [
+const comments = [
   "Proven track record of creating turnkey test environments,",
   "reducing setup time by 50%"
 ];
 
-export const additionalExperience = [
+const additionalExperience = [
   {
     company: "IBM Aspera",
     role: "DevOps Test & Infrastructure Engineer",

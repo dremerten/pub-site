@@ -1,5 +1,5 @@
 import PageWrapper from "../components/PageWrapper.jsx";
-import { personalInfo, experienceData, skillsData, comments } from "@/data/resume";
+import { personalInfo, experienceData, skillsData } from "@/data/resume";
 import { useState, useEffect } from "react";
 import { StickyButtons } from "@/components/StickyButtons";
 

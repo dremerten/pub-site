@@ -5,7 +5,6 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
 } from "@/components/ui/NavigationMenu";
-import { ThemeToggle } from "@/components/ThemeToggle";
 import { Activity, Code, Download, Award, Menu, X, Star, Github, Home, Trophy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LinkedInIcon } from "@/components/icons";
@@ -14,7 +13,7 @@ import { useState, useEffect, useRef } from "react";
 const ResumePDF = "/files/RAM_v9.pdf";
 const ResumeDOCX = "/files/RAM_v9.docx";
 
-export function Navbar() {
+function Navbar() {
   const location = useLocation();
   const isProjectsPath = location.pathname.startsWith("/projects");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
